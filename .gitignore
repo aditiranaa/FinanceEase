@@ -9,3 +9,20 @@ build/
 .vscode/
 logs/
 *.lo
+# Local environment files
+.env
+.env.local
+
+# SQLite DB files
+data/finance.db
+data/finance.db-journal
+data/*.db
+data/*.db-journal
+
+# Node modules
+node_modules/
+
+# OS / Editor
+.DS_Store
+.vscode/
+
