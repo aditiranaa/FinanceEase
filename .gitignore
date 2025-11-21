@@ -1,28 +1,22 @@
 node_modules/
-npm-debug.log
-yarn-error.log
-dist/
-build/
-.env
-.env.local
+**/node_modules/
+.vercel/
+vercel-debug.log
+
+# Local backups and temp files
+*.bak
+*.bak2
+repo_cleanup_backups/
+backend/backups/
+
+# Local DB and data
+*.db
+*.db.bak
+data/
+
+# OS files
 .DS_Store
+
+# Editor
 .vscode/
-logs/
-*.lo
-# Local environment files
-.env
-.env.local
-
-# SQLite DB files
-data/finance.db
-data/finance.db-journal
-data/*.db
-data/*.db-journal
-
-# Node modules
-node_modules/
-
-# OS / Editor
-.DS_Store
-.vscode/
-
+.idea/
