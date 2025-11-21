@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_rPXHWsfEXV4VN6ER0jiGDmeHhQOw",
+  "orgId": "team_PuXQEw83fSFyPaWUVGIgeiRM",
+  "projectName": "finance-ease",
+  "settings": {
+    "createdAt": 1763666274393,
+    "framework": "express",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "22.x"
+  }
+}

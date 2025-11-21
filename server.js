@@ -26,7 +26,6 @@ const DB_DIR = path.join(__dirname, 'data');
 if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR);
 
 // ---------- knex (Postgres) - serverless friendly ----------
-const Knex = require('knex');
 
 const dbConfig = {
   client: process.env.DATABASE_CLIENT || 'pg',
