@@ -22,18 +22,36 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // --- Knex / SQLite setup
-const DB_DIR = path.join(__dirname, 'data');
-if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR);
+// --- Knex / DB setup ---
+const IS_VERCEL = process.env.VERCEL === '1';
 
-// ---------- knex (Postgres) - serverless friendly ----------
+// Use a writeable dir on Vercel, normal dir locally
+const DB_DIR = IS_VERCEL
+  ? path.join('/tmp', 'data')
+  : path.join(__dirname, 'data');
 
-const dbConfig = {
-  client: process.env.DATABASE_CLIENT || 'pg',
-  connection: process.env.DATABASE_URL || (process.env.NODE_ENV === 'development'
-    ? { filename: path.join(DB_DIR, 'finance.db') } // fallback for local dev if you want
-    : undefined),
-  pool: { min: 2, max: 10 }
-};
+if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
+
+let dbConfig;
+
+// If DATABASE_URL provided, assume Postgres
+if (process.env.DATABASE_URL) {
+  dbConfig = {
+    client: process.env.DATABASE_CLIENT || 'pg',
+    connection: process.env.DATABASE_URL,
+    pool: { min: 2, max: 10 }
+  };
+} else {
+  // Otherwise fall back to SQLite everywhere
+  dbConfig = {
+    client: 'sqlite3',
+    connection: {
+      filename: path.join(DB_DIR, 'finance.db')
+    },
+    useNullAsDefault: true
+  };
+}
+
 
 // Create a singleton Knex instance so serverless cold-starts don't create many pools
 if (!global.__knex) {
@@ -126,7 +144,7 @@ async function ensureSchema() {
 
 ensureSchema().catch(err => {
   console.error('Error creating schema', err);
-  process.exit(1);
+// Don't kill the process on serverless
 });
 
 // --- Auth helpers
