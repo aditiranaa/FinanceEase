@@ -21,6 +21,12 @@ app.use(express.urlencoded({ extended: false }));
 // serve static frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Health check endpoint (works without auth)
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, status: "Backend is alive on Vercel 🚀" });
+});
+
+
 // --- Knex / SQLite setup
 // --- Knex / DB setup ---
 const IS_VERCEL = process.env.VERCEL === '1';
