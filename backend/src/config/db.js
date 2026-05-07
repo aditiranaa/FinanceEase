@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const Knex = require('knex');
+const  = require('knex');
 
 const IS_VERCEL = process.env.VERCEL === '1';
 
