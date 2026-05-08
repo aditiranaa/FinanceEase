@@ -1,11 +1,17 @@
 /* FinanceEase full backend (SQLite + Knex + JWT) */
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 const { v4: uuidv4 } = require('uuid');
 
+const path = require('path');
+const fs = require('fs');
+
+const knex = require('./src/config/db');
 
 const PORT = process.env.PORT || 4001;
 const JWT_SECRET = process.env.JWT_SECRET || 'dev_jwt_secret_change_me';
@@ -23,46 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, status: "Backend is alive on Vercel 🚀" });
 });
-
-
-// --- Knex / SQLite setup
-// --- Knex / DB setup ---
-const IS_VERCEL = process.env.VERCEL === '1';
-
-// Use a writeable dir on Vercel, normal dir locally
-const DB_DIR = IS_VERCEL
-  ? path.join('/tmp', 'data')
-  : path.join(__dirname, 'data');
-
-if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
-
-let dbConfig;
-
-// If DATABASE_URL provided, assume Postgres
-if (process.env.DATABASE_URL) {
-  dbConfig = {
-    client: process.env.DATABASE_CLIENT || 'pg',
-    connection: process.env.DATABASE_URL,
-    pool: { min: 2, max: 10 }
-  };
-} else {
-  // Otherwise fall back to SQLite everywhere
-  dbConfig = {
-    client: 'sqlite3',
-    connection: {
-      filename: path.join(DB_DIR, 'finance.db')
-    },
-    useNullAsDefault: true
-  };
-}
-
-
-// Create a singleton Knex instance so serverless cold-starts don't create many pools
-if (!global.__knex) {
-  global.__knex = Knex(dbConfig);
-}
-const knex = global.__knex;
-// -----------------------------------------------------------
 
 // Auto-create tables if they don't exist
 async function ensureSchema() {
@@ -369,13 +335,41 @@ app.use('/api/budgets', makeRouterFor('budgets', ['category']));
 app.use('/api/goals', makeRouterFor('goals', ['name','due_date'])); // target/saved optional
 app.use('/api/subscriptions', makeRouterFor('subscriptions', ['name','next_due']));
 app.use('/api/earnings', makeRouterFor('earnings', ['source']));
-
-// metrics (per-user) 
-// Now tries to serve cached metrics (keeps them fresh via recomputeMetrics on writes)
+// metrics (per-user)
 app.get('/api/metrics', requireAuth, async (req, res) => {
   try {
     const userId = req.user.id;
 
+    // Try cached metrics first
+    const cached = await knex('cached_metrics')
+      .where({ user_id: userId })
+      .first();
+
+    if (cached && cached.metrics_json) {
+      try {
+        const parsed = JSON.parse(cached.metrics_json);
+        return res.json(parsed);
+      } catch (e) {
+        console.warn(
+          'failed to parse cached metrics JSON, falling back to live compute',
+          e
+        );
+      }
+    }
+
+    // Fallback: compute live and store
+    const metrics = await recomputeMetrics(userId);
+
+    res.json(metrics);
+
+  } catch (err) {
+    console.error('metrics error', err);
+
+    res.status(500).json({
+      error: 'server error'
+    });
+  }
+});
     // Try cached metrics first
     const cached = await knex('cached_metrics').where({ user_id: userId }).first();
     if (cached && cached.metrics_json) {
@@ -387,15 +381,6 @@ app.get('/api/metrics', requireAuth, async (req, res) => {
       }
     }
 
-    // Fallback: compute live and store
-    const metrics = await recomputeMetrics(userId);
-    res.json(metrics);
-  } catch (err) {
-    console.error('metrics error', err);
-    res.status(500).json({ error: 'server error' });
-  }
-});
-
 // AI insight mock
 app.post('/api/ai-insight', requireAuth, async (req, res) => {
   const { prompt = '' } = req.body;
@@ -406,14 +391,6 @@ app.post('/api/ai-insight', requireAuth, async (req, res) => {
     prompt ? `Regarding: \"${prompt}\" — try cutting one recurring item and save that each month.` : `Tip: set a weekly budget and automate one saving transfer.`
   ].join(' ');
   setTimeout(() => res.json({ text: reply }), 200); // small delay for UX
-});
-
-// Fallback - Serve index.html for SPA (skip API routes)
-app.use((req, res, next) => {
-  if (req.path && req.path.startsWith('/api')) return next();
-  const index = path.join(__dirname, 'public', 'index.html');
-  if (fs.existsSync(index)) return res.sendFile(index);
-  return res.status(404).send('No frontend found. Put index.html in /public');
 });
 
 // Start server
@@ -428,3 +405,4 @@ if (process.env.VERCEL === '1' || process.env.NODE_ENV === 'production') {
     console.log(`FinanceEase backend listening on http://localhost:${PORT}`);
   });
 }
+
