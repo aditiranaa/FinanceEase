@@ -1,46 +1,14 @@
-const path = require('path');
-const fs = require('fs');
-const Knex  = require('knex');
+const knex = require('knex');
 
-const IS_VERCEL = process.env.VERCEL === '1';
+const db = knex({
+  client: 'pg',
 
-// Writable directory
-const DB_DIR = IS_VERCEL
-  ? path.join('/tmp', 'data')
-  : path.join(__dirname, '../../data');
+  connection: process.env.DATABASE_URL,
 
-if (!fs.existsSync(DB_DIR)) {
-  fs.mkdirSync(DB_DIR, { recursive: true });
-}
+  pool: {
+    min: 2,
+    max: 10
+  }
+});
 
-let dbConfig;
-
-// PostgreSQL if DATABASE_URL exists
-if (process.env.DATABASE_URL) {
-  dbConfig = {
-    client: process.env.DATABASE_CLIENT || 'pg',
-    connection: process.env.DATABASE_URL,
-    pool: {
-      min: 2,
-      max: 10
-    }
-  };
-} else {
-  // SQLite fallback
-  dbConfig = {
-    client: 'sqlite3',
-    connection: {
-      filename: path.join(DB_DIR, 'finance.db')
-    },
-    useNullAsDefault: true
-  };
-}
-
-// Singleton knex instance
-if (!global.__knex) {
-  global.__knex = Knex(dbConfig);
-}
-
-const knex = global.__knex;
-
-module.exports = knex;
+module.exports = db;

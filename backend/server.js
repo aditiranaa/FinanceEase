@@ -3,6 +3,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const helmet = require('helmet');
+
+const rateLimit = require('express-rate-limit');
+
+const ensureSchema = require('./src/config/schema');
+
 const authRoutes = require('./src/routes/auth.routes');
 
 const makeRouterFor = require('./src/routes/crud.factory');
@@ -11,6 +17,14 @@ const requireAuth = require('./src/middleware/auth');
 
 const app = express();
 
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+
+app.use(limiter);
 app.use(cors());
 
 app.use(express.json());
@@ -82,6 +96,14 @@ app.post(
 
 const PORT = process.env.PORT || 4000;
 
+ensureSchema()
+  .then(() => {
+    console.log('Schema initialized');
+  })
+  .catch(err => {
+    console.error('Schema error', err);
+  });
+  
 app.listen(PORT, () => {
   console.log(
     `FinanceEase backend listening on http://localhost:${PORT}`
