@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-
+const testRoutes = require('./src/routes/test.routes');
 const helmet = require('helmet');
 
 const rateLimit = require('express-rate-limit');
@@ -28,7 +28,7 @@ app.use(limiter);
 app.use(cors());
 
 app.use(express.json());
-
+app.use("/api", testRoutes);
 app.use(express.urlencoded({ extended: false }));
 
 // AUTH
