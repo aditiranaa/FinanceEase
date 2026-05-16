@@ -15,17 +15,23 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const data = await loginUser(formData);
+  try {
+    const data = await loginUser(formData);
 
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    console.log(data);
+
+    localStorage.setItem(
+      "token",
+      data.token
+    );
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <div>
