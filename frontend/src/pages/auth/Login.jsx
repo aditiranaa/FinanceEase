@@ -2,7 +2,11 @@ import { useState } from "react";
 
 import { loginUser } from "../../api/authApi";
 
+import { useAuth }
+from "../../context/AuthContext";
+
 const Login = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,10 +27,7 @@ const Login = () => {
 
     console.log(data);
 
-    localStorage.setItem(
-      "token",
-      data.token
-    );
+    login(data.token);
 
   } catch (error) {
     console.log(error);
