@@ -1,12 +1,17 @@
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { loginUser } from "../../api/authApi";
 
-import { useAuth }
-from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
   const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -19,20 +24,22 @@ const Login = () => {
     });
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const data = await loginUser(formData);
+    try {
+      const data = await loginUser(formData);
 
-    console.log(data);
+      console.log(data);
 
-    login(data.token);
+      login(data.token);
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+      navigate("/dashboard");
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>

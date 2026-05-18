@@ -1,28 +1,27 @@
-import { useEffect } from "react";
+import { useAuth }
+from "../../context/AuthContext";
 
-import {
-  getAIInsight,
-} from "../../api/authApi";
+import { useNavigate }
+from "react-router-dom";
 
 const Dashboard = () => {
-  useEffect(() => {
-    const fetchInsight = async () => {
-      try {
-        const data =
-          await getAIInsight();
+  const { logout } = useAuth();
 
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const navigate = useNavigate();
 
-    fetchInsight();
-  }, []);
+  const handleLogout = () => {
+  logout();
+
+  navigate("/");
+  };
 
   return (
     <div>
       <h1>Dashboard</h1>
+
+      <button onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };
