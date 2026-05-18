@@ -4,6 +4,9 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
 
+import ProtectedRoute
+from "../routes/ProtectedRoute";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -14,9 +17,13 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
+  path: "/dashboard",
+  element: (
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  ),
+}
 ]);
 
 export default router;
