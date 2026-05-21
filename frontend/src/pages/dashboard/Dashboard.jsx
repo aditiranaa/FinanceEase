@@ -1,27 +1,38 @@
-import { useAuth }
-from "../../context/AuthContext";
+import Sidebar
+from "../../components/layout/Sidebar";
 
-import { useNavigate }
-from "react-router-dom";
+import Navbar
+from "../../components/layout/Navbar";
+
+import StatsCards
+from "../../components/dashboard/StatsCards";
+
+import RecentTransactions
+from "../../components/dashboard/RecentTransactions";
 
 const Dashboard = () => {
-  const { logout } = useAuth();
-
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-  logout();
-
-  navigate("/");
-  };
-
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div
+      style={{
+        display: "flex",
+      }}
+    >
 
-      <button onClick={handleLogout}>
-        Logout
-      </button>
+      <Sidebar />
+
+      <div
+        style={{
+          flex: 1,
+          padding: "20px",
+        }}
+      >
+        <Navbar />
+
+        <StatsCards />
+
+        <RecentTransactions />
+      </div>
+
     </div>
   );
 };
