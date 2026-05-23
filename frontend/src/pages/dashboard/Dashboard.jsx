@@ -4,6 +4,8 @@ import Navbar from "../../components/layout/Navbar";
 
 import StatsCards from "../../components/dashboard/StatsCards";
 
+import RecentTransactions from "../../components/dashboard/RecentTransactions";
+
 const Dashboard = () => {
   return (
     <div className="flex">
@@ -13,7 +15,11 @@ const Dashboard = () => {
       <div className="flex-1 p-6 bg-gray-100 min-h-screen">
 
         <Navbar />
+
         <StatsCards />
+
+        <RecentTransactions />
+        
       </div>
 
     </div>
