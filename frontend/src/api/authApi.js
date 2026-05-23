@@ -8,6 +8,16 @@ export const loginUser = async (formData) => {
   return response.data;
   };
 
+  export const getTransactions =
+  async () => {
+
+  const response =
+    await API.get(
+      "/transactions"
+    );
+
+  return response.data;
+};
   export const registerUser =
   async (formData) => {
 

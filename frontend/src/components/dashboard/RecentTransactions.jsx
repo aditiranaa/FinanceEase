@@ -1,27 +1,40 @@
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  getTransactions,
+} from "../../api/authApi";
+
 const RecentTransactions = () => {
 
-  const transactions = [
-    {
-      id: 1,
-      description: "Netflix",
-      amount: -15,
-      category: "Entertainment",
-    },
+  const [transactions,
+    setTransactions] =
+      useState([]);
 
-    {
-      id: 2,
-      description: "Salary",
-      amount: 3000,
-      category: "Income",
-    },
+  useEffect(() => {
 
-    {
-      id: 3,
-      description: "Groceries",
-      amount: -120,
-      category: "Food",
-    },
-  ];
+    const fetchTransactions =
+      async () => {
+
+      try {
+
+        const data =
+          await getTransactions();
+
+        setTransactions(data);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+    };
+
+    fetchTransactions();
+
+  }, []);
 
   return (
 
