@@ -20,6 +20,8 @@ const Dashboard = () => {
 
         <StatsCards />
 
+        <AddTransaction />
+
         <RecentTransactions />
         
       </div>
