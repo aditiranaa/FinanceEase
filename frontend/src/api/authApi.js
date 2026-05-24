@@ -18,6 +18,19 @@ export const loginUser = async (formData) => {
 
   return response.data;
 };
+
+  export const createTransaction =
+  async (formData) => {
+
+  const response =
+    await API.post(
+      "/transactions",
+      formData
+    );
+
+  return response.data;
+};
+
   export const registerUser =
   async (formData) => {
 

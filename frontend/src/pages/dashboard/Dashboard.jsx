@@ -6,6 +6,8 @@ import StatsCards from "../../components/dashboard/StatsCards";
 
 import RecentTransactions from "../../components/dashboard/RecentTransactions";
 
+import AddTransaction from "../../components/dashboard/AddTransaction";
+
 const Dashboard = () => {
   return (
     <div className="flex">
