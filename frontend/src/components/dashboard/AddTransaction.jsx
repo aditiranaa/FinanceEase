@@ -6,7 +6,9 @@ import {
   createTransaction,
 } from "../../api/authApi";
 
-const AddTransaction = () => {
+const AddTransaction = ({
+  fetchTransactions,
+}) => {
 
   const [formData,
     setFormData] =
@@ -37,6 +39,9 @@ const AddTransaction = () => {
         formData
       );
 
+      await fetchTransactions();
+
+
       alert(
         "Transaction Added"
       );
@@ -46,6 +51,7 @@ const AddTransaction = () => {
         amount: "",
         category: "",
       });
+      
 
     } catch (error) {
 
@@ -53,7 +59,6 @@ const AddTransaction = () => {
 
     }
   };
-
   return (
 
     <div

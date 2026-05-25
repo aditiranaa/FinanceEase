@@ -1,40 +1,6 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  getTransactions,
-} from "../../api/authApi";
-
-const RecentTransactions = () => {
-
-  const [transactions,
-    setTransactions] =
-      useState([]);
-
-  useEffect(() => {
-
-    const fetchTransactions =
-      async () => {
-
-      try {
-
-        const data =
-          await getTransactions();
-
-        setTransactions(data);
-
-      } catch (error) {
-
-        console.log(error);
-
-      }
-    };
-
-    fetchTransactions();
-
-  }, []);
+const RecentTransactions = ({
+  transactions,
+}) => {
 
   return (
 

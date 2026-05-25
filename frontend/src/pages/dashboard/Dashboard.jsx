@@ -1,29 +1,87 @@
-import Sidebar from "../../components/layout/Sidebar";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import Navbar from "../../components/layout/Navbar";
+import Sidebar
+from "../../components/layout/Sidebar";
 
-import StatsCards from "../../components/dashboard/StatsCards";
+import Navbar
+from "../../components/layout/Navbar";
 
-import RecentTransactions from "../../components/dashboard/RecentTransactions";
+import StatsCards
+from "../../components/dashboard/StatsCards";
 
-import AddTransaction from "../../components/dashboard/AddTransaction";
+import AddTransaction
+from "../../components/dashboard/AddTransaction";
+
+import RecentTransactions
+from "../../components/dashboard/RecentTransactions";
+
+import {
+  getTransactions,
+} from "../../api/authApi";
 
 const Dashboard = () => {
+
+  const [transactions,
+    setTransactions] =
+      useState([]);
+
+  const fetchTransactions =
+    async () => {
+
+    try {
+
+      const data =
+        await getTransactions();
+
+      setTransactions(data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  useEffect(() => {
+
+    fetchTransactions();
+
+  }, []);
+
   return (
+
     <div className="flex">
 
       <Sidebar />
 
-      <div className="flex-1 p-6 bg-gray-100 min-h-screen">
+      <div
+        className="
+          flex-1
+          p-6
+          bg-gray-100
+          min-h-screen
+        "
+      >
 
         <Navbar />
 
         <StatsCards />
 
-        <AddTransaction />
+        <AddTransaction
+          fetchTransactions={
+            fetchTransactions
+          }
+        />
 
-        <RecentTransactions />
-        
+        <RecentTransactions
+          transactions={
+            transactions
+          }
+        />
+
       </div>
 
     </div>
