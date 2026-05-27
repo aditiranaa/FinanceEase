@@ -5,34 +5,39 @@ import {
   PiggyBank,
 } from "lucide-react";
 
-const StatsCards = () => {
+const StatsCards = ({
+  balance,
+  income,
+  expenses,
+  savings,
+}) => {
 
   const cards = [
 
     {
       title: "Total Balance",
-      amount: "$12,000",
+      amount: `₹${Number(balance).toLocaleString("en-IN")}`,
       icon: <Wallet size={28} />,
       bg: "bg-blue-500",
     },
 
     {
       title: "Income",
-      amount: "$8,000",
+      amount: `₹${Number(income).toLocaleString("en-IN")}`,
       icon: <TrendingUp size={28} />,
       bg: "bg-green-500",
     },
 
     {
       title: "Expenses",
-      amount: "$3,000",
+      amount: `₹${Math.abs(expenses).toLocaleString("en-IN")}`,
       icon: <TrendingDown size={28} />,
       bg: "bg-red-500",
     },
 
     {
       title: "Savings",
-      amount: "$9,000",
+      amount: `₹${Number(savings).toLocaleString("en-IN")}`,
       icon: <PiggyBank size={28} />,
       bg: "bg-purple-500",
     },

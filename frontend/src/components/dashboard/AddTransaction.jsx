@@ -13,10 +13,11 @@ const AddTransaction = ({
   const [formData,
     setFormData] =
       useState({
-        description: "",
-        amount: "",
-        category: "",
-      });
+      description: "",
+      amount: "",
+      ategory: "",
+      date: "",
+  });
 
   const handleChange = (e) => {
 

@@ -149,7 +149,9 @@ const RecentTransactions = ({
                     `}
                   >
 
-                    ${transaction.amount}
+                    ₹{Number(
+                      transaction.amount
+                    ).toLocaleString("en-IN")}
 
                   </td>
 
