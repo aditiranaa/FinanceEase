@@ -18,6 +18,9 @@ from "../../components/dashboard/AddTransaction";
 import RecentTransactions
 from "../../components/dashboard/RecentTransactions";
 
+import ExpenseChart
+from "../../components/dashboard/ExpenseChart";
+
 import {
   getTransactions,
 } from "../../api/authApi";
@@ -115,6 +118,10 @@ const savings =
           transactions={
             transactions
           }
+        />
+
+        <ExpenseChart
+          transactions={transactions}
         />
 
       </div>

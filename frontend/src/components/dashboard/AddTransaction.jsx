@@ -22,11 +22,11 @@ const AddTransaction = ({
   const handleChange = (e) => {
 
     setFormData({
-      ...formData,
-      [e.target.name]:
-        e.target.value,
+      description: "",
+      amount: "",
+      category: "",
+      date: "",
     });
-
   };
 
   const handleSubmit =
@@ -128,6 +128,19 @@ const AddTransaction = ({
             border
             p-3
             rounded
+          "
+        />
+
+        <input
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          className="
+           w-full
+           border
+           p-3
+           rounded
           "
         />
 
