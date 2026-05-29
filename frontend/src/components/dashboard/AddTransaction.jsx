@@ -13,21 +13,20 @@ const AddTransaction = ({
   const [formData,
     setFormData] =
       useState({
-      description: "",
-      amount: "",
-      ategory: "",
-      date: "",
-  });
+  description: "",
+  amount: "",
+  category: "",
+  date: "",
+});
 
   const handleChange = (e) => {
 
-    setFormData({
-      description: "",
-      amount: "",
-      category: "",
-      date: "",
-    });
-  };
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+
+};
 
   const handleSubmit =
     async (e) => {
@@ -48,10 +47,11 @@ const AddTransaction = ({
       );
 
       setFormData({
-        description: "",
-        amount: "",
-        category: "",
-      });
+  description: "",
+  amount: "",
+  category: "",
+  date: "",
+});
       
 
     } catch (error) {
