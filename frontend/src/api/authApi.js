@@ -42,6 +42,14 @@ export const loginUser = async (formData) => {
   return response.data;
 };
 
+export const deleteTransaction = async (id) => {
+  const response = await API.delete(
+    `/transactions/${id}`
+  );
+
+  return response.data;
+};
+
 export const getAIInsight = async () => {
   const response = await API.post(
     "/ai-insight"

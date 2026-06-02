@@ -1,6 +1,35 @@
+import { Trash2 } from "lucide-react";
+
+import {
+  deleteTransaction,
+} from "../../api/authApi";
+
 const RecentTransactions = ({
   transactions,
+  fetchTransactions,
 }) => {
+
+  const handleDelete = async (id) => {
+
+    const confirmDelete =
+      window.confirm(
+        "Delete this transaction?"
+      );
+
+    if (!confirmDelete) return;
+
+    try {
+
+      await deleteTransaction(id);
+
+      await fetchTransactions();
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
 
   return (
 
@@ -69,6 +98,10 @@ const RecentTransactions = ({
                 Amount
               </th>
 
+              <th className="pb-4">
+                Action
+              </th>
+
             </tr>
 
           </thead>
@@ -80,7 +113,7 @@ const RecentTransactions = ({
               <tr>
 
                 <td
-                  colSpan="3"
+                  colSpan="4"
                   className="
                     text-center
                     py-10
@@ -97,66 +130,85 @@ const RecentTransactions = ({
               transactions.map(
                 (transaction) => (
 
-                <tr
-                  key={transaction.id}
-
-                  className="
-                    border-b
-                    hover:bg-gray-50
-                    transition
-                  "
-                >
-
-                  <td className="py-5">
-
-                    <p
-                      className="
-                        font-semibold
-                        text-gray-800
-                      "
-                    >
-                      {transaction.description}
-                    </p>
-
-                  </td>
-
-                  <td className="py-5">
-
-                    <span
-                      className="
-                        bg-gray-100
-                        text-gray-700
-                        px-3
-                        py-1
-                        rounded-full
-                        text-sm
-                      "
-                    >
-                      {transaction.category}
-                    </span>
-
-                  </td>
-
-                  <td
-                    className={`
-                      py-5
-                      font-bold
-                      ${
-                        transaction.amount > 0
-                          ? "text-green-600"
-                          : "text-red-500"
-                      }
-                    `}
+                  <tr
+                    key={transaction.id}
+                    className="
+                      border-b
+                      hover:bg-gray-50
+                      transition
+                    "
                   >
 
-                    ₹{Number(
-                      transaction.amount
-                    ).toLocaleString("en-IN")}
+                    <td className="py-5">
 
-                  </td>
+                      <p
+                        className="
+                          font-semibold
+                          text-gray-800
+                        "
+                      >
+                        {transaction.description}
+                      </p>
 
-                </tr>
-              ))
+                    </td>
+
+                    <td className="py-5">
+
+                      <span
+                        className="
+                          bg-gray-100
+                          text-gray-700
+                          px-3
+                          py-1
+                          rounded-full
+                          text-sm
+                        "
+                      >
+                        {transaction.category}
+                      </span>
+
+                    </td>
+
+                    <td
+                      className={`
+                        py-5
+                        font-bold
+                        ${
+                          transaction.amount > 0
+                            ? "text-green-600"
+                            : "text-red-500"
+                        }
+                      `}
+                    >
+
+                      ₹{Number(
+                        transaction.amount
+                      ).toLocaleString("en-IN")}
+
+                    </td>
+
+                    <td className="py-5">
+
+                      <button
+                        onClick={() =>
+                          handleDelete(
+                            transaction.id
+                          )
+                        }
+                        className="
+                          text-red-500
+                          hover:text-red-700
+                          transition
+                        "
+                      >
+                        <Trash2 size={18} />
+                      </button>
+
+                    </td>
+
+                  </tr>
+                )
+              )
             )}
 
           </tbody>

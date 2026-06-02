@@ -115,9 +115,8 @@ const savings =
         />
 
         <RecentTransactions
-          transactions={
-            transactions
-          }
+        transactions={transactions}
+          fetchTransactions={fetchTransactions}
         />
 
         <ExpenseChart
