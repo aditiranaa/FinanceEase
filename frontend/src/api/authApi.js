@@ -50,6 +50,29 @@ export const deleteTransaction = async (id) => {
   return response.data;
 };
 
+export const getBudgets =
+  async () => {
+
+  const response =
+    await API.get(
+      "/budgets"
+    );
+
+  return response.data;
+};
+
+export const createBudget =
+  async (formData) => {
+
+  const response =
+    await API.post(
+      "/budgets",
+      formData
+    );
+
+  return response.data;
+};
+
 export const getAIInsight = async () => {
   const response = await API.post(
     "/ai-insight"

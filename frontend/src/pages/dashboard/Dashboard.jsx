@@ -21,6 +21,9 @@ from "../../components/dashboard/RecentTransactions";
 import ExpenseChart
 from "../../components/dashboard/ExpenseChart";
 
+import BudgetManager
+from "../../components/dashboard/BudgetManager";
+
 import {
   getTransactions,
 } from "../../api/authApi";
@@ -106,13 +109,16 @@ const savings =
           income={income}
           expenses={expenses}
           savings={savings}
+          BudgetManager 
         />
 
         <AddTransaction
-          fetchTransactions={
-            fetchTransactions
-          }
-        />
+  fetchTransactions={
+    fetchTransactions
+  }
+/>
+
+<BudgetManager />     
 
         <RecentTransactions
         transactions={transactions}
