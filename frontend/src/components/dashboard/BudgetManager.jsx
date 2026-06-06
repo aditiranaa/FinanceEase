@@ -1,6 +1,10 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import {
+  getBudgets,
   createBudget,
 } from "../../api/authApi";
 
@@ -10,6 +14,9 @@ const BudgetManager = () => {
     useState({
       category: "",
     });
+
+  const [budgets, setBudgets] =
+    useState([]);
 
   const handleChange = (e) => {
 
@@ -21,31 +28,57 @@ const BudgetManager = () => {
 
   };
 
-  const handleSubmit =
-    async (e) => {
-
-    e.preventDefault();
+  const fetchBudgets = async () => {
 
     try {
 
-      await createBudget(
-        formData
-      );
+      const data =
+        await getBudgets();
 
-      alert(
-        "Budget Added"
-      );
-
-      setFormData({
-        category: "",
-      });
+      setBudgets(data);
 
     } catch (error) {
 
       console.log(error);
 
     }
+
   };
+
+  useEffect(() => {
+
+    fetchBudgets();
+
+  }, []);
+
+  const handleSubmit =
+    async (e) => {
+
+      e.preventDefault();
+
+      try {
+
+        await createBudget(
+          formData
+        );
+
+        await fetchBudgets();
+
+        alert(
+          "Budget Added"
+        );
+
+        setFormData({
+          category: "",
+        });
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
 
   return (
 
@@ -104,7 +137,46 @@ const BudgetManager = () => {
 
       </form>
 
+      <div className="mt-6 space-y-3">
+
+        {budgets.length === 0 ? (
+
+          <p className="text-gray-400">
+            No budgets yet
+          </p>
+
+        ) : (
+
+          budgets.map((budget) => (
+
+            <div
+              key={budget.id}
+              className="
+                bg-gray-50
+                p-4
+                rounded-xl
+              "
+            >
+
+              <h3
+                className="
+                  font-semibold
+                  text-gray-800
+                "
+              >
+                {budget.category}
+              </h3>
+
+            </div>
+
+          ))
+
+        )}
+
+      </div>
+
     </div>
+
   );
 };
 
