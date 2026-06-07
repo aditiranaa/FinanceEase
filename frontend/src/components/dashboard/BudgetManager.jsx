@@ -13,6 +13,7 @@ const BudgetManager = () => {
   const [formData, setFormData] =
     useState({
       category: "",
+      amount: "",
     });
 
   const [budgets, setBudgets] =
@@ -70,6 +71,7 @@ const BudgetManager = () => {
 
         setFormData({
           category: "",
+          amount: "",
         });
 
       } catch (error) {
@@ -112,6 +114,20 @@ const BudgetManager = () => {
           name="category"
           placeholder="Budget Category"
           value={formData.category}
+          onChange={handleChange}
+          className="
+            w-full
+            border
+            p-3
+            rounded-lg
+          "
+        />
+
+        <input
+          type="number"
+          name="amount"
+          placeholder="Budget Amount"
+          value={formData.amount}
           onChange={handleChange}
           className="
             w-full
@@ -166,6 +182,20 @@ const BudgetManager = () => {
               >
                 {budget.category}
               </h3>
+
+              <p
+                className="
+                  text-gray-500
+                  mt-1
+                "
+              >
+                Budget ₹
+                {Number(
+                  budget.amount || 0
+                ).toLocaleString(
+                  "en-IN"
+                )}
+              </p>
 
             </div>
 
