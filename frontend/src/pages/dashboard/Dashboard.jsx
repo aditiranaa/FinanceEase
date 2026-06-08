@@ -118,8 +118,9 @@ const savings =
   }
 />
 
-<BudgetManager />     
-
+<BudgetManager
+  transactions={transactions}
+/>
         <RecentTransactions
         transactions={transactions}
           fetchTransactions={fetchTransactions}
