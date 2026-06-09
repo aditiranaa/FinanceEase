@@ -3,6 +3,14 @@ import {
   useState,
 } from "react";
 
+import { Trash2 } from "lucide-react";
+
+import {
+  getBudgets,
+  createBudget,
+  deleteBudget,
+} from "../../api/authApi";
+
 import {
   getBudgets,
   createBudget,
@@ -17,6 +25,29 @@ const BudgetManager = ({
       category: "",
       amount: "",
     });
+const handleDelete = async (id) => {
+
+  const confirmDelete =
+    window.confirm(
+      "Delete this budget?"
+    );
+
+  if (!confirmDelete)
+    return;
+
+  try {
+
+    await deleteBudget(id);
+
+    await fetchBudgets();
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+};
 
   const [budgets, setBudgets] =
     useState([]);
@@ -208,60 +239,47 @@ const BudgetManager = ({
     return (
 
       <div
-        key={budget.id}
-        className="
-          bg-gray-50
-          p-4
-          rounded-xl
-        "
-      >
+  key={budget.id}
+  className="
+    bg-gray-50
+    p-4
+    rounded-xl
+  "
+>
 
-        <h3
-          className="
-            font-semibold
-            text-gray-800
-          "
-        >
-          {budget.category}
-        </h3>
+  <div
+    className="
+      flex
+      justify-between
+      items-center
+    "
+  >
 
-        <p
-          className="
-            text-gray-500
-            mt-1
-          "
-        >
-          Budget ₹
-          {Number(
-            budget.amount || 0
-          ).toLocaleString(
-            "en-IN"
-          )}
-        </p>
+    <h3
+      className="
+        font-semibold
+        text-gray-800
+      "
+    >
+      {budget.category}
+    </h3>
 
-        <div
-          className="
-            w-full
-            bg-gray-200
-            rounded-full
-            h-3
-            mt-3
-          "
-        >
+    <button
+      onClick={() =>
+        handleDelete(
+          budget.id
+        )
+      }
+      className="
+        text-red-500
+        hover:text-red-700
+      "
+    >
+      <Trash2 size={18} />
+    </button>
 
-          <div
-            className="
-              bg-blue-500
-              h-3
-              rounded-full
-            "
-            style={{
-              width: `${percentage}%`,
-            }}
-          />
-
-        </div>
-
+  </div>
+  
         <div
           className="
             flex

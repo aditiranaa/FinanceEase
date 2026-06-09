@@ -49,6 +49,16 @@ export const deleteTransaction = async (id) => {
 
   return response.data;
 };
+export const deleteBudget = async (id) => {
+
+  const response =
+    await API.delete(
+      `/budgets/${id}`
+    );
+
+  return response.data;
+
+};
 
 export const getBudgets =
   async () => {
