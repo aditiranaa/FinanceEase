@@ -1,13 +1,32 @@
-import { Trash2 } from "lucide-react";
+import { useState } from "react";
+
+import {
+  Trash2,
+  Pencil,
+  Save,
+  X,
+} from "lucide-react";
 
 import {
   deleteTransaction,
+  updateTransaction,
 } from "../../api/authApi";
 
 const RecentTransactions = ({
   transactions,
   fetchTransactions,
 }) => {
+
+  const [editingId, setEditingId] =
+    useState(null);
+
+  const [editData, setEditData] =
+    useState({
+      description: "",
+      category: "",
+      amount: "",
+      date: "",
+    });
 
   const handleDelete = async (id) => {
 
@@ -29,7 +48,30 @@ const RecentTransactions = ({
       console.log(error);
 
     }
+
   };
+
+  const handleUpdate =
+    async (id) => {
+
+      try {
+
+        await updateTransaction(
+          id,
+          editData
+        );
+
+        setEditingId(null);
+
+        await fetchTransactions();
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
 
   return (
 
@@ -141,74 +183,244 @@ const RecentTransactions = ({
 
                     <td className="py-5">
 
-                      <p
-                        className="
-                          font-semibold
-                          text-gray-800
-                        "
-                      >
-                        {transaction.description}
-                      </p>
+                      {editingId ===
+                      transaction.id ? (
+
+                        <input
+                          type="text"
+                          value={
+                            editData.description
+                          }
+                          onChange={(e) =>
+                            setEditData({
+                              ...editData,
+                              description:
+                                e.target.value,
+                            })
+                          }
+                          className="
+                            border
+                            rounded
+                            px-2
+                            py-1
+                          "
+                        />
+
+                      ) : (
+
+                        <p
+                          className="
+                            font-semibold
+                            text-gray-800
+                          "
+                        >
+                          {
+                            transaction.description
+                          }
+                        </p>
+
+                      )}
 
                     </td>
 
                     <td className="py-5">
 
-                      <span
-                        className="
-                          bg-gray-100
-                          text-gray-700
-                          px-3
-                          py-1
-                          rounded-full
-                          text-sm
-                        "
-                      >
-                        {transaction.category}
-                      </span>
+                      {editingId ===
+                      transaction.id ? (
+
+                        <input
+                          type="text"
+                          value={
+                            editData.category
+                          }
+                          onChange={(e) =>
+                            setEditData({
+                              ...editData,
+                              category:
+                                e.target.value,
+                            })
+                          }
+                          className="
+                            border
+                            rounded
+                            px-2
+                            py-1
+                          "
+                        />
+
+                      ) : (
+
+                        <span
+                          className="
+                            bg-gray-100
+                            text-gray-700
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                          "
+                        >
+                          {
+                            transaction.category
+                          }
+                        </span>
+
+                      )}
+
+                    </td>
+
+                    <td className="py-5">
+
+                      {editingId ===
+                      transaction.id ? (
+
+                        <input
+                          type="number"
+                          value={
+                            editData.amount
+                          }
+                          onChange={(e) =>
+                            setEditData({
+                              ...editData,
+                              amount:
+                                e.target.value,
+                            })
+                          }
+                          className="
+                            border
+                            rounded
+                            px-2
+                            py-1
+                          "
+                        />
+
+                      ) : (
+
+                        <span
+                          className={`
+                            font-bold
+                            ${
+                              transaction.amount > 0
+                                ? "text-green-600"
+                                : "text-red-500"
+                            }
+                          `}
+                        >
+                          ₹
+                          {Number(
+                            transaction.amount
+                          ).toLocaleString(
+                            "en-IN"
+                          )}
+                        </span>
+
+                      )}
 
                     </td>
 
                     <td
-                      className={`
+                      className="
                         py-5
-                        font-bold
-                        ${
-                          transaction.amount > 0
-                            ? "text-green-600"
-                            : "text-red-500"
-                        }
-                      `}
+                        flex
+                        gap-3
+                      "
                     >
 
-                      ₹{Number(
-                        transaction.amount
-                      ).toLocaleString("en-IN")}
+                      {editingId ===
+                      transaction.id ? (
 
-                    </td>
+                        <>
 
-                    <td className="py-5">
+                          <button
+                            onClick={() =>
+                              handleUpdate(
+                                transaction.id
+                              )
+                            }
+                            className="
+                              text-green-600
+                            "
+                          >
+                            <Save
+                              size={18}
+                            />
+                          </button>
 
-                      <button
-                        onClick={() =>
-                          handleDelete(
-                            transaction.id
-                          )
-                        }
-                        className="
-                          text-red-500
-                          hover:text-red-700
-                          transition
-                        "
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                          <button
+                            onClick={() =>
+                              setEditingId(
+                                null
+                              )
+                            }
+                            className="
+                              text-gray-500
+                            "
+                          >
+                            <X size={18} />
+                          </button>
+
+                        </>
+
+                      ) : (
+
+                        <>
+
+                          <button
+                            onClick={() => {
+
+                              setEditingId(
+                                transaction.id
+                              );
+
+                              setEditData({
+                                description:
+                                  transaction.description,
+                                category:
+                                  transaction.category,
+                                amount:
+                                  transaction.amount,
+                                date:
+                                  transaction.date,
+                              });
+
+                            }}
+                            className="
+                              text-blue-500
+                              hover:text-blue-700
+                            "
+                          >
+                            <Pencil
+                              size={18}
+                            />
+                          </button>
+
+                          <button
+                            onClick={() =>
+                              handleDelete(
+                                transaction.id
+                              )
+                            }
+                            className="
+                              text-red-500
+                              hover:text-red-700
+                            "
+                          >
+                            <Trash2
+                              size={18}
+                            />
+                          </button>
+
+                        </>
+
+                      )}
 
                     </td>
 
                   </tr>
+
                 )
               )
+
             )}
 
           </tbody>
@@ -218,7 +430,9 @@ const RecentTransactions = ({
       </div>
 
     </div>
+
   );
+
 };
 
 export default RecentTransactions;

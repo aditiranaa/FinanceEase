@@ -60,6 +60,19 @@ export const deleteBudget = async (id) => {
 
 };
 
+export const updateTransaction =
+  async (id, formData) => {
+
+  const response =
+    await API.put(
+      `/transactions/${id}`,
+      formData
+    );
+
+  return response.data;
+
+};
+
 export const getBudgets =
   async () => {
 
