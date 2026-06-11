@@ -24,6 +24,9 @@ from "../../components/dashboard/ExpenseChart";
 import BudgetManager
 from "../../components/dashboard/BudgetManager";
 
+import MonthlyTrendChart
+from "../../components/dashboard/MonthlyTrendChart";
+
 import {
   getTransactions,
 } from "../../api/authApi";
@@ -130,6 +133,9 @@ const savings =
           transactions={transactions}
         />
 
+        <MonthlyTrendChart
+          transactions={transactions}
+        />
       </div>
 
     </div>
