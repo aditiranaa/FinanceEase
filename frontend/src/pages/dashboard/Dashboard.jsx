@@ -27,6 +27,12 @@ from "../../components/dashboard/BudgetManager";
 import MonthlyTrendChart
 from "../../components/dashboard/MonthlyTrendChart";
 
+import AIInsights
+from "../../components/dashboard/AIInsights";
+
+import ExportTransactions
+from "../../components/dashboard/ExportTransactions";
+
 import {
   getTransactions,
 } from "../../api/authApi";
@@ -116,16 +122,17 @@ const savings =
         />
 
         <AddTransaction
-  fetchTransactions={
-    fetchTransactions
-  }
-/>
+          fetchTransactions={
+          fetchTransactions
+        }
+        />
 
-<BudgetManager
-  transactions={transactions}
-/>
+        <BudgetManager
+          transactions={transactions}
+        />
+
         <RecentTransactions
-        transactions={transactions}
+          transactions={transactions}
           fetchTransactions={fetchTransactions}
         />
 
@@ -134,6 +141,10 @@ const savings =
         />
 
         <MonthlyTrendChart
+          transactions={transactions}
+        />
+
+        <ExportTransactions
           transactions={transactions}
         />
       </div>
