@@ -17,6 +17,9 @@ const RecentTransactions = ({
   fetchTransactions,
 }) => {
 
+  const [searchTerm, setSearchTerm] =
+    useState("");
+
   const [editingId, setEditingId] =
     useState(null);
 
@@ -27,6 +30,21 @@ const RecentTransactions = ({
       amount: "",
       date: "",
     });
+
+  const filteredTransactions =
+    transactions.filter(
+      (transaction) =>
+        transaction.description
+          .toLowerCase()
+          .includes(
+            searchTerm.toLowerCase()
+          ) ||
+        transaction.category
+          .toLowerCase()
+          .includes(
+            searchTerm.toLowerCase()
+          )
+    );
 
   const handleDelete = async (id) => {
 
@@ -114,6 +132,25 @@ const RecentTransactions = ({
 
       </div>
 
+      <input
+        type="text"
+        placeholder="Search transactions..."
+        value={searchTerm}
+        onChange={(e) =>
+          setSearchTerm(
+            e.target.value
+          )
+        }
+        className="
+          border
+          rounded-lg
+          px-4
+          py-2
+          mb-6
+          w-full
+        "
+      />
+
       <div className="overflow-x-auto">
 
         <table className="w-full">
@@ -150,7 +187,7 @@ const RecentTransactions = ({
 
           <tbody>
 
-            {transactions.length === 0 ? (
+            {filteredTransactions.length === 0 ? (
 
               <tr>
 
@@ -162,14 +199,14 @@ const RecentTransactions = ({
                     text-gray-400
                   "
                 >
-                  No transactions yet
+                  No transactions found
                 </td>
 
               </tr>
 
             ) : (
 
-              transactions.map(
+              filteredTransactions.map(
                 (transaction) => (
 
                   <tr
@@ -341,9 +378,7 @@ const RecentTransactions = ({
                               text-green-600
                             "
                           >
-                            <Save
-                              size={18}
-                            />
+                            <Save size={18} />
                           </button>
 
                           <button
@@ -389,9 +424,7 @@ const RecentTransactions = ({
                               hover:text-blue-700
                             "
                           >
-                            <Pencil
-                              size={18}
-                            />
+                            <Pencil size={18} />
                           </button>
 
                           <button
@@ -405,9 +438,7 @@ const RecentTransactions = ({
                               hover:text-red-700
                             "
                           >
-                            <Trash2
-                              size={18}
-                            />
+                            <Trash2 size={18} />
                           </button>
 
                         </>
