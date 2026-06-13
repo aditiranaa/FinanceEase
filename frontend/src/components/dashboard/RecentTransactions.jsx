@@ -16,6 +16,8 @@ const RecentTransactions = ({
   transactions,
   fetchTransactions,
 }) => {
+  const [filter, setFilter] =
+  useState("all");
 
   const [searchTerm, setSearchTerm] =
     useState("");
@@ -32,8 +34,10 @@ const RecentTransactions = ({
     });
 
   const filteredTransactions =
-    transactions.filter(
-      (transaction) =>
+  transactions.filter(
+    (transaction) => {
+
+      const matchesSearch =
         transaction.description
           .toLowerCase()
           .includes(
@@ -43,8 +47,46 @@ const RecentTransactions = ({
           .toLowerCase()
           .includes(
             searchTerm.toLowerCase()
-          )
-    );
+          );
+
+      if (!matchesSearch)
+        return false;
+
+      const transactionDate =
+        new Date(
+          transaction.date
+        );
+
+      const today =
+        new Date();
+
+      if (filter === "today") {
+
+        return (
+          transactionDate
+            .toDateString() ===
+          today.toDateString()
+        );
+
+      }
+
+      if (filter === "month") {
+
+        return (
+          transactionDate
+            .getMonth() ===
+            today.getMonth() &&
+          transactionDate
+            .getFullYear() ===
+            today.getFullYear()
+        );
+
+      }
+
+      return true;
+
+    }
+  );
 
   const handleDelete = async (id) => {
 
@@ -150,7 +192,35 @@ const RecentTransactions = ({
           w-full
         "
       />
+      <select
+  value={filter}
+  onChange={(e) =>
+    setFilter(
+      e.target.value
+    )
+  }
+  className="
+    border
+    rounded-lg
+    px-4
+    py-2
+    mb-6
+  "
+>
 
+  <option value="all">
+    All
+  </option>
+
+  <option value="today">
+    Today
+  </option>
+
+  <option value="month">
+    This Month
+  </option>
+
+</select>
       <div className="overflow-x-auto">
 
         <table className="w-full">
