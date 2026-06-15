@@ -8,6 +8,31 @@ export const loginUser = async (formData) => {
   return response.data;
   };
 
+  export const getSubscriptions =
+  async () => {
+
+  const response =
+    await API.get(
+      "/subscriptions"
+    );
+
+  return response.data;
+
+};
+
+export const createSubscription =
+  async (formData) => {
+
+  const response =
+    await API.post(
+      "/subscriptions",
+      formData
+    );
+
+  return response.data;
+
+};
+
   export const getTransactions =
   async () => {
 
@@ -49,7 +74,9 @@ export const deleteTransaction = async (id) => {
 
   return response.data;
 };
-export const deleteBudget = async (id) => {
+
+export const deleteBudget =
+  async (id) => {
 
   const response =
     await API.delete(
@@ -59,6 +86,7 @@ export const deleteBudget = async (id) => {
   return response.data;
 
 };
+
 
 export const updateTransaction =
   async (id, formData) => {
