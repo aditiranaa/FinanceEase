@@ -33,6 +33,9 @@ from "../../components/dashboard/AIInsights";
 import ExportTransactions
 from "../../components/dashboard/ExportTransactions";
 
+import RecurringTransactions
+from "../../components/dashboard/RecurringTransactions";
+
 import {
   getTransactions,
 } from "../../api/authApi";
@@ -130,7 +133,8 @@ const savings =
         <BudgetManager
           transactions={transactions}
         />
-
+        <RecurringTransactions />
+        
         <RecentTransactions
           transactions={transactions}
           fetchTransactions={fetchTransactions}
