@@ -128,7 +128,13 @@ const savings =
 
   return (
 
-    <div className="flex">
+    <div
+  className="
+    flex
+    flex-col
+    md:flex-row
+  "
+>
 
       <Sidebar />
 
