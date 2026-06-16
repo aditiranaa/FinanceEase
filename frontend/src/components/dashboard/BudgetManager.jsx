@@ -11,10 +11,6 @@ import {
   deleteBudget,
 } from "../../api/authApi";
 
-import {
-  getBudgets,
-  createBudget,
-} from "../../api/authApi";
 
 const BudgetManager = ({
   transactions,

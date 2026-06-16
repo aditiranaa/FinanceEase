@@ -36,8 +36,12 @@ from "../../components/dashboard/ExportTransactions";
 import RecurringTransactions
 from "../../components/dashboard/RecurringTransactions";
 
+import BudgetAlerts
+from "../../components/dashboard/BudgetAlerts";
+
 import {
   getTransactions,
+  getBudgets,
 } from "../../api/authApi";
 
 const Dashboard = () => {
@@ -45,6 +49,9 @@ const Dashboard = () => {
   const [transactions,
     setTransactions] =
       useState([]);
+
+  const [budgets, setBudgets] =
+  useState([]);
 
   const income =
   transactions
@@ -95,9 +102,29 @@ const savings =
 
   useEffect(() => {
 
-    fetchTransactions();
+  fetchTransactions();
 
-  }, []);
+  fetchBudgets();
+
+}, []);
+
+  const fetchBudgets =
+  async () => {
+
+    try {
+
+      const data =
+        await getBudgets();
+
+      setBudgets(data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
 
   return (
 
@@ -121,7 +148,6 @@ const savings =
           income={income}
           expenses={expenses}
           savings={savings}
-          BudgetManager 
         />
 
         <AddTransaction
@@ -151,6 +177,13 @@ const savings =
         <ExportTransactions
           transactions={transactions}
         />
+
+        <BudgetAlerts
+          budgets={budgets}
+          transactions={transactions}
+        />
+
+        <AIInsights />
       </div>
 
     </div>
