@@ -151,6 +151,12 @@ const Sidebar = () => {
             <p className="text-lg">
               Goals
             </p>
+          
+          <User size={22} />
+
+          <p className="text-lg">
+            Profile
+          </p>
 
           </div>
 
