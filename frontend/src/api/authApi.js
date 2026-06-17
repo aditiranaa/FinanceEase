@@ -20,6 +20,21 @@ export const loginUser = async (formData) => {
 
 };
 
+export const getAIInsight =
+async (prompt) => {
+
+  const response =
+    await API.post(
+      "/ai-insight",
+      {
+        prompt,
+      }
+    );
+
+  return response.data;
+
+};
+
 export const createSubscription =
   async (formData) => {
 
@@ -145,14 +160,6 @@ export const createBudget =
       "/budgets",
       formData
     );
-
-  return response.data;
-};
-
-export const getAIInsight = async () => {
-  const response = await API.post(
-    "/ai-insight"
-  );
 
   return response.data;
 };

@@ -8,13 +8,16 @@ import {
 
 const AIInsights = () => {
 
+  const [prompt, setPrompt] =
+    useState("");
+
   const [insight, setInsight] =
     useState("");
 
   const [loading, setLoading] =
     useState(false);
 
-  const fetchInsight =
+  const handleAsk =
     async () => {
 
       try {
@@ -22,21 +25,21 @@ const AIInsights = () => {
         setLoading(true);
 
         const data =
-          await getAIInsight();
+          await getAIInsight(
+            prompt
+          );
 
         setInsight(
-          data.text
+          data.insight
         );
 
       } catch (error) {
 
         console.log(error);
 
-      } finally {
-
-        setLoading(false);
-
       }
+
+      setLoading(false);
 
     };
 
@@ -45,8 +48,8 @@ const AIInsights = () => {
     <div
       className="
         bg-white
-        rounded-2xl
         p-6
+        rounded-2xl
         shadow-sm
         mt-8
       "
@@ -62,24 +65,45 @@ const AIInsights = () => {
         AI Insights
       </h2>
 
-      <button
-        onClick={fetchInsight}
+      <textarea
+        rows="4"
+        value={prompt}
+        onChange={(e) =>
+          setPrompt(
+            e.target.value
+          )
+        }
+        placeholder="
+          Analyze my spending habits
+        "
         className="
-          bg-purple-600
+          w-full
+          border
+          p-3
+          rounded-lg
+        "
+      />
+
+      <button
+        onClick={handleAsk}
+        className="
+          bg-purple-500
           text-white
           px-5
           py-3
           rounded-lg
-          hover:bg-purple-700
+          mt-4
         "
       >
-        Generate Insight
+
+        Ask AI
+
       </button>
 
       {loading && (
 
         <p className="mt-4">
-          Loading...
+          Thinking...
         </p>
 
       )}
@@ -88,8 +112,8 @@ const AIInsights = () => {
 
         <div
           className="
-            mt-6
-            bg-purple-50
+            mt-5
+            bg-gray-50
             p-4
             rounded-xl
           "

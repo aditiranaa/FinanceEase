@@ -15,6 +15,14 @@ const makeRouterFor = require('./src/routes/crud.factory');
 
 const requireAuth = require('./src/middleware/auth');
 
+const aiRoutes =
+require("./routes/aiRoutes");
+
+app.use(
+  "/api/ai-insight",
+  aiRoutes
+);
+
 const app = express();
 
 app.use(helmet());
