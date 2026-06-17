@@ -39,6 +39,9 @@ from "../../components/dashboard/RecurringTransactions";
 import BudgetAlerts
 from "../../components/dashboard/BudgetAlerts";
 
+import SavingsGoals
+from "../../components/dashboard/SavingsGoals";
+
 import {
   getTransactions,
   getBudgets,
@@ -188,7 +191,8 @@ const savings =
           budgets={budgets}
           transactions={transactions}
         />
-
+        <SavingsGoals />
+        
         <AIInsights />
       </div>
 

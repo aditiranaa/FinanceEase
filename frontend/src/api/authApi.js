@@ -75,6 +75,31 @@ export const deleteTransaction = async (id) => {
   return response.data;
 };
 
+export const getGoals =
+  async () => {
+
+  const response =
+    await API.get(
+      "/goals"
+    );
+
+  return response.data;
+
+};
+
+export const createGoal =
+  async (formData) => {
+
+  const response =
+    await API.post(
+      "/goals",
+      formData
+    );
+
+  return response.data;
+
+};
+
 export const deleteBudget =
   async (id) => {
 

@@ -75,6 +75,19 @@ app.use(
   )
 );
 
+app.use(
+  "/api/goals",
+  makeRouterFor(
+    "goals",
+    [
+      "title",
+      "target_amount",
+      "current_amount",
+    ]
+  )
+);
+
+
 // HEALTH CHECK
 app.get('/api/health', (req, res) => {
   res.json({
