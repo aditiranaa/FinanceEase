@@ -20,10 +20,14 @@ async function ensureSchema() {
         .defaultTo(knex.fn.now());
     });
   }
+  
+// TRANSACTIONS
+if (!(await knex.schema.hasTable('transactions'))) {
 
-  // TRANSACTIONS
-  if (!(await knex.schema.hasTable('transactions'))) {
-    await knex.schema.createTable('transactions', t => {
+  await knex.schema.createTable(
+    'transactions',
+    t => {
+
       t.string('id').primary();
 
       t.string('user_id')
@@ -31,7 +35,13 @@ async function ensureSchema() {
         .inTable('users')
         .onDelete('CASCADE');
 
-      t.decimal('amount', 12, 2)
+      t.decimal(
+        'amount',
+        12,
+        2
+      ).notNullable();
+
+      t.string('type')
         .notNullable();
 
       t.date('date')
@@ -47,8 +57,37 @@ async function ensureSchema() {
         .defaultTo(knex.fn.now());
 
       t.timestamp('updated_at');
-    });
+
+    }
+  );
+
+}
+else {
+
+  const hasType =
+    await knex.schema.hasColumn(
+      "transactions",
+      "type"
+    );
+
+  if (!hasType) {
+
+    await knex.schema.alterTable(
+      "transactions",
+      table => {
+
+        table.string(
+          "type"
+        );
+
+      }
+    );
+
   }
+
+}
+
+
 
   // BUDGETS
   if (!(await knex.schema.hasTable('budgets'))) {
@@ -74,9 +113,13 @@ async function ensureSchema() {
     });
   }
 
-  // GOALS
-  if (!(await knex.schema.hasTable('goals'))) {
-    await knex.schema.createTable('goals', t => {
+// GOALS
+if (!(await knex.schema.hasTable('goals'))) {
+
+  await knex.schema.createTable(
+    'goals',
+    t => {
+
       t.string('id').primary();
 
       t.string('user_id')
@@ -84,21 +127,28 @@ async function ensureSchema() {
         .inTable('users')
         .onDelete('CASCADE');
 
-      t.string('name')
+      t.string('title')
         .notNullable();
 
-      t.decimal('target', 12, 2)
-        .defaultTo(0);
+      t.decimal(
+        'target_amount',
+        12,
+        2
+      ).defaultTo(0);
 
-      t.decimal('saved', 12, 2)
-        .defaultTo(0);
-
-      t.date('due_date');
+      t.decimal(
+        'current_amount',
+        12,
+        2
+      ).defaultTo(0);
 
       t.timestamp('created_at')
         .defaultTo(knex.fn.now());
-    });
-  }
+
+    }
+  );
+
+}
 
   // SUBSCRIPTIONS
   if (!(await knex.schema.hasTable('subscriptions'))) {
@@ -129,28 +179,44 @@ async function ensureSchema() {
     });
   }
 
+  
   // EARNINGS
   if (!(await knex.schema.hasTable('earnings'))) {
-    await knex.schema.createTable('earnings', t => {
-      t.string('id').primary();
 
-      t.string('user_id')
-        .references('id')
-        .inTable('users')
-        .onDelete('CASCADE');
+    await knex.schema.createTable(
+      'earnings',
+      t => {
 
-      t.string('source')
-        .notNullable();
+        t.string('id').primary();
 
-      t.decimal('amount', 12, 2)
-        .defaultTo(0);
+        t.string('user_id')
+          .references('id')
+          .inTable('users')
+          .onDelete('CASCADE');
 
-      t.timestamp('created_at')
-        .defaultTo(knex.fn.now());
-    });
+        t.string('source')
+          .notNullable();
+
+        t.decimal(
+          'amount',
+          12,
+          2
+        ).defaultTo(0);
+
+        t.timestamp('created_at')
+          .defaultTo(knex.fn.now());
+
+      }
+    );
+
   }
 
-  console.log('✅ Database schema ready');
+  console.log(
+    '✅ Database schema ready'
+  );
+
 }
 
-module.exports = ensureSchema;
+module.exports =
+  ensureSchema;
+
