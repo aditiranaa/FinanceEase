@@ -21,73 +21,71 @@ async function ensureSchema() {
     });
   }
   
-// TRANSACTIONS
-if (!(await knex.schema.hasTable('transactions'))) {
+  // TRANSACTIONS
+  if (!(await knex.schema.hasTable('transactions'))) {
 
-  await knex.schema.createTable(
-    'transactions',
-    t => {
+    await knex.schema.createTable(
+      'transactions',
+      t => {
 
-      t.string('id').primary();
+        t.string('id').primary();
 
-      t.string('user_id')
-        .references('id')
-        .inTable('users')
-        .onDelete('CASCADE');
+        t.string('user_id')
+          .references('id')
+          .inTable('users')
+          .onDelete('CASCADE');
 
-      t.decimal(
-        'amount',
-        12,
-        2
-      ).notNullable();
+        t.decimal(
+          'amount',
+          12,
+          2
+        ).notNullable();
 
-      t.string('type')
-        .notNullable();
+        t.string('type')
+          .notNullable();
 
-      t.date('date')
-        .notNullable();
+        t.date('date')
+          .notNullable();
 
-      t.string('description')
-        .notNullable();
+        t.string('description')
+          .notNullable();
 
-      t.string('category')
-        .notNullable();
+        t.string('category')
+          .notNullable();
 
-      t.timestamp('created_at')
-        .defaultTo(knex.fn.now());
+        t.timestamp('created_at')
+          .defaultTo(knex.fn.now());
 
-      t.timestamp('updated_at');
-
-    }
-  );
-
-}
-else {
-
-  const hasType =
-    await knex.schema.hasColumn(
-      "transactions",
-      "type"
-    );
-
-  if (!hasType) {
-
-    await knex.schema.alterTable(
-      "transactions",
-      table => {
-
-        table.string(
-          "type"
-        );
+        t.timestamp('updated_at');
 
       }
     );
 
   }
+  else {
 
-}
+    const hasType =
+      await knex.schema.hasColumn(
+        "transactions",
+        "type"
+      );
 
+    if (!hasType) {
 
+      await knex.schema.alterTable(
+        "transactions",
+        table => {
+
+          table.string(
+            "type"
+          );
+
+        }
+      );
+
+    }
+
+  }
 
   // BUDGETS
   if (!(await knex.schema.hasTable('budgets'))) {
@@ -178,7 +176,6 @@ if (!(await knex.schema.hasTable('goals'))) {
         .defaultTo(knex.fn.now());
     });
   }
-
   
   // EARNINGS
   if (!(await knex.schema.hasTable('earnings'))) {
@@ -210,6 +207,35 @@ if (!(await knex.schema.hasTable('goals'))) {
     );
 
   }
+
+  // AI HISTORY
+  if (!(await knex.schema.hasTable('ai_history'))) {
+
+    await knex.schema.createTable(
+      'ai_history',
+      t => {
+
+        t.string('id').primary();
+
+        t.string('user_id')
+          .references('id')
+          .inTable('users')
+          .onDelete('CASCADE');
+
+        t.text('prompt')
+          .notNullable();
+
+        t.text('response')
+          .notNullable();
+
+        t.timestamp('created_at')
+          .defaultTo(knex.fn.now());
+
+      }
+    );
+
+  }
+
 
   console.log(
     '✅ Database schema ready'
