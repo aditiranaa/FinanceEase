@@ -127,6 +127,17 @@ export const deleteBudget =
 
 };
 
+export const getAIHistory =
+async () => {
+
+  const response =
+    await API.get(
+      "/ai-insight/history"
+    );
+
+  return response.data;
+
+};
 
 export const updateTransaction =
   async (id, formData) => {
