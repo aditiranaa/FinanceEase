@@ -20,6 +20,8 @@ const AIInsights = () => {
   const handleAsk =
     async () => {
 
+      if (!prompt.trim()) return;
+
       try {
 
         setLoading(true);
@@ -37,9 +39,11 @@ const AIInsights = () => {
 
         console.log(error);
 
-      }
+      } finally {
 
-      setLoading(false);
+        setLoading(false);
+
+      }
 
     };
 
@@ -74,7 +78,10 @@ const AIInsights = () => {
           )
         }
         placeholder="
-          Analyze my spending habits
+Ask AI something like:
+• Analyze my spending habits
+• Suggest a monthly budget
+• How can I save more?
         "
         className="
           w-full
@@ -93,6 +100,7 @@ const AIInsights = () => {
           py-3
           rounded-lg
           mt-4
+          hover:bg-purple-600
         "
       >
 
