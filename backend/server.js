@@ -14,6 +14,7 @@ const testRoutes = require('./src/routes/test.routes');
 const authRoutes = require('./src/routes/auth.routes');
 const transactionRoutes = require('./src/routes/transaction.routes');
 const aiRoutes = require('./src/routes/aiRoutes');
+const notificationRoutes = require("./src/routes/notification.routes");
 
 const makeRouterFor = require('./src/routes/crud.factory');
 
@@ -121,6 +122,12 @@ app.get(
     });
 
   }
+);
+
+// NOTIFICATIONS 
+app.use(
+  "/api/notifications",
+  notificationRoutes
 );
 
 const PORT =

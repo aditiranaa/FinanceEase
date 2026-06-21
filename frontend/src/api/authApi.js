@@ -1,3 +1,4 @@
+import { ReplayResponse } from "@google/genai";
 import API from "./axios";
 
 export const loginUser = async (formData) => {
@@ -170,6 +171,17 @@ export const createBudget =
     await API.post(
       "/budgets",
       formData
+    );
+    
+  return response.data;
+  };
+
+export const getNotifications =
+  async () => {
+
+  const response =
+    await API.get(
+      "/notifications"
     );
 
   return response.data;
