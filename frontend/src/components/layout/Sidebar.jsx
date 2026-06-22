@@ -7,6 +7,7 @@ import {
   Target,
   Menu,
   X,
+  User,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -137,28 +138,40 @@ const Sidebar = () => {
           </div>
 
           <div
-            className="
-              flex
-              items-center
-              gap-3
-              hover:text-green-400
-              cursor-pointer
-              transition
-            "
-          >
-            <Target size={22} />
+  className="
+    flex
+    items-center
+    gap-3
+    hover:text-green-400
+    cursor-pointer
+    transition
+  "
+>
+  <Target size={22} />
 
-            <p className="text-lg">
-              Goals
-            </p>
-          
-          <User size={22} />
+  <p className="text-lg">
+    Goals
+  </p>
 
-          <p className="text-lg">
-            Profile
-          </p>
+</div>
 
-          </div>
+<div
+  className="
+    flex
+    items-center
+    gap-3
+    hover:text-green-400
+    cursor-pointer
+    transition
+  "
+>
+  <User size={22} />
+
+  <p className="text-lg">
+    Profile
+  </p>
+
+</div>
 
         </div>
 
