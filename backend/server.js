@@ -18,6 +18,8 @@ const notificationRoutes = require("./src/routes/notification.routes");
 
 const makeRouterFor = require('./src/routes/crud.factory');
 
+const analyticsRoutes = require("./src/routes/analytics.routes");
+
 // MIDDLEWARE
 app.use(helmet());
 
@@ -130,6 +132,11 @@ app.use(
   notificationRoutes
 );
 
+// ANALYTICS
+app.use(
+  "/api/analytics",
+  analyticsRoutes
+);
 const PORT =
   process.env.PORT || 4000;
 
