@@ -20,6 +20,9 @@ const makeRouterFor = require('./src/routes/crud.factory');
 
 const analyticsRoutes = require("./src/routes/analytics.routes");
 
+const reportRoutes =
+require("./src/routes/report.routes");
+
 // MIDDLEWARE
 app.use(helmet());
 
@@ -137,6 +140,14 @@ app.use(
   "/api/analytics",
   analyticsRoutes
 );
+
+//PDF REPORTS
+app.use(
+  "/api/report",
+  reportRoutes
+);
+
+
 const PORT =
   process.env.PORT || 4000;
 
