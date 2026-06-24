@@ -23,6 +23,11 @@ const analyticsRoutes = require("./src/routes/analytics.routes");
 const reportRoutes =
 require("./src/routes/report.routes");
 
+const reminderRoutes =
+require(
+  "./src/routes/reminder.routes"
+);
+
 // MIDDLEWARE
 app.use(helmet());
 
@@ -147,6 +152,11 @@ app.use(
   reportRoutes
 );
 
+// EMAIL SERVICES
+app.use(
+  "/api/reminders",
+  reminderRoutes
+);
 
 const PORT =
   process.env.PORT || 4000;
