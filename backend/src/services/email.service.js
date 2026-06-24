@@ -36,8 +36,14 @@ async (
       "FinanceEase Subscription Reminder",
 
     text:
-      `Your ${subscription.name} subscription is due on ${subscription.next_due}.`,
+`Hi!
 
+This is a reminder that your ${subscription.name} subscription is due on ${subscription.next_due}.
+
+Category: ${subscription.category}
+Amount: ₹${subscription.amount}
+
+- FinanceEase`,
   });
 
 };

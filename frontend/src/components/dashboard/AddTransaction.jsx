@@ -6,6 +6,8 @@ import {
   createTransaction,
 } from "../../api/authApi";
 
+import toast from "react-hot-toast";
+
 const AddTransaction = ({
   fetchTransactions,
 }) => {
@@ -13,53 +15,60 @@ const AddTransaction = ({
   const [formData,
     setFormData] =
       useState({
-  description: "",
-  amount: "",
-  category: "",
-  date: "",
-});
+        description: "",
+        amount: "",
+        category: "",
+        date: "",
+      });
 
   const handleChange = (e) => {
 
-  setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
-  });
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.value,
+    });
 
-};
+  };
 
   const handleSubmit =
     async (e) => {
 
-    e.preventDefault();
+      e.preventDefault();
 
-    try {
+      try {
 
-      await createTransaction(
-        formData
-      );
+        await createTransaction(
+          formData
+        );
 
-      await fetchTransactions();
+        await fetchTransactions();
 
+        toast.success(
+          "Transaction added successfully"
+        );
 
-      alert(
-        "Transaction Added"
-      );
+        setFormData({
+          description: "",
+          amount: "",
+          category: "",
+          date: "",
+        });
 
-      setFormData({
-  description: "",
-  amount: "",
-  category: "",
-  date: "",
-});
-      
+      }
 
-    } catch (error) {
+      catch (error) {
 
-      console.log(error);
+        toast.error(
+          "Failed to add transaction"
+        );
 
-    }
-  };
+        console.log(error);
+
+      }
+
+    };
+
   return (
 
     <div
@@ -137,10 +146,10 @@ const AddTransaction = ({
           value={formData.date}
           onChange={handleChange}
           className="
-           w-full
-           border
-           p-3
-           rounded
+            w-full
+            border
+            p-3
+            rounded
           "
         />
 
@@ -161,7 +170,9 @@ const AddTransaction = ({
       </form>
 
     </div>
+
   );
+
 };
 
 export default AddTransaction;
