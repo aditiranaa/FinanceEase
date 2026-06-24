@@ -1,6 +1,10 @@
 const db =
 require("../config/db");
 
+const {
+  v4: uuidv4,
+} = require("uuid");
+
 exports.addTransaction =
 async (req, res) => {
 
@@ -14,9 +18,14 @@ async (req, res) => {
       date,
     } = req.body;
 
+    const id =
+      uuidv4();
+
     await db(
       "transactions"
     ).insert({
+
+      id,
 
       user_id:
         req.user.id,
@@ -33,18 +42,30 @@ async (req, res) => {
 
     });
 
-    res.status(201).json({
-      success: true,
-      message:
-        "Transaction added",
-    });
+    const transaction =
+      await db(
+        "transactions"
+      )
+      .where({
+        id,
+      })
+      .first();
 
-  } catch (err) {
+    res.status(201).json(
+      transaction
+    );
+
+  }
+
+  catch (err) {
 
     res.status(500).json({
+
       success: false,
+
       error:
         err.message,
+
     });
 
   }
@@ -60,12 +81,12 @@ async (req, res) => {
       await db(
         "transactions"
       )
-
       .where({
+
         user_id:
           req.user.id,
-      })
 
+      })
       .orderBy(
         "date",
         "desc"
@@ -75,11 +96,15 @@ async (req, res) => {
       transactions
     );
 
-  } catch (err) {
+  }
+
+  catch (err) {
 
     res.status(500).json({
+
       error:
         err.message,
+
     });
 
   }
@@ -102,6 +127,33 @@ async (req, res) => {
     await db(
       "transactions"
     )
+    .where({
+
+      id:
+        req.params.id,
+
+      user_id:
+        req.user.id,
+
+    })
+    .update({
+
+      amount,
+
+      category,
+
+      type,
+
+      description,
+
+      date,
+
+    });
+
+    const updated =
+      await db(
+        "transactions"
+      )
       .where({
 
         id:
@@ -111,42 +163,32 @@ async (req, res) => {
           req.user.id,
 
       })
-      .update({
+      .first();
 
-        amount,
+    if (!updated) {
 
-        category,
+      return res.status(404).json({
 
-        type,
-
-        description,
-
-        date,
+        error:
+          "Transaction not found",
 
       });
 
-    const updated =
-      await db(
-        "transactions"
-      )
-        .where({
+    }
 
-          id:
-            req.params.id,
+    res.json(
+      updated
+    );
 
-          user_id:
-            req.user.id,
+  }
 
-        })
-        .first();
-
-    res.json(updated);
-
-  } catch (err) {
+  catch (err) {
 
     res.status(500).json({
+
       error:
         err.message,
+
     });
 
   }
@@ -158,34 +200,52 @@ async (req, res) => {
 
   try {
 
-    await db(
-      "transactions"
-    )
+    const deleted =
+      await db(
+        "transactions"
+      )
+      .where({
 
-    .where({
+        id:
+          req.params.id,
 
-      id:
-        req.params.id,
+        user_id:
+          req.user.id,
 
-      user_id:
-        req.user.id,
+      })
+      .del();
 
-    })
+    if (!deleted) {
 
-    .del();
+      return res.status(404).json({
+
+        error:
+          "Transaction not found",
+
+      });
+
+    }
 
     res.json({
+
       success: true,
+
+      message:
+        "Transaction deleted successfully",
+
     });
 
-  } catch (err) {
+  }
+
+  catch (err) {
 
     res.status(500).json({
+
       error:
         err.message,
+
     });
 
   }
 
 };
-
