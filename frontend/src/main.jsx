@@ -14,6 +14,8 @@ import {
   ThemeProvider,
 } from "./context/ThemeContext";
 
+import { Toaster } from "react-hot-toast";
+
 ReactDOM.createRoot(
   document.getElementById("root")
 ).render(
@@ -22,6 +24,9 @@ ReactDOM.createRoot(
   <ThemeProvider>
     <RouterProvider
       router={router}
+    />
+    <Toaster
+    position="top-right"
     />
   </ThemeProvider>
 </AuthProvider>
