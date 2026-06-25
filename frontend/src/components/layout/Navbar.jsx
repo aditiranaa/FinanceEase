@@ -2,13 +2,19 @@ import {
   Bell,
   Search,
   User,
+  Moon,
+  Sun,
 } from "lucide-react";
+
 
 import { useNavigate } 
 from "react-router-dom";
 
 import { useAuth } 
 from "../../context/AuthContext";
+
+import { useTheme } 
+from "../../context/ThemeContext";
 
 const Navbar = () => {
 
@@ -17,6 +23,11 @@ const Navbar = () => {
 
   const { logout } =
     useAuth();
+  
+  const {
+    darkMode,
+    setDarkMode 
+  } = useTheme();
 
   const handleLogout = () => {
 
@@ -38,22 +49,29 @@ const Navbar = () => {
         flex
         justify-between
         items-center
+        transition-colors
       "
     >
 
       <div>
 
-        <h1
+          <h1
           className="
             text-3xl
             font-bold
             text-gray-800
+            dark:text-white
           "
         >
           Dashboard
         </h1>
 
-        <p className="text-gray-500">
+        <p
+          className="
+            text-gray-500
+            dark:text-gray-300
+          "
+        >
           Welcome back 👋
         </p>
 
@@ -70,6 +88,7 @@ const Navbar = () => {
         <Search
           className="
             text-gray-500
+            dark:text-gray-300
             cursor-pointer
           "
         />
@@ -77,18 +96,56 @@ const Navbar = () => {
         <Bell
           className="
             text-gray-500
+            dark:text-gray-300
             cursor-pointer
           "
         />
 
+        <button
+          onClick={() =>
+            setDarkMode(
+              !darkMode
+            )
+          }
+          className="
+            bg-gray-200
+            dark:bg-gray-700
+            p-2
+            rounded-full
+            transition
+          "
+        >
+
+          {
+            darkMode
+              ? <Sun
+                  size={20}
+                  className="text-yellow-400"
+                />
+              : <Moon
+                  size={20}
+                  className="text-gray-700"
+                />
+          }
+
+        </button>
+
         <div
           className="
             bg-gray-100
+            dark:bg-gray-700
             p-2
             rounded-full
           "
         >
-          <User size={22} />
+
+          <User
+            size={22}
+            className="
+              dark:text-white
+            "
+          />
+
         </div>
 
         <button
@@ -110,6 +167,6 @@ const Navbar = () => {
 
     </div>
   );
-};
+}; 
 
 export default Navbar;
