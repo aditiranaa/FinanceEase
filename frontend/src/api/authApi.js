@@ -1,4 +1,3 @@
-import { ReplayResponse } from "@google/genai";
 import API from "./axios";
 
 export const loginUser = async (formData) => {
