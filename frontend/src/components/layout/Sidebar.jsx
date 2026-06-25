@@ -27,10 +27,12 @@ const Sidebar = () => {
           left-4
           z-50
           bg-gray-900
+          dark:bg-gray-800
           text-white
           p-2
           rounded-lg
-        "
+          transition-colors
+          "
         onClick={() =>
           setIsOpen(!isOpen)
         }
@@ -51,23 +53,25 @@ const Sidebar = () => {
           left-0
           h-screen
           bg-gray-900
+          dark:bg-black
           text-white
           p-6
           w-64
           transform
           transition-transform
+          transition-colors
           duration-300
           z-40
 
           ${
-            isOpen
-              ? "translate-x-0"
-              : "-translate-x-full"
+          isOpen
+          ? "translate-x-0"
+          : "-translate-x-full"
           }
 
           md:translate-x-0
           md:static
-        `}
+`}
       >
 
         <h2
