@@ -12,12 +12,17 @@ export const ThemeProvider = ({
   children,
 }) => {
 
-  const [darkMode, setDarkMode] =
-    useState(
-      localStorage.getItem(
-        "theme"
-      ) === "dark"
-    );
+  const [darkMode,
+    setDarkMode] =
+    useState(() => {
+
+      return (
+        localStorage.getItem(
+          "theme"
+        ) === "dark"
+      );
+
+    });
 
   useEffect(() => {
 
@@ -32,7 +37,9 @@ export const ThemeProvider = ({
         "dark"
       );
 
-    } else {
+    }
+
+    else {
 
       document.documentElement.classList.remove(
         "dark"
@@ -55,7 +62,9 @@ export const ThemeProvider = ({
         setDarkMode,
       }}
     >
+
       {children}
+
     </ThemeContext.Provider>
 
   );
