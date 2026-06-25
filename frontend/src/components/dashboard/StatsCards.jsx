@@ -64,13 +64,15 @@ const StatsCards = ({
 
           className="
             bg-white
+            dark:bg-gray-900
             rounded-2xl
             p-6
             shadow-sm
             hover:shadow-xl
-            transition
+            hover:-translate-y-1
+            transition-all
             duration-300
-          "
+            "
         >
 
           <div
@@ -83,7 +85,12 @@ const StatsCards = ({
 
             <div>
 
-              <p className="text-gray-500">
+              <p
+                className="
+                text-gray-500
+                dark:text-gray-300
+                "
+                >
                 {card.title}
               </p>
 
@@ -93,6 +100,7 @@ const StatsCards = ({
                   font-bold
                   mt-2
                   text-gray-800
+                  dark:text-white
                 "
               >
                 {card.amount}
