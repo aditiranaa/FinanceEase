@@ -146,7 +146,9 @@ const savings =
           flex-1
           p-6
           bg-gray-100
+          dark:bg-gray-800
           min-h-screen
+          transition-colors
         "
       >
 
