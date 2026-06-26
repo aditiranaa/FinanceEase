@@ -28,6 +28,9 @@ require(
   "./src/routes/reminder.routes"
 );
 
+const profileRoutes =
+require("./src/routes/profile.routes");
+
 // MIDDLEWARE
 app.use(helmet());
 
@@ -157,6 +160,13 @@ app.use(
   "/api/reminders",
   reminderRoutes
 );
+
+// PROFILE PAGE
+app.use(
+  "/api/profile",
+  profileRoutes
+);
+
 
 const PORT =
   process.env.PORT || 4000;
