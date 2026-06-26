@@ -1,6 +1,10 @@
 import { useState } from "react";
 
 import {
+  useNavigate,
+} from "react-router-dom";
+
+import {
   LayoutDashboard,
   Receipt,
   Wallet,
@@ -9,6 +13,9 @@ import {
   X,
   User,
 } from "lucide-react";
+
+const navigate =
+useNavigate();
 
 const Sidebar = () => {
 
@@ -88,15 +95,18 @@ const Sidebar = () => {
         <div className="space-y-6">
 
           <div
-            className="
-              flex
-              items-center
-              gap-3
-              hover:text-green-400
-              cursor-pointer
-              transition
-            "
-          >
+              onClick={() =>
+                navigate("/profile")
+              }
+              className="
+                flex
+                items-center
+                gap-3
+                hover:text-green-400
+                cursor-pointer
+                transition
+              "
+            >
             <LayoutDashboard size={22} />
 
             <p className="text-lg">
