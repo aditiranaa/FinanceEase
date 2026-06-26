@@ -193,7 +193,20 @@ async () => {
     await API.get(
       "/analytics"
     );
+return response.data;
+
+};
+
+export const getProfile =
+async () => {
+
+  const response =
+    await API.get(
+      "/profile"
+    );
 
   return response.data;
 
 };
+
+  
