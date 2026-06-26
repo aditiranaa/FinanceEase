@@ -1,43 +1,63 @@
-import { useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  getProfile,
+} from "../api/authApi";
 
 const Profile = () => {
 
-  const [formData, setFormData] =
-    useState({
-      name: "",
-      email: "",
-      password: "",
-    });
+  const [profile,
+    setProfile] =
+    useState(null);
 
-  const handleChange = (e) => {
+  useEffect(() => {
 
-    setFormData({
-      ...formData,
-      [e.target.name]:
-        e.target.value,
-    });
+    fetchProfile();
 
-  };
+  }, []);
 
-  const handleSubmit =
-    (e) => {
+  const fetchProfile =
+    async () => {
 
-      e.preventDefault();
+      try {
 
-      alert(
-        "Profile updated"
-      );
+        const data =
+          await getProfile();
+
+        setProfile(data);
+
+      }
+
+      catch (error) {
+
+        console.log(error);
+
+      }
 
     };
+
+  if (!profile) {
+
+    return (
+      <p
+        className="
+          p-6
+        "
+      >
+        Loading...
+      </p>
+    );
+
+  }
 
   return (
 
     <div
       className="
-        bg-white
         p-8
-        rounded-2xl
-        shadow-sm
       "
     >
 
@@ -45,74 +65,48 @@ const Profile = () => {
         className="
           text-3xl
           font-bold
-          mb-8
+          mb-6
         "
       >
-        Profile
+        My Profile
       </h1>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-5"
+      <div
+        className="
+          bg-white
+          dark:bg-gray-900
+          rounded-xl
+          shadow
+          p-6
+        "
       >
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="
-            w-full
-            border
-            p-3
-            rounded-lg
-          "
-        />
+        <p>
+          <strong>Name:</strong>{" "}
+          {profile.name}
+        </p>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="
-            w-full
-            border
-            p-3
-            rounded-lg
-          "
-        />
+        <br />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="New Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="
-            w-full
-            border
-            p-3
-            rounded-lg
-          "
-        />
+        <p>
+          <strong>Email:</strong>{" "}
+          {profile.email}
+        </p>
 
-        <button
-          type="submit"
-          className="
-            bg-green-500
-            text-white
-            px-5
-            py-3
-            rounded-lg
-            hover:bg-green-600
-          "
-        >
-          Save Changes
-        </button>
+        <br />
 
-      </form>
+        <p>
+          <strong>Member Since:</strong>{" "}
+          {
+            new Date(
+              profile.created_at
+            ).toLocaleDateString(
+              "en-IN"
+            )
+          }
+        </p>
+
+      </div>
 
     </div>
 
