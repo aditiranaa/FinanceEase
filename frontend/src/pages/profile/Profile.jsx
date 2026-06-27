@@ -7,6 +7,12 @@ import {
   getProfile,
 } from "../api/authApi";
 
+import ProfileCard
+from "../../components/profile/ProfileCard";
+
+import ChangePassword
+from "../../components/profile/ChangePassword";
+
 const Profile = () => {
 
   const [profile,
@@ -55,62 +61,24 @@ const Profile = () => {
 
   return (
 
-    <div
-      className="
-        p-8
-      "
-    >
+  <div
+    className="
+      p-8
+      bg-gray-100
+      dark:bg-gray-800
+      min-h-screen
+    "
+  >
 
-      <h1
-        className="
-          text-3xl
-          font-bold
-          mb-6
-        "
-      >
-        My Profile
-      </h1>
+    <ProfileCard
+      profile={profile}
+    />
 
-      <div
-        className="
-          bg-white
-          dark:bg-gray-900
-          rounded-xl
-          shadow
-          p-6
-        "
-      >
+    <ChangePassword />
 
-        <p>
-          <strong>Name:</strong>{" "}
-          {profile.name}
-        </p>
+  </div>
 
-        <br />
-
-        <p>
-          <strong>Email:</strong>{" "}
-          {profile.email}
-        </p>
-
-        <br />
-
-        <p>
-          <strong>Member Since:</strong>{" "}
-          {
-            new Date(
-              profile.created_at
-            ).toLocaleDateString(
-              "en-IN"
-            )
-          }
-        </p>
-
-      </div>
-
-    </div>
-
-  );
+);
 
 };
 
