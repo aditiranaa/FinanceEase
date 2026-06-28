@@ -19,6 +19,10 @@ const RecentTransactions = ({
   const [filter, setFilter] =
   useState("all");
 
+  const [typeFilter,
+  setTypeFilter] =
+  useState("all");
+
   const [searchTerm, setSearchTerm] =
     useState("");
 
@@ -51,6 +55,24 @@ const RecentTransactions = ({
 
       if (!matchesSearch)
         return false;
+
+      if (
+        typeFilter === "income" &&
+        transaction.amount <= 0
+      ) {
+
+        return false;
+
+      }
+
+      if (
+        typeFilter === "expense" &&
+        transaction.amount > 0
+      ) {
+
+       return false;
+
+  }
 
       const transactionDate =
         new Date(
@@ -221,6 +243,38 @@ const RecentTransactions = ({
   </option>
 
 </select>
+
+<select
+  value={typeFilter}
+  onChange={(e) =>
+    setTypeFilter(
+      e.target.value
+    )
+  }
+  className="
+    border
+    rounded-lg
+    px-4
+    py-2
+    mb-6
+    ml-3
+  "
+>
+
+  <option value="all">
+    All Types
+  </option>
+
+  <option value="income">
+    Income
+  </option>
+
+  <option value="expense">
+    Expense
+  </option>
+
+</select>
+
       <div className="overflow-x-auto">
 
         <table className="w-full">
