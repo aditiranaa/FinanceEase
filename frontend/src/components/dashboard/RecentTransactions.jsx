@@ -23,6 +23,10 @@ const RecentTransactions = ({
   setTypeFilter] =
   useState("all");
 
+  const [sortBy,
+  setSortBy] =
+  useState("newest");
+
   const [searchTerm, setSearchTerm] =
     useState("");
 
@@ -71,8 +75,51 @@ const RecentTransactions = ({
       ) {
 
        return false;
-
   }
+
+  const sortedTransactions =
+  [...sortedTransactions.map]
+    .sort((a, b) => {
+
+      if (sortBy === "newest") {
+
+        return (
+          new Date(b.date) -
+          new Date(a.date)
+        );
+
+      }
+
+      if (sortBy === "oldest") {
+
+        return (
+          new Date(a.date) -
+          new Date(b.date)
+        );
+
+      }
+
+      if (sortBy === "highest") {
+
+        return (
+          Number(b.amount) -
+          Number(a.amount)
+        );
+
+      }
+
+      if (sortBy === "lowest") {
+
+        return (
+          Number(a.amount) -
+          Number(b.amount)
+        );
+
+      }
+
+      return 0;
+
+    });
 
       const transactionDate =
         new Date(
@@ -271,6 +318,41 @@ const RecentTransactions = ({
 
   <option value="expense">
     Expense
+  </option>
+
+</select>
+
+<select
+  value={sortBy}
+  onChange={(e) =>
+    setSortBy(
+      e.target.value
+    )
+  }
+  className="
+    border
+    rounded-lg
+    px-4
+    py-2
+    mb-6
+    ml-3
+  "
+>
+
+  <option value="newest">
+    Newest
+  </option>
+
+  <option value="oldest">
+    Oldest
+  </option>
+
+  <option value="highest">
+    Highest Amount
+  </option>
+
+  <option value="lowest">
+    Lowest Amount
   </option>
 
 </select>
