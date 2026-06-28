@@ -41,6 +41,13 @@ const RecentTransactions = ({
       date: "",
     });
 
+  const [currentPage,
+  setCurrentPage] =
+  useState(1);
+
+  const transactionsPerPage =
+  10;
+
   const filteredTransactions =
   transactions.filter(
     (transaction) => {
@@ -78,7 +85,7 @@ const RecentTransactions = ({
   }
 
   const sortedTransactions =
-  [...sortedTransactions.map]
+  [currentTransactions.map]
     .sort((a, b) => {
 
       if (sortBy === "newest") {
@@ -120,6 +127,20 @@ const RecentTransactions = ({
       return 0;
 
     });
+
+    const indexOfLastTransaction =
+      currentPage *
+      transactionsPerPage;
+
+    const indexOfFirstTransaction =
+      indexOfLastTransaction -
+      transactionsPerPage;
+
+    const currentTransactions =
+    sortedTransactions.slice(
+      indexOfFirstTransaction,
+      indexOfLastTransaction
+    );
 
       const transactionDate =
         new Date(
