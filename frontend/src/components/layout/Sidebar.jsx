@@ -14,13 +14,14 @@ import {
   User,
 } from "lucide-react";
 
-const navigate =
-useNavigate();
 
 const Sidebar = () => {
 
   const [isOpen, setIsOpen] =
     useState(false);
+
+  const navigate =
+    useNavigate();
 
   return (
 
@@ -96,7 +97,7 @@ const Sidebar = () => {
 
           <div
               onClick={() =>
-                navigate("/profile")
+                navigate("/dashboard")
               }
               className="
                 flex
@@ -163,29 +164,32 @@ const Sidebar = () => {
 >
   <Target size={22} />
 
-  <p className="text-lg">
-    Goals
-  </p>
+    <p className="text-lg">
+      Goals
+    </p>
 
-</div>
+    </div>
 
-<div
-  className="
-    flex
-    items-center
-    gap-3
-    hover:text-green-400
-    cursor-pointer
-    transition
-  "
->
-  <User size={22} />
+         <div
+              onClick={() =>
+                navigate("/profile")
+              }
+              className="
+                flex
+                items-center
+                gap-3
+                hover:text-green-400
+                cursor-pointer
+                transition
+              "
+            >
+              <User size={22} />
 
-  <p className="text-lg">
-    Profile
-  </p>
+              <p className="text-lg">
+                Profile
+              </p>
 
-</div>
+          </div>
 
         </div>
 
