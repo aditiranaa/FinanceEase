@@ -8,8 +8,13 @@ const router =
 express.Router();
 
 const {
+
   getAIInsight,
+
   getAIHistory,
+
+  getAISpendingCoach,
+
 } = require(
   "../controllers/aiController"
 );
@@ -18,6 +23,12 @@ router.get(
   "/history",
   auth,
   getAIHistory
+);
+
+router.get(
+  "/coach",
+  auth,
+  getAISpendingCoach
 );
 
 router.post(
