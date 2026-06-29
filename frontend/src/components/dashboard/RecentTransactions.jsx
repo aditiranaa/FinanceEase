@@ -68,19 +68,19 @@ const RecentTransactions = ({
 
       const matchesSearch =
 
-        transaction.description
-          .toLowerCase()
-          .includes(
-            searchTerm.toLowerCase()
-          )
+  (transaction.description || "")
+    .toLowerCase()
+    .includes(
+      searchTerm.toLowerCase()
+    )
 
-        ||
+  ||
 
-        transaction.category
-          .toLowerCase()
-          .includes(
-            searchTerm.toLowerCase()
-          );
+  (transaction.category || "")
+    .toLowerCase()
+    .includes(
+      searchTerm.toLowerCase()
+    );
 
       if (!matchesSearch)
         return false;
@@ -229,6 +229,16 @@ const RecentTransactions = ({
 
       await fetchTransactions();
 
+      if (
+        currentTransactions.length === 1 &&
+        currentPage > 1
+      ) {
+
+        setCurrentPage(
+          currentPage - 1
+        );
+
+      }
     } catch (error) {
 
       console.log(error);
