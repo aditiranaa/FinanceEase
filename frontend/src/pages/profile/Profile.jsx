@@ -5,7 +5,7 @@ import {
 
 import {
   getProfile,
-} from "../api/authApi";
+} from "../../api/authApi";
 
 import ProfileCard
 from "../../components/profile/ProfileCard";
