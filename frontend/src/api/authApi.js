@@ -209,4 +209,14 @@ async () => {
 
 };
 
-  
+export const getAISpendingCoach =
+async () => {
+
+  const response =
+    await API.get(
+      "/ai-insight/coach"
+    );
+
+  return response.data;
+
+};
