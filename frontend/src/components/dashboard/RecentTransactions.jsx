@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useState,
+  useEffect,
+} from "react";
 
 import {
   Trash2,
@@ -48,16 +51,31 @@ const RecentTransactions = ({
   const transactionsPerPage =
   10;
 
+  useEffect(() => {
+
+  setCurrentPage(1);
+
+}, [
+  searchTerm,
+  filter,
+  typeFilter,
+  sortBy,
+]);
+
   const filteredTransactions =
   transactions.filter(
     (transaction) => {
 
       const matchesSearch =
+
         transaction.description
           .toLowerCase()
           .includes(
             searchTerm.toLowerCase()
-          ) ||
+          )
+
+        ||
+
         transaction.category
           .toLowerCase()
           .includes(
@@ -69,7 +87,7 @@ const RecentTransactions = ({
 
       if (
         typeFilter === "income" &&
-        transaction.amount <= 0
+        Number(transaction.amount) <= 0
       ) {
 
         return false;
@@ -78,69 +96,12 @@ const RecentTransactions = ({
 
       if (
         typeFilter === "expense" &&
-        transaction.amount > 0
+        Number(transaction.amount) > 0
       ) {
 
-       return false;
-  }
-
-  const sortedTransactions =
-  [currentTransactions.map]
-    .sort((a, b) => {
-
-      if (sortBy === "newest") {
-
-        return (
-          new Date(b.date) -
-          new Date(a.date)
-        );
+        return false;
 
       }
-
-      if (sortBy === "oldest") {
-
-        return (
-          new Date(a.date) -
-          new Date(b.date)
-        );
-
-      }
-
-      if (sortBy === "highest") {
-
-        return (
-          Number(b.amount) -
-          Number(a.amount)
-        );
-
-      }
-
-      if (sortBy === "lowest") {
-
-        return (
-          Number(a.amount) -
-          Number(b.amount)
-        );
-
-      }
-
-      return 0;
-
-    });
-
-    const indexOfLastTransaction =
-      currentPage *
-      transactionsPerPage;
-
-    const indexOfFirstTransaction =
-      indexOfLastTransaction -
-      transactionsPerPage;
-
-    const currentTransactions =
-    sortedTransactions.slice(
-      indexOfFirstTransaction,
-      indexOfLastTransaction
-    );
 
       const transactionDate =
         new Date(
@@ -153,9 +114,14 @@ const RecentTransactions = ({
       if (filter === "today") {
 
         return (
+
           transactionDate
-            .toDateString() ===
+            .toDateString()
+
+          ===
+
           today.toDateString()
+
         );
 
       }
@@ -163,12 +129,21 @@ const RecentTransactions = ({
       if (filter === "month") {
 
         return (
-          transactionDate
-            .getMonth() ===
-            today.getMonth() &&
-          transactionDate
-            .getFullYear() ===
-            today.getFullYear()
+
+          transactionDate.getMonth()
+
+          ===
+
+          today.getMonth()
+
+          &&
+
+          transactionDate.getFullYear()
+
+          ===
+
+          today.getFullYear()
+
         );
 
       }
@@ -177,6 +152,67 @@ const RecentTransactions = ({
 
     }
   );
+
+  const sortedTransactions =
+  [...filteredTransactions]
+    .sort((a, b) => {
+
+      switch (sortBy) {
+
+        case "newest":
+
+          return (
+            new Date(b.date) -
+            new Date(a.date)
+          );
+
+        case "oldest":
+
+          return (
+            new Date(a.date) -
+            new Date(b.date)
+          );
+
+        case "highest":
+
+          return (
+            Number(b.amount) -
+            Number(a.amount)
+          );
+
+        case "lowest":
+
+          return (
+            Number(a.amount) -
+            Number(b.amount)
+          );
+
+        default:
+
+          return 0;
+
+      }
+
+    });
+
+    const indexOfLastTransaction =
+      currentPage *
+      transactionsPerPage;
+
+    const indexOfFirstTransaction =
+      indexOfLastTransaction -
+      transactionsPerPage;
+
+    const currentTransactions =
+      sortedTransactions.slice(
+
+      indexOfFirstTransaction,
+
+      indexOfLastTransaction
+
+    );
+
+
 
   const handleDelete = async (id) => {
 
@@ -414,7 +450,7 @@ const RecentTransactions = ({
 
           <tbody>
 
-            {filteredTransactions.length === 0 ? (
+            {currentTransactions.length === 0 ? (
 
               <tr>
 
@@ -433,7 +469,7 @@ const RecentTransactions = ({
 
             ) : (
 
-              filteredTransactions.map(
+              currentTransactions.map(
                 (transaction) => (
 
                   <tr
@@ -684,6 +720,94 @@ const RecentTransactions = ({
           </tbody>
 
         </table>
+
+            <div
+              className="
+                flex
+                justify-between
+                items-center
+                mt-6
+              "
+            >
+
+              <p
+  className="
+    text-sm
+    text-gray-500
+  "
+>
+
+  {
+    sortedTransactions.length === 0
+
+    ?
+
+    "No transactions"
+
+    :
+
+    `Showing ${
+      indexOfFirstTransaction + 1
+    } - ${
+      Math.min(
+        indexOfLastTransaction,
+        sortedTransactions.length
+      )
+    } of ${
+      sortedTransactions.length
+    } transactions`
+
+  }
+
+</p>
+
+              <div className="flex gap-3">
+
+                <button
+                  onClick={() =>
+                    setCurrentPage(
+                      currentPage - 1
+                    )
+                  }
+                  disabled={
+                    currentPage === 1
+                  }
+                  className="
+                    px-4
+                    py-2
+                    bg-gray-200
+                    rounded
+                    disabled:opacity-50
+                  "
+                >
+                  Previous
+                </button>
+
+                <button
+                  onClick={() =>
+                    setCurrentPage(
+                      currentPage + 1
+                    )
+                  }
+                  disabled={
+                    indexOfLastTransaction >=
+                    sortedTransactions.length
+                  }
+                  className="
+                    px-4
+                    py-2
+                    bg-green-500
+                    text-white
+                    rounded
+                    disabled:opacity-50
+                  "
+                >
+                  Next
+                </button>
+
+              </div>
+
+          </div>
 
       </div>
 
