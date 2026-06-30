@@ -47,6 +47,9 @@ import {
   getBudgets,
 } from "../../api/authApi";
 
+import AICoach
+from "../../components/dashboard/AICoach";
+
 const Dashboard = () => {
 
   const [transactions,
@@ -161,6 +164,8 @@ const savings =
           savings={savings}
         />
 
+        <AICoach />
+        
         <AddTransaction
           fetchTransactions={
           fetchTransactions
@@ -194,7 +199,7 @@ const savings =
           transactions={transactions}
         />
         <SavingsGoals />
-        
+
         <AIInsights />
       </div>
 
