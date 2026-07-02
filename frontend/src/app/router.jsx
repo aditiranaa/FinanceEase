@@ -7,6 +7,10 @@ import Profile from "../pages/profile/Profile";
 
 import ProtectedRoute from "../routes/ProtectedRoute";
 
+import Transactions
+from "../pages/transactions/Transactions";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +39,15 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+
+    {
+  path: "/transactions",
+  element: (
+    <ProtectedRoute>
+      <Transactions />
+    </ProtectedRoute>
+  ),
+},
 ]);
 
 export default router;
