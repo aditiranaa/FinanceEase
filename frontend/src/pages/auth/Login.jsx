@@ -1,9 +1,7 @@
 import { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../api/authApi";
-
 import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
@@ -18,35 +16,76 @@ const Login = () => {
   });
 
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
-      const data = await loginUser(formData);
 
-      console.log(data);
+      const data =
+        await loginUser(formData);
+
+      console.log(
+        "Login Response:",
+        data
+      );
 
       login(data.token);
 
       navigate("/dashboard");
 
-    } catch (error) {
-      console.log(error);
     }
+
+    catch (error) {
+
+      console.error(error);
+
+      if (error.response) {
+
+        console.log(
+          "Status:",
+          error.response.status
+        );
+
+        console.log(
+          "Data:",
+          error.response.data
+        );
+
+      }
+
+      else {
+
+        console.log(
+          error.message
+        );
+
+      }
+
+    }
+
   };
 
   return (
+
     <div>
+
       <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+      >
+
         <div>
+
           <input
             type="email"
             name="email"
@@ -54,11 +93,13 @@ const Login = () => {
             value={formData.email}
             onChange={handleChange}
           />
+
         </div>
 
         <br />
 
         <div>
+
           <input
             type="password"
             name="password"
@@ -66,16 +107,23 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
           />
+
         </div>
 
         <br />
 
-        <button type="submit">
+        <button
+          type="submit"
+        >
           Login
         </button>
+
       </form>
+
     </div>
+
   );
+
 };
 
 export default Login;
