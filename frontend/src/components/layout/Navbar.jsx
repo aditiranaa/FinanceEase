@@ -4,16 +4,22 @@ import {
   User,
   Moon,
   Sun,
+  LayoutDashboard,
+  Receipt,
+  Wallet,
+  Target,
+  BarChart3,
 } from "lucide-react";
 
+import {
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
-import { useNavigate } 
-from "react-router-dom";
-
-import { useAuth } 
+import { useAuth }
 from "../../context/AuthContext";
 
-import { useTheme } 
+import { useTheme }
 from "../../context/ThemeContext";
 
 const Navbar = () => {
@@ -21,12 +27,15 @@ const Navbar = () => {
   const navigate =
     useNavigate();
 
+  const location =
+    useLocation();
+
   const { logout } =
     useAuth();
-  
+
   const {
     darkMode,
-    setDarkMode 
+    setDarkMode,
   } = useTheme();
 
   const handleLogout = () => {
@@ -37,43 +46,118 @@ const Navbar = () => {
 
   };
 
+  const pageInfo = {
+
+    "/dashboard": {
+      title: "Dashboard",
+      icon: LayoutDashboard,
+    },
+
+    "/transactions": {
+      title: "Transactions",
+      icon: Receipt,
+    },
+
+    "/budgets": {
+      title: "Budgets",
+      icon: Wallet,
+    },
+
+    "/goals": {
+      title: "Goals",
+      icon: Target,
+    },
+
+    "/analytics": {
+      title: "Analytics",
+      icon: BarChart3,
+    },
+
+    "/profile": {
+      title: "Profile",
+      icon: User,
+    },
+
+  };
+
+  const currentPage =
+    pageInfo[
+      location.pathname
+    ] || {
+      title: "FinanceEase",
+      icon: LayoutDashboard,
+    };
+
+  const PageIcon =
+    currentPage.icon;
+
   return (
 
     <div
       className="
-        bg-white
-        rounded-xl
-        shadow-sm
-        px-6
-        py-4
-        flex
-        justify-between
-        items-center
-        transition-colors
-      "
+      bg-white
+      dark:bg-gray-900
+      rounded-3xl
+      p-6
+      shadow-lg
+      border
+      border-gray-100
+      dark:border-gray-700
+      hover:-translate-y-2
+      hover:shadow-2xl
+      transition-all
+      duration-300
+"
     >
 
-      <div>
+      <div
+        className="
+          flex
+          items-center
+          gap-4
+        "
+      >
+
+        <div
+          className="
+            bg-green-500
+            text-white
+            p-3
+            rounded-xl
+          "
+        >
+
+          <PageIcon
+            size={24}
+          />
+
+        </div>
+
+        <div>
 
           <h1
-          className="
-            text-3xl
-            font-bold
-            text-gray-800
-            dark:text-white
-          "
-        >
-          Dashboard
-        </h1>
+            className="
+              text-3xl
+              font-bold
+              text-gray-800
+              dark:text-white
+            "
+          >
+            {
+              currentPage.title
+            }
+          </h1>
 
-        <p
-          className="
-            text-gray-500
-            dark:text-gray-300
-          "
-        >
-          Welcome back 👋
-        </p>
+          <p
+            className="
+              text-gray-500
+              dark:text-gray-400
+            "
+          >
+            Welcome back 👋
+          </p>
+
+        </div>
 
       </div>
 
@@ -117,15 +201,23 @@ const Navbar = () => {
         >
 
           {
+
             darkMode
-              ? <Sun
-                  size={20}
-                  className="text-yellow-400"
-                />
-              : <Moon
-                  size={20}
-                  className="text-gray-700"
-                />
+
+            ?
+
+            <Sun
+              size={20}
+              className="text-yellow-400"
+            />
+
+            :
+
+            <Moon
+              size={20}
+              className="text-gray-700"
+            />
+
           }
 
         </button>
@@ -166,7 +258,9 @@ const Navbar = () => {
       </div>
 
     </div>
+
   );
-}; 
+
+};
 
 export default Navbar;
