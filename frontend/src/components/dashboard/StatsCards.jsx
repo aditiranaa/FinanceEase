@@ -50,7 +50,7 @@ const StatsCards = ({
       className="
         grid
         grid-cols-1
-        md:grid-cols-2
+        sm:grid-cols-2
         xl:grid-cols-4
         gap-6
         mt-8
@@ -96,9 +96,9 @@ const StatsCards = ({
 
               <h2
                 className="
-                  text-3xl
-                  font-bold
-                  mt-2
+                  text-4xl
+                  font-extrabold
+                  mt-3
                   text-gray-800
                   dark:text-white
                 "
@@ -106,14 +106,25 @@ const StatsCards = ({
                 {card.amount}
               </h2>
 
+                <p
+                  className="
+                    text-green-500
+                    text-sm
+                    mt-2
+                    font-semibold
+                  "
+                >
+                  ▲ Updated recently
+                </p>
             </div>
 
             <div
               className={`
                 ${card.bg}
                 text-white
-                p-4
-                rounded-xl
+                p-5
+                rounded-2xl
+                shadow-lg
               `}
             >
               {card.icon}
