@@ -50,6 +50,9 @@ import {
 import AICoach
 from "../../components/dashboard/AICoach";
 
+import HeroBanner
+from "../../components/dashboard/HeroBanner";
+
 const Dashboard = () => {
 
   const [transactions,
@@ -156,6 +159,10 @@ const savings =
       >
 
         <Navbar />
+
+        <HeroBanner
+          balance={balance}
+        />
 
         <StatsCards
           balance={balance}
