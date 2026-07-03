@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import {
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 
 import {
@@ -9,9 +10,10 @@ import {
   Receipt,
   Wallet,
   Target,
+  User,
+  BarChart3,
   Menu,
   X,
-  User,
 } from "lucide-react";
 
 
@@ -20,8 +22,42 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] =
     useState(false);
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const menuItems = [
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    name: "Transactions",
+    path: "/transactions",
+    icon: Receipt,
+  },
+  {
+    name: "Budgets",
+    path: "/budgets",
+    icon: Wallet,
+  },
+  {
+    name: "Goals",
+    path: "/goals",
+    icon: Target,
+  },
+  {
+    name: "Analytics",
+    path: "/analytics",
+    icon: BarChart3,
+  },
+  {
+    name: "Profile",
+    path: "/profile",
+    icon: User,
+  },
+];
+
 
   return (
 
@@ -93,107 +129,57 @@ const Sidebar = () => {
           FinanceEase
         </h2>
 
-        <div className="space-y-6">
+       <div className="space-y-3">
 
-          <div
-              onClick={() =>
-                navigate("/dashboard")
-              }
-              className="
-                flex
-                items-center
-                gap-3
-                hover:text-green-400
-                cursor-pointer
-                transition
-              "
-            >
-            <LayoutDashboard size={22} />
+  {menuItems.map((item) => {
 
-            <p className="text-lg">
-              Dashboard
-            </p>
+    const Icon = item.icon;
 
-          </div>
+    return (
 
-          <div
-            className="
-              flex
-              items-center
-              gap-3
-              hover:text-green-400
-              cursor-pointer
-              transition
-            "
-          >
-            <Receipt size={22} />
+      <div
+        key={item.path}
+        onClick={() => {
 
-            <p className="text-lg">
-              Transactions
-            </p>
+          navigate(item.path);
 
-          </div>
+          setIsOpen(false);
 
-          <div
-            className="
-              flex
-              items-center
-              gap-3
-              hover:text-green-400
-              cursor-pointer
-              transition
-            "
-          >
-            <Wallet size={22} />
+        }}
+        className={`
+          flex
+          items-center
+          gap-3
+          px-4
+          py-3
+          rounded-xl
+          cursor-pointer
+          transition-all
+          duration-200
 
-            <p className="text-lg">
-              Budgets
-            </p>
+          ${
+            location.pathname === item.path
+              ? "bg-green-500 text-white shadow-lg"
+              : "hover:bg-gray-800 hover:text-green-400"
+          }
+        `}
+      >
 
-          </div>
+        <Icon size={22} />
 
-          <div
-  className="
-    flex
-    items-center
-    gap-3
-    hover:text-green-400
-    cursor-pointer
-    transition
-  "
->
-  <Target size={22} />
-
-    <p className="text-lg">
-      Goals
-    </p>
-
-    </div>
-
-         <div
-              onClick={() =>
-                navigate("/profile")
-              }
-              className="
-                flex
-                items-center
-                gap-3
-                hover:text-green-400
-                cursor-pointer
-                transition
-              "
-            >
-              <User size={22} />
-
-              <p className="text-lg">
-                Profile
-              </p>
-
-          </div>
-
-        </div>
+        <p className="text-lg">
+          {item.name}
+        </p>
 
       </div>
+
+    );
+
+  })}
+
+</div>
+
+</div>
 
     </>
 
