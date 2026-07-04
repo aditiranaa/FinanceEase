@@ -2,14 +2,15 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+
 import Dashboard from "../pages/dashboard/Dashboard";
+import Transactions from "../pages/transactions/Transactions";
+import Budgets from "../pages/budgets/Budgets";
+import Goals from "../pages/goals/Goals";
+import Analytics from "../pages/analytics/Analytics";
 import Profile from "../pages/profile/Profile";
 
 import ProtectedRoute from "../routes/ProtectedRoute";
-
-import Transactions
-from "../pages/transactions/Transactions";
-
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,42 @@ const router = createBrowserRouter([
   },
 
   {
+    path: "/transactions",
+    element: (
+      <ProtectedRoute>
+        <Transactions />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/budgets",
+    element: (
+      <ProtectedRoute>
+        <Budgets />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/goals",
+    element: (
+      <ProtectedRoute>
+        <Goals />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/analytics",
+    element: (
+      <ProtectedRoute>
+        <Analytics />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
     path: "/profile",
     element: (
       <ProtectedRoute>
@@ -39,16 +76,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-
-    {
-  path: "/transactions",
-  element: (
-    <ProtectedRoute>
-      <Transactions />
-    </ProtectedRoute>
-  ),
-},
 ]);
 
 export default router;
-

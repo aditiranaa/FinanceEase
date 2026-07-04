@@ -22,7 +22,7 @@ import ExpenseChart
 from "../../components/dashboard/ExpenseChart";
 
 import BudgetManager
-from "../../components/dashboard/BudgetManager";
+from "../budgets/BudgetManager";
 
 import MonthlyTrendChart
 from "../../components/dashboard/MonthlyTrendChart";
@@ -37,7 +37,7 @@ import RecurringTransactions
 from "../../components/dashboard/RecurringTransactions";
 
 import BudgetAlerts
-from "../../components/dashboard/BudgetAlerts";
+from "../../components/budgets/BudgetAlerts";
 
 import SavingsGoals
 from "../../components/dashboard/SavingsGoals";
@@ -179,9 +179,7 @@ const savings =
         }
         />
 
-        <BudgetManager
-          transactions={transactions}
-        />
+        
         <RecurringTransactions />
         
         <RecentTransactions
