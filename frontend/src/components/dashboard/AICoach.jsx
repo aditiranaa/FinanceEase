@@ -9,13 +9,20 @@ import {
 
 const AICoach = () => {
 
-  const [coachData,
-    setCoachData] =
-    useState(null);
+  const [
+    coachData,
+    setCoachData,
+  ] = useState(null);
 
-  const [loading,
-    setLoading] =
-    useState(true);
+  const [
+    loading,
+    setLoading,
+  ] = useState(true);
+
+  const [
+    error,
+    setError,
+  ] = useState("");
 
   useEffect(() => {
 
@@ -31,13 +38,22 @@ const AICoach = () => {
         const data =
           await getAISpendingCoach();
 
+        console.log(
+          "AI Coach Response:",
+          data
+        );
+
         setCoachData(data);
 
       }
 
-      catch (error) {
+      catch (err) {
 
-        console.log(error);
+        console.error(err);
+
+        setError(
+          "Unable to load AI Coach."
+        );
 
       }
 
@@ -71,6 +87,52 @@ const AICoach = () => {
 
   }
 
+  if (error) {
+
+    return (
+
+      <div
+        className="
+          bg-red-50
+          border
+          border-red-300
+          rounded-2xl
+          p-6
+          mt-8
+          text-red-600
+        "
+      >
+
+        {error}
+
+      </div>
+
+    );
+
+  }
+
+  if (!coachData) {
+
+    return (
+
+      <div
+        className="
+          bg-white
+          rounded-2xl
+          shadow-sm
+          p-6
+          mt-8
+        "
+      >
+
+        No AI data available.
+
+      </div>
+
+    );
+
+  }
+
   return (
 
     <div
@@ -87,82 +149,150 @@ const AICoach = () => {
         className="
           text-2xl
           font-bold
-          mb-5
+          mb-6
         "
       >
         🤖 AI Spending Coach
       </h2>
 
-      <div className="space-y-2">
+      <div
+        className="
+          grid
+          grid-cols-2
+          gap-4
+        "
+      >
 
-        <p>
+        <div>
 
-          <strong>
-            Income:
-          </strong>
+          <p
+  className="
+    text-gray-500
+    dark:text-gray-400
+    font-medium
+  "
+>
+            Income
+          </p>
 
-          {" "}
-          ₹
-          {
-            coachData.summary.income
-          }
+          <h3 className="text-xl font-bold">
+
+            ₹
+            {
+              coachData.summary?.income ??
+              0
+            }
+
+          </h3>
+
+        </div>
+
+        <div>
+
+          <p
+  className="
+    text-gray-500
+    dark:text-gray-400
+    font-medium
+  "
+>
+            Expenses
+          </p>
+
+          <h3 className="text-xl font-bold">
+
+            ₹
+            {
+              coachData.summary?.expenses ??
+              0
+            }
+
+          </h3>
+
+        </div>
+
+        <div>
+
+          <p
+  className="
+    text-gray-500
+    dark:text-gray-400
+    font-medium
+  "
+>
+            Savings
+          </p>
+
+          <h3 className="text-xl font-bold">
+
+            ₹
+            {
+              coachData.summary?.savings ??
+              0
+            }
+
+          </h3>
+
+        </div>
+
+        <div>
+
+          <p
+  className="
+    text-gray-500
+    dark:text-gray-400
+    font-medium
+  "
+>
+            Savings Rate
+          </p>
+
+          <h3 className="text-xl font-bold">
+
+            {
+              coachData.summary?.savingsRate ??
+              0
+            }
+            %
+
+          </h3>
+
+        </div>
+
+      </div>
+
+      <div
+        className="
+          mt-5
+        "
+      >
+
+        <p
+  className="
+    text-gray-500
+    dark:text-gray-400
+    font-medium
+  "
+>
+
+          Highest Spending Category
 
         </p>
 
-        <p>
+        <h3
+          className="
+            text-lg
+            font-semibold
+          "
+        >
 
-          <strong>
-            Expenses:
-          </strong>
-
-          {" "}
-          ₹
           {
-            coachData.summary.expenses
+            coachData.summary
+              ?.highestCategory ??
+            "None"
           }
 
-        </p>
-
-        <p>
-
-          <strong>
-            Savings:
-          </strong>
-
-          {" "}
-          ₹
-          {
-            coachData.summary.savings
-          }
-
-        </p>
-
-        <p>
-
-          <strong>
-            Savings Rate:
-          </strong>
-
-          {" "}
-          {
-            coachData.summary.savingsRate
-          }
-          %
-
-        </p>
-
-        <p>
-
-          <strong>
-            Highest Spending:
-          </strong>
-
-          {" "}
-          {
-            coachData.summary.highestCategory
-          }
-
-        </p>
+        </h3>
 
       </div>
 
@@ -172,8 +302,8 @@ const AICoach = () => {
           bg-green-50
           border-l-4
           border-green-500
+          rounded-lg
           p-4
-          rounded
         "
       >
 
@@ -189,7 +319,8 @@ const AICoach = () => {
         <p>
 
           {
-            coachData.insight
+            coachData.insight ??
+            "No recommendation available."
           }
 
         </p>
