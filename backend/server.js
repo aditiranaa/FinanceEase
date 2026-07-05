@@ -31,6 +31,8 @@ require(
 const profileRoutes =
 require("./src/routes/profile.routes");
 
+const budgetRoutes = require("./src/routes/budget.routes");
+
 // MIDDLEWARE
 app.use(helmet());
 
@@ -166,6 +168,9 @@ app.use(
   "/api/profile",
   profileRoutes
 );
+
+// BUDGET PAGE
+app.use("/api/budgets", budgetRoutes);
 
 
 const PORT =
