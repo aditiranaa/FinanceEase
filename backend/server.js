@@ -32,6 +32,7 @@ const profileRoutes =
 require("./src/routes/profile.routes");
 
 const budgetRoutes = require("./src/routes/budget.routes");
+const goalRoutes = require("./src/routes/goal.routes");
 
 // MIDDLEWARE
 app.use(helmet());
@@ -71,29 +72,10 @@ app.use(
   transactionRoutes
 );
 
-// BUDGETS
-app.use(
-  "/api/budgets",
-  makeRouterFor(
-    "budgets",
-    [
-      "category",
-      "amount",
-    ]
-  )
-);
-
 // GOALS
 app.use(
   "/api/goals",
-  makeRouterFor(
-    "goals",
-    [
-      "title",
-      "target_amount",
-      "current_amount",
-    ]
-  )
+  goalRoutes
 );
 
 // SUBSCRIPTIONS
