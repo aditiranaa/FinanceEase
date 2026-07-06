@@ -1,23 +1,32 @@
-const express =
-require("express");
+const express = require("express");
+const router = express.Router();
 
-const router =
-express.Router();
-
-const auth =
-require("../middleware/auth");
+const auth = require("../middleware/auth");
 
 const {
-  getAnalytics,
-} = require(
-  "../controllers/analyticsController"
+  getOverview,
+  getExpenseByCategory,
+  getMonthlyTrend,
+  getSavingsTrend,
+} = require("../controllers/analyticsController");
+
+router.use(auth);
+
+router.get("/overview", getOverview);
+
+router.get(
+  "/expenses/category",
+  getExpenseByCategory
 );
 
 router.get(
-  "/",
-  auth,
-  getAnalytics
+  "/monthly-trend",
+  getMonthlyTrend
 );
 
-module.exports =
-router;
+router.get(
+  "/savings-trend",
+  getSavingsTrend
+);
+
+module.exports = router;
