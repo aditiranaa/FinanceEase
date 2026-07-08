@@ -1,23 +1,26 @@
-const express =
-require("express");
+const express = require("express");
+const router = express.Router();
 
-const router =
-express.Router();
-
-const auth =
-require("../middleware/auth");
+const auth = require("../middleware/auth");
 
 const {
   getNotifications,
-} = require(
-  "../controllers/notificationController"
+  markAsRead,
+  deleteNotification,
+} = require("../controllers/notificationController");
+
+router.use(auth);
+
+router.get("/", getNotifications);
+
+router.put(
+  "/:id/read",
+  markAsRead
 );
 
-router.get(
-  "/",
-  auth,
-  getNotifications
+router.delete(
+  "/:id",
+  deleteNotification
 );
 
-module.exports =
-router;
+module.exports = router;
