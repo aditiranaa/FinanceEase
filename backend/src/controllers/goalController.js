@@ -9,8 +9,12 @@ exports.getGoals = async (req, res) => {
 
     res.json(goals);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
 
 exports.getGoal = async (req, res) => {
@@ -30,8 +34,12 @@ exports.getGoal = async (req, res) => {
 
     res.json(goal);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
 
 exports.createGoal = async (req, res) => {
@@ -61,8 +69,12 @@ exports.createGoal = async (req, res) => {
 
     res.status(201).json(goal);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
 
 exports.updateGoal = async (req, res) => {
@@ -103,8 +115,12 @@ exports.updateGoal = async (req, res) => {
 
     res.json(updated);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
 
 exports.deleteGoal = async (req, res) => {
@@ -120,8 +136,12 @@ exports.deleteGoal = async (req, res) => {
       message: "Goal deleted",
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
 
 exports.completeGoal = async (req, res) => {
@@ -143,8 +163,12 @@ exports.completeGoal = async (req, res) => {
 
     res.json(goal);
   } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
 
 exports.getSummary = async (req, res) => {
@@ -191,8 +215,10 @@ exports.getSummary = async (req, res) => {
             ),
     });
   } catch (err) {
-    res.status(500).json({
-      message: err.message,
-    });
-  }
+  console.error("Goal Controller Error:", err);
+
+  res.status(500).json({
+    message: err.message,
+  });
+}
 };
