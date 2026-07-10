@@ -8,6 +8,8 @@ import {
   markGoalComplete,
 } from "../services/goalService";
 
+import toast from "react-hot-toast";
+
 export default function useGoals() {
   const [goals, setGoals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,21 +36,25 @@ export default function useGoals() {
 
   const addGoal = async (goal) => {
     await createGoal(goal);
+    toast.success("Goal created!");
     loadGoals();
   };
 
   const editGoal = async (id, goal) => {
     await updateGoal(id, goal);
+    toast.success("Goal updated!");
     loadGoals();
   };
 
   const removeGoal = async (id) => {
     await deleteGoal(id);
+    toat.success("Goal Deleted!")
     loadGoals();
   };
 
   const completeGoal = async (id) => {
     await markGoalComplete(id);
+    toast.success("Congratulations! 🎉");
     loadGoals();
   };
 

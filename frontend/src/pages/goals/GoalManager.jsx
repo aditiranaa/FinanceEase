@@ -1,7 +1,9 @@
 import { useState } from "react";
 
-import GoalCard from "../../components/goals/GoalCard";
-import GoalForm from "../../components/goals/GoalForm";
+import GoalGrid from "../../components/goals/GoalGrid";
+import GoalFormCollapse from "../../components/goals/GoalFormCollapse";
+
+import DeleteGoalModal from "../../components/goals/DeleteGoalModal";
 
 export default function GoalManager({
   goals,
@@ -9,9 +11,16 @@ export default function GoalManager({
   editGoal,
   removeGoal,
   completeGoal,
+  showForm,
+  setShowForm,
+  search,
+  category,
+  status,
+  sort,
 }) {
   const [editingGoal, setEditingGoal] = useState(null);
-  const [filter, setFilter] = useState("all");
+  const [deleteGoal, setDeleteGoal] =
+  useState(null);
 
   const handleSubmit = async (goal) => {
     if (editingGoal) {
@@ -20,67 +29,147 @@ export default function GoalManager({
     } else {
       await addGoal(goal);
     }
+
+    setShowForm(false);
   };
 
-  const filtered = goals.filter((g) => {
-    if (filter === "active") return !g.completed;
-    if (filter === "completed") return g.completed;
-    return true;
+  let filtered = [...goals];
+
+  // Search
+  filtered = filtered.filter((goal) =>
+  (goal.title ?? "")
+    .toLowerCase()
+    .includes((search ?? "").toLowerCase())
+);
+
+  // Category
+  if ((category ?? "all") !== "all") { 
+    filtered = filtered.filter(
+      (goal) => goal.category === category
+    );
+  }
+
+  // Status
+  if ((status ?? "all") === "active") {
+    filtered = filtered.filter(
+      (goal) => !goal.completed
+    );
+  }
+
+  if ((status ?? "all") === "completed") {
+    filtered = filtered.filter(
+      (goal) => goal.completed
+    );
+  }
+
+  // Sorting
+  filtered.sort((a, b) => {
+    switch (sort) {
+      case "progress": {
+        const progressA =
+          Number(a.target_amount) === 0
+            ? 0
+            : Number(a.current_amount) /
+              Number(a.target_amount);
+
+        const progressB =
+          Number(b.target_amount) === 0
+            ? 0
+            : Number(b.current_amount) /
+              Number(b.target_amount);
+
+        return progressB - progressA;
+      }
+
+      case "saved":
+        return (
+          Number(b.current_amount) -
+          Number(a.current_amount)
+        );
+
+      case "target":
+        return (
+          Number(b.target_amount) -
+          Number(a.target_amount)
+        );
+
+      default:
+        return (
+          new Date(a.deadline || 0) -
+          new Date(b.deadline || 0)
+        );
+    }
   });
 
-  const activeCount = goals.filter((g) => !g.completed).length;
-  const completedCount = goals.filter((g) => g.completed).length;
-
   return (
-    <div className="space-y-6">
-      <GoalForm
-        editingGoal={editingGoal}
-        onSubmit={handleSubmit}
-        onCancel={() => setEditingGoal(null)}
-      />
-
-      <div className="flex gap-2">
-        {[
-          { key: "all", label: `All (${goals.length})` },
-          { key: "active", label: `Active (${activeCount})` },
-          { key: "completed", label: `Completed (${completedCount})` },
-        ].map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setFilter(key)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-              filter === key
-                ? "bg-green-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+    <div className="space-y-8">
 
       {filtered.length === 0 ? (
-        <div className="text-center bg-white rounded-xl shadow p-10">
-          <h2 className="text-xl font-semibold">No Goals Yet</h2>
-          <p className="text-gray-500 mt-2">
-            {filter === "completed"
-              ? "You haven't completed any goals yet."
-              : "Add your first savings goal to get started."}
+        <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
+            <div className="text-6xl">
+          🎯
+        </div>
+
+          <h2 className="mt-6 text-2xl font-bold">
+            {goals.length === 0
+              ? "Start Saving Today"
+              : "No Matching Goals"}
+          </h2>
+
+          <p className="mt-3 text-gray-500">
+            {goals.length === 0
+              ? "Create your first savings goal and start tracking your progress."
+              : "Try adjusting your search or filters."}
           </p>
+
+          {goals.length === 0 && (
+            <button
+              onClick={() => setShowForm(true)}
+              className="mt-6 px-6 py-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition"
+            >
+              Create Goal
+            </button>
+          )}
+
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((goal) => (
-            <GoalCard
-              key={goal.id}
-              goal={goal}
-              onEdit={setEditingGoal}
-              onDelete={removeGoal}
-              onComplete={completeGoal}
-            />
-          ))}
-        </div>
+        <GoalGrid
+  goals={filtered}
+  onEdit={(goal) => {
+    setEditingGoal(goal);
+    setShowForm(true);
+  }}
+  onDelete={(id) => {
+    const goal = goals.find(
+      (g) => g.id === id
+    );
+
+    setDeleteGoal(goal);
+  }}
+  onComplete={completeGoal}
+/>
       )}
+
+      <GoalFormCollapse
+  show={showForm}
+  editingGoal={editingGoal}
+  onSubmit={handleSubmit}
+  onCancel={() => {
+    setEditingGoal(null);
+    setShowForm(false);
+  }}
+/>
+
+      <DeleteGoalModal
+        open={!!deleteGoal}
+        goal={deleteGoal}
+        onClose={() => setDeleteGoal(null)}
+        onConfirm={async () => {
+          await removeGoal(deleteGoal.id);
+          setDeleteGoal(null);
+        }}
+      />
+
     </div>
   );
 }

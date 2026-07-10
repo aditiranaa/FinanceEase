@@ -16,6 +16,7 @@ import {
 
 import { Toaster } from "react-hot-toast";
 
+
 ReactDOM.createRoot(
   document.getElementById("root")
 ).render(
@@ -26,7 +27,10 @@ ReactDOM.createRoot(
       router={router}
     />
     <Toaster
-    position="top-right"
+      position="top-right"
+      toastOptions={{
+        duration: 2500,
+      }}
     />
   </ThemeProvider>
 </AuthProvider>

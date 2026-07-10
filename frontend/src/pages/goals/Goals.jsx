@@ -7,6 +7,13 @@ import GoalOverview from "../../components/goals/GoalOverview";
 import GoalAlerts from "../../components/goals/GoalAlerts";
 import GoalManager from "./GoalManager";
 
+import { useState } from "react";
+import GoalToolbar from "../../components/goals/GoalToolbar";
+
+import GoalHeader from "../../components/goals/GoalHeader";
+
+import GoalSkeleton from "../../components/goals/GoalSkeleton";
+
 export default function Goals() {
   const {
     goals,
@@ -18,6 +25,11 @@ export default function Goals() {
     completeGoal,
   } = useGoals();
 
+const [search, setSearch] = useState("");
+const [category, setCategory] = useState("all");
+const [status, setStatus] = useState("all");
+const [sort, setSort] = useState("deadline");
+const [showForm, setShowForm] = useState(false);
   return (
     <div className="flex flex-col md:flex-row">
       <Sidebar />
@@ -26,16 +38,15 @@ export default function Goals() {
         <Navbar />
 
         <div className="mt-8 space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold">Savings Goals</h1>
-            <p className="text-gray-500">
-              Set targets, track progress, and celebrate milestones.
-            </p>
-          </div>
+          <GoalHeader
+            onAdd={() => setShowForm(true)}
+          />
 
           {loading && (
-            <div className="flex justify-center items-center h-60">
-              <p className="text-lg">Loading goals...</p>
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <GoalSkeleton key={index} />
+              ))}
             </div>
           )}
 
@@ -46,14 +57,34 @@ export default function Goals() {
           {!loading && !error && (
             <>
               <GoalOverview goals={goals} />
-              <GoalAlerts goals={goals} />
-              <GoalManager
-                goals={goals}
-                addGoal={addGoal}
-                editGoal={editGoal}
-                removeGoal={removeGoal}
-                completeGoal={completeGoal}
-              />
+
+            <GoalAlerts goals={goals} />
+
+            <GoalToolbar
+              search={search}
+              setSearch={setSearch}
+              category={category}
+              setCategory={setCategory}
+              status={status}
+              setStatus={setStatus}
+              sort={sort}
+              setSort={setSort}
+              onAdd={() => setShowForm(true)}
+            />
+
+            <GoalManager
+              goals={goals}
+              addGoal={addGoal}
+              editGoal={editGoal}
+              removeGoal={removeGoal}
+              completeGoal={completeGoal}
+              showForm={showForm}
+              setShowForm={setShowForm}
+              search={search}
+              category={category}
+              status={status}
+              sort={sort}
+            />
             </>
           )}
         </div>
