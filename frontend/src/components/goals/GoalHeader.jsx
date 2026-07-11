@@ -1,35 +1,37 @@
 import { Target, Plus } from "lucide-react";
 
-export default function GoalHeader({
-  onAdd,
-}) {
+export default function GoalHeader({ onAdd }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+    <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200 dark:border-gray-700 shadow-sm p-8">
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      {/* Breadcrumb */}
 
-        <div className="flex items-center gap-4">
+      <p className="text-sm text-gray-500">
+        Dashboard / Goals
+      </p>
 
-          <div className="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center">
+      {/* Header */}
 
+      <div className="mt-5 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+
+        <div className="flex items-start gap-5">
+
+          <div className="h-16 w-16 rounded-2xl bg-green-100 flex items-center justify-center">
             <Target
               size={30}
-              className="text-blue-600"
+              className="text-green-600"
             />
-
           </div>
 
           <div>
-            <p className="text-sm text-gray-400 mb-2">
-                Dashboard / Goals
-            </p>
-            <h1 className="text-3xl font-bold text-gray-900">
+
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
               Savings Goals
             </h1>
 
-            <p className="text-gray-500 mt-2">
-              Track your savings goals, monitor progress,
-              and stay on target.
+            <p className="mt-2 text-gray-500 max-w-xl">
+              Create savings goals, monitor your progress, and stay on
+              track to achieve your financial milestones.
             </p>
 
           </div>
@@ -37,11 +39,26 @@ export default function GoalHeader({
         </div>
 
         <button
-  onClick={onAdd}
-  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition"
->
-  + New Goal
-</button>
+          onClick={onAdd}
+          className="
+            inline-flex
+            items-center
+            gap-2
+            rounded-2xl
+            bg-blue-600
+            px-6
+            py-3
+            font-semibold
+            text-white
+            shadow-md
+            transition
+            hover:bg-blue-700
+          "
+        >
+          <Plus size={20} />
+
+          Add Goal
+        </button>
 
       </div>
 

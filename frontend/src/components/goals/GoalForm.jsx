@@ -18,8 +18,13 @@ const initialState = {
   deadline: "",
 };
 
-export default function GoalForm({ onSubmit, editingGoal, onCancel }) {
-  const [form, setForm] = useState(initialState);
+export default function GoalForm({
+  editingGoal,
+  onSubmit,
+  onCancel,
+}) {
+  const [form, setForm] =
+    useState(initialState);
 
   useEffect(() => {
     if (editingGoal) {
@@ -34,93 +39,145 @@ export default function GoalForm({ onSubmit, editingGoal, onCancel }) {
     }
   }, [editingGoal]);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) =>
+    setForm({
+      ...form,
+      [e.target.name]:
+        e.target.value,
+    });
 
-  const submit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
     onSubmit(form);
+
     setForm(initialState);
   };
 
   return (
     <form
-      onSubmit={submit}
-      className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6 space-y-4"
+      onSubmit={handleSubmit}
+      className="space-y-6"
     >
-      <h2 className="text-xl font-bold">
-        {editingGoal ? "Edit Goal" : "Add Goal"}
-      </h2>
 
-      <input
-        className="w-full border rounded-lg p-3"
-        placeholder="Goal Title"
-        name="title"
-        value={form.title}
-        onChange={handleChange}
-        required
-      />
+      <div>
 
-      <select
-        className="w-full border rounded-lg p-3"
-        name="category"
-        value={form.category}
-        onChange={handleChange}
-      >
-        {CATEGORIES.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
+        <label className="block text-sm font-semibold mb-2">
+          Goal Title
+        </label>
 
-      <div className="grid gap-4 md:grid-cols-2">
         <input
-          className="w-full border rounded-lg p-3"
-          type="number"
-          placeholder="Target Amount"
-          name="target_amount"
-          value={form.target_amount}
+          name="title"
+          value={form.title}
           onChange={handleChange}
+          placeholder="MacBook Pro"
           required
-          min="0"
+          className="w-full rounded-xl border px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
         />
 
-        <input
-          className="w-full border rounded-lg p-3"
-          type="number"
-          placeholder="Current Amount"
-          name="current_amount"
-          value={form.current_amount}
-          onChange={handleChange}
-          min="0"
-        />
       </div>
 
-      <input
-        className="w-full border rounded-lg p-3"
-        type="date"
-        name="deadline"
-        value={form.deadline}
-        onChange={handleChange}
-      />
+      <div className="grid md:grid-cols-2 gap-5">
 
-      <div className="flex gap-3">
-        <button className="px-5 py-2 rounded-lg bg-green-600 text-white">
-          {editingGoal ? "Update" : "Save"}
+        <div>
+
+          <label className="block text-sm font-semibold mb-2">
+            Category
+          </label>
+
+          <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            className="w-full rounded-xl border px-4 py-3"
+          >
+            {CATEGORIES.map((c) => (
+              <option
+                key={c}
+                value={c}
+              >
+                {c}
+              </option>
+            ))}
+          </select>
+
+        </div>
+
+        <div>
+
+          <label className="block text-sm font-semibold mb-2">
+            Deadline
+          </label>
+
+          <input
+            type="date"
+            name="deadline"
+            value={form.deadline}
+            onChange={handleChange}
+            className="w-full rounded-xl border px-4 py-3"
+          />
+
+        </div>
+
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-5">
+
+        <div>
+
+          <label className="block text-sm font-semibold mb-2">
+            Target Amount
+          </label>
+
+          <input
+            type="number"
+            name="target_amount"
+            value={form.target_amount}
+            onChange={handleChange}
+            className="w-full rounded-xl border px-4 py-3"
+            required
+          />
+
+        </div>
+
+        <div>
+
+          <label className="block text-sm font-semibold mb-2">
+            Current Saved
+          </label>
+
+          <input
+            type="number"
+            name="current_amount"
+            value={form.current_amount}
+            onChange={handleChange}
+            className="w-full rounded-xl border px-4 py-3"
+          />
+
+        </div>
+
+      </div>
+
+      <div className="flex justify-end gap-3">
+
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-xl border px-6 py-3"
+        >
+          Cancel
         </button>
 
-        {editingGoal && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-5 py-2 rounded-lg bg-gray-200"
-          >
-            Cancel
-          </button>
-        )}
+        <button
+          className="rounded-xl bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 transition"
+        >
+          {editingGoal
+            ? "Update Goal"
+            : "Create Goal"}
+        </button>
+
       </div>
+
     </form>
   );
 }

@@ -13,7 +13,7 @@ export default function GoalProgress({
 
   const progress = completed ? 100 : percentage;
 
-  const radius = 42;
+  const radius = 46;
   const stroke = 8;
 
   const normalizedRadius =
@@ -37,58 +37,55 @@ export default function GoalProgress({
     : "#ef4444";
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex items-center justify-center">
 
       <svg
-        width="110"
-        height="110"
+        width="120"
+        height="120"
+        className="overflow-visible"
       >
-        {/* Background */}
+        {/* Background Circle */}
 
         <circle
-          stroke="#e5e7eb"
-          fill="transparent"
-          strokeWidth={stroke}
+          cx="60"
+          cy="60"
           r={normalizedRadius}
-          cx="55"
-          cy="55"
+          stroke="#e5e7eb"
+          strokeWidth={stroke}
+          fill="transparent"
         />
 
-        {/* Progress */}
+        {/* Progress Circle */}
 
         <circle
+          cx="60"
+          cy="60"
+          r={normalizedRadius}
           stroke={color}
-          fill="transparent"
           strokeWidth={stroke}
+          fill="transparent"
           strokeLinecap="round"
           strokeDasharray={`${circumference} ${circumference}`}
           strokeDashoffset={strokeDashoffset}
-          r={normalizedRadius}
-          cx="55"
-          cy="55"
-          transform="rotate(-90 55 55)"
+          transform="rotate(-90 60 60)"
           style={{
             transition:
-              "stroke-dashoffset .6s ease",
+              "stroke-dashoffset 0.6s ease",
           }}
         />
 
         {/* Percentage */}
 
         <text
-          x="55"
-          y="55"
+          x="60"
+          y="60"
           textAnchor="middle"
-          dy="8"
-          className="fill-gray-900 font-bold text-xl"
+          dominantBaseline="middle"
+          className="fill-gray-900 font-extrabold text-2xl"
         >
           {progress}%
         </text>
       </svg>
-
-      <p className="mt-2 text-sm text-gray-500">
-        Goal Progress
-      </p>
 
     </div>
   );

@@ -1,45 +1,51 @@
+import { Trash2 } from "lucide-react";
+
 export default function DeleteGoalModal({
   open,
+  goal,
   onClose,
   onConfirm,
-  goal,
 }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+      <div className="bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl">
 
-        <h2 className="text-2xl font-bold">
+        <div className="flex justify-center">
+
+          <div className="h-16 w-16 rounded-full bg-red-100 flex items-center justify-center">
+
+            <Trash2
+              size={30}
+              className="text-red-600"
+            />
+
+          </div>
+
+        </div>
+
+        <h2 className="mt-6 text-center text-2xl font-bold">
           Delete Goal?
         </h2>
 
-        <p className="mt-3 text-gray-500">
-          Are you sure you want to delete
-          <span className="font-semibold">
-            {" "}
-            {goal?.title}
-          </span>
-          ?
+        <p className="mt-3 text-center text-gray-500">
+          "{goal?.title}" will be permanently deleted.
         </p>
 
-        <p className="text-sm text-red-500 mt-2">
-          This action cannot be undone.
-        </p>
-
-        <div className="flex justify-end gap-3 mt-8">
+        <div className="mt-8 flex gap-4">
 
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl border"
+            className="flex-1 rounded-xl border py-3"
           >
             Cancel
           </button>
 
           <button
             onClick={onConfirm}
-            className="px-5 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700"
+            className="flex-1 rounded-xl bg-red-600 text-white py-3 hover:bg-red-700"
           >
             Delete
           </button>

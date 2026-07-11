@@ -4,253 +4,96 @@ import {
   User,
   Moon,
   Sun,
-  LayoutDashboard,
-  Receipt,
-  Wallet,
-  Target,
-  BarChart3,
 } from "lucide-react";
 
-import {
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { useAuth }
-from "../../context/AuthContext";
-
-import { useTheme }
-from "../../context/ThemeContext";
+import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const navigate =
-    useNavigate();
-
-  const location =
-    useLocation();
-
-  const { logout } =
-    useAuth();
-
-  const {
-    darkMode,
-    setDarkMode,
-  } = useTheme();
+  const { logout } = useAuth();
+  const { darkMode, setDarkMode } = useTheme();
 
   const handleLogout = () => {
-
     logout();
-
     navigate("/");
-
   };
-
-  const pageInfo = {
-
-    "/dashboard": {
-      title: "Dashboard",
-      icon: LayoutDashboard,
-    },
-
-    "/transactions": {
-      title: "Transactions",
-      icon: Receipt,
-    },
-
-    "/budgets": {
-      title: "Budgets",
-      icon: Wallet,
-    },
-
-    "/goals": {
-      title: "Goals",
-      icon: Target,
-    },
-
-    "/analytics": {
-      title: "Analytics",
-      icon: BarChart3,
-    },
-
-    "/profile": {
-      title: "Profile",
-      icon: User,
-    },
-
-  };
-
-  const currentPage =
-    pageInfo[
-      location.pathname
-    ] || {
-      title: "FinanceEase",
-      icon: LayoutDashboard,
-    };
-
-  const PageIcon =
-    currentPage.icon;
 
   return (
+  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-8 py-4 shadow-sm">
 
-    <div
-      className="
-      bg-white
-      dark:bg-gray-900
-      rounded-3xl
-      p-6
-      shadow-lg
-      border
-      border-gray-100
-      dark:border-gray-700
-      hover:-translate-y-2
-      hover:shadow-2xl
-      transition-all
-      duration-300
-"
-    >
+    <div className="flex items-center justify-between">
 
-      <div
-        className="
-          flex
-          items-center
-          gap-4
-        "
-      >
+      <div className="relative w-80">
 
-        <div
+        <Search
+          size={18}
+          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+        />
+
+        <input
+          type="text"
+          placeholder="Search..."
           className="
-            bg-green-500
-            text-white
-            p-3
+            w-full
+            pl-11
+            pr-4
+            py-2.5
             rounded-xl
+            border
+            border-gray-200
+            dark:border-gray-700
+            bg-gray-50
+            dark:bg-gray-800
+            focus:outline-none
+            focus:ring-2
+            focus:ring-green-500
           "
-        >
-
-          <PageIcon
-            size={24}
-          />
-
-        </div>
-
-        <div>
-
-          <h1
-            className="
-              text-3xl
-              font-bold
-              text-gray-800
-              dark:text-white
-            "
-          >
-            {
-              currentPage.title
-            }
-          </h1>
-
-          <p
-            className="
-              text-gray-500
-              dark:text-gray-400
-            "
-          >
-            Welcome back 👋
-          </p>
-
-        </div>
+        />
 
       </div>
 
-      <div
-        className="
-          flex
-          items-center
-          gap-5
-        "
-      >
+      <div className="flex items-center gap-5">
 
-        <Search
-          className="
-            text-gray-500
-            dark:text-gray-300
-            cursor-pointer
-          "
-        />
+        <button className="relative">
 
-        <Bell
-          className="
-            text-gray-500
-            dark:text-gray-300
-            cursor-pointer
-          "
-        />
+          <Bell
+            size={21}
+            className="text-gray-600 dark:text-gray-300"
+          />
 
-        <button
-          onClick={() =>
-            setDarkMode(
-              !darkMode
-            )
-          }
-          className="
-            bg-gray-200
-            dark:bg-gray-700
-            p-2
-            rounded-full
-            transition
-          "
-        >
-
-          {
-
-            darkMode
-
-            ?
-
-            <Sun
-              size={20}
-              className="text-yellow-400"
-            />
-
-            :
-
-            <Moon
-              size={20}
-              className="text-gray-700"
-            />
-
-          }
+          <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-red-500" />
 
         </button>
 
-        <div
-          className="
-            bg-gray-100
-            dark:bg-gray-700
-            p-2
-            rounded-full
-          "
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="p-2 rounded-full bg-gray-100 dark:bg-gray-700"
         >
+          {darkMode ? (
+            <Sun
+              size={18}
+              className="text-yellow-400"
+            />
+          ) : (
+            <Moon
+              size={18}
+              className="text-gray-700"
+            />
+          )}
+        </button>
 
-          <User
-            size={22}
-            className="
-              dark:text-white
-            "
-          />
-
+        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-semibold">
+          U
         </div>
 
         <button
           onClick={handleLogout}
-          className="
-            bg-red-500
-            hover:bg-red-600
-            transition
-            text-white
-            px-4
-            py-2
-            rounded-lg
-          "
+          className="rounded-xl bg-red-500 px-4 py-2 text-white hover:bg-red-600 transition"
         >
           Logout
         </button>
@@ -259,8 +102,8 @@ const Navbar = () => {
 
     </div>
 
-  );
-
+  </div>
+);
 };
 
 export default Navbar;

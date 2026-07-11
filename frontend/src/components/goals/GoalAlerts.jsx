@@ -1,10 +1,10 @@
 import {
   AlertTriangle,
   Clock3,
-  CheckCircle2,
+  Trophy,
 } from "lucide-react";
 
-const daysUntil = (deadline) => {
+const daysLeft = (deadline) => {
   if (!deadline) return null;
 
   const today = new Date();
@@ -20,91 +20,100 @@ const daysUntil = (deadline) => {
 };
 
 export default function GoalAlerts({
-  goals = [],
+  goals,
 }) {
-  const alerts = [];
+  const overdue = goals.filter((goal) => {
+    const days = daysLeft(goal.deadline);
 
-  goals.forEach((goal) => {
-    if (goal.completed) {
-      alerts.push({
-        id: `${goal.id}-completed`,
-        type: "success",
-        icon: CheckCircle2,
-        message: `"${goal.title}" completed successfully.`,
-      });
+    return (
+      !goal.completed &&
+      days !== null &&
+      days < 0
+    );
+  });
 
-      return;
-    }
+  const upcoming = goals.filter((goal) => {
+    const days = daysLeft(goal.deadline);
 
-    const days = daysUntil(goal.deadline);
-
-    if (
+    return (
+      !goal.completed &&
       days !== null &&
       days >= 0 &&
       days <= 7
-    ) {
-      alerts.push({
-        id: `${goal.id}-deadline`,
-        type: "warning",
-        icon: Clock3,
-        message: `"${goal.title}" is due in ${days} day${
-          days !== 1 ? "s" : ""
-        }.`,
-      });
-    }
-
-    const progress =
-      Number(goal.target_amount) === 0
-        ? 0
-        : (Number(goal.current_amount) /
-            Number(goal.target_amount)) *
-          100;
-
-    if (
-      progress >= 80 &&
-      progress < 100
-    ) {
-      alerts.push({
-        id: `${goal.id}-progress`,
-        type: "info",
-        icon: AlertTriangle,
-        message: `"${goal.title}" is ${Math.round(
-          progress
-        )}% complete.`,
-      });
-    }
+    );
   });
 
-  if (!alerts.length) return null;
+  const completed = goals.filter(
+    (goal) => goal.completed
+  );
 
-  const colors = {
-    success:
-      "bg-green-50 border-green-200 text-green-700",
-    warning:
-      "bg-yellow-50 border-yellow-200 text-yellow-700",
-    info:
-      "bg-blue-50 border-blue-200 text-blue-700",
-  };
+  if (
+    overdue.length === 0 &&
+    upcoming.length === 0 &&
+    completed.length === 0
+  ) {
+    return null;
+  }
 
   return (
-    <div className="space-y-3">
+    <div className="grid gap-4 lg:grid-cols-3">
 
-      {alerts.slice(0, 3).map((alert) => {
-        const Icon = alert.icon;
+      {overdue.length > 0 && (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
 
-        return (
-          <div
-            key={alert.id}
-            className={`flex items-center gap-3 rounded-xl border px-5 py-4 ${colors[alert.type]}`}
-          >
-            <Icon size={20} />
+          <AlertTriangle
+            className="text-red-600"
+            size={28}
+          />
 
-            <p className="font-medium">
-              {alert.message}
-            </p>
-          </div>
-        );
-      })}
+          <h3 className="mt-3 font-bold text-red-700">
+            Overdue Goals
+          </h3>
+
+          <p className="mt-2 text-red-600 text-sm">
+            {overdue.length} goal(s) have crossed their deadline.
+          </p>
+
+        </div>
+      )}
+
+      {upcoming.length > 0 && (
+        <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-5">
+
+          <Clock3
+            className="text-yellow-600"
+            size={28}
+          />
+
+          <h3 className="mt-3 font-bold text-yellow-700">
+            Upcoming Deadlines
+          </h3>
+
+          <p className="mt-2 text-yellow-700 text-sm">
+            {upcoming.length} goal(s) are due within a week.
+          </p>
+
+        </div>
+      )}
+
+      {completed.length > 0 && (
+        <div className="rounded-2xl border border-green-200 bg-green-50 p-5">
+
+          <Trophy
+            className="text-green-600"
+            size={28}
+          />
+
+          <h3 className="mt-3 font-bold text-green-700">
+            Completed Goals
+          </h3>
+
+          <p className="mt-2 text-green-700 text-sm">
+            Great job! You've completed {completed.length} goal(s).
+          </p>
+
+        </div>
+      )}
 
     </div>
   );
