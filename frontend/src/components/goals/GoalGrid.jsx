@@ -27,7 +27,7 @@ export default function GoalGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
     {goals.map((goal) => (
         <GoalCard
           key={goal.id}
