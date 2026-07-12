@@ -13,8 +13,8 @@ export default function GoalProgress({
 
   const progress = completed ? 100 : percentage;
 
-  const radius = 46;
-  const stroke = 8;
+  const radius = 34;
+  const stroke = 6;
 
   const normalizedRadius =
     radius - stroke * 0.5;
@@ -37,56 +37,39 @@ export default function GoalProgress({
     : "#ef4444";
 
   return (
-    <div className="flex items-center justify-center">
+    <svg width="80" height="80">
 
-      <svg
-        width="120"
-        height="120"
-        className="overflow-visible"
+      <circle
+        stroke="#e5e7eb"
+        fill="transparent"
+        strokeWidth={stroke}
+        r={normalizedRadius}
+        cx="40"
+        cy="40"
+      />
+
+      <circle
+        stroke={color}
+        fill="transparent"
+        strokeWidth={stroke}
+        strokeLinecap="round"
+        strokeDasharray={`${circumference} ${circumference}`}
+        strokeDashoffset={strokeDashoffset}
+        r={normalizedRadius}
+        cx="40"
+        cy="40"
+        transform="rotate(-90 40 40)"
+      />
+
+      <text
+        x="40"
+        y="44"
+        textAnchor="middle"
+        className="fill-gray-900 font-bold text-sm"
       >
-        {/* Background Circle */}
+        {progress}%
+      </text>
 
-        <circle
-          cx="60"
-          cy="60"
-          r={normalizedRadius}
-          stroke="#e5e7eb"
-          strokeWidth={stroke}
-          fill="transparent"
-        />
-
-        {/* Progress Circle */}
-
-        <circle
-          cx="60"
-          cy="60"
-          r={normalizedRadius}
-          stroke={color}
-          strokeWidth={stroke}
-          fill="transparent"
-          strokeLinecap="round"
-          strokeDasharray={`${circumference} ${circumference}`}
-          strokeDashoffset={strokeDashoffset}
-          transform="rotate(-90 60 60)"
-          style={{
-            transition:
-              "stroke-dashoffset 0.6s ease",
-          }}
-        />
-
-        {/* Percentage */}
-
-        <text
-          x="60"
-          y="60"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="fill-gray-900 font-extrabold text-2xl"
-        >
-          {progress}%
-        </text>
-      </svg>
-
-    </div>
+    </svg>
   );
 }
