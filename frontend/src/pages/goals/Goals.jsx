@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-import Navbar from "../../components/layout/Navbar";
-import Sidebar from "../../components/layout/Sidebar";
+import AppLayout from "../../components/layout/AppLayout";
 
 import useGoals from "../../hooks/useGoals";
 
@@ -12,6 +11,7 @@ import GoalToolbar from "../../components/goals/GoalToolbar";
 import GoalGrid from "../../components/goals/GoalGrid";
 import GoalModal from "../../components/goals/GoalModal";
 import GoalSkeleton from "../../components/goals/GoalSkeleton";
+import Navbar from "../../components/layout/Navbar";
 
 export default function Goals() {
   const {
@@ -122,67 +122,64 @@ export default function Goals() {
   });
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
-      <Sidebar />
+  <AppLayout>
 
-      <div className="flex-1 w-full px-6 py-6 overflow-x-hidden">
-        <Navbar />
+    <div className="space-y-6">
 
-        <div className="mt-8 w-full space-y-8">
-          <GoalHeader onAdd={openCreate} />
+      <GoalHeader onAdd={openCreate} />
 
-          {loading && (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <GoalSkeleton key={i} />
-              ))}
-            </div>
-          )}
+      {loading && (
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <GoalSkeleton key={i} />
+          ))}
+        </div>
+      )}
 
-          {!loading && error && (
-            <div className="text-center py-12 text-red-600">
-              {error}
-            </div>
-          )}
+      {!loading && error && (
+        <div className="text-center py-12 text-red-600">
+          {error}
+        </div>
+      )}
 
-          {!loading && !error && (
-            <>
-              <GoalOverview goals={goals} />
+      {!loading && !error && (
+        <>
+          <GoalOverview goals={goals} />
 
-              <GoalAlerts goals={goals} />
+          <GoalAlerts goals={goals} />
 
-              <GoalToolbar
-                search={search}
-                setSearch={setSearch}
-                category={category}
-                setCategory={setCategory}
-                status={status}
-                setStatus={setStatus}
-                sort={sort}
-                setSort={setSort}
-              />
-
-              <GoalGrid
-                goals={filteredGoals}
-                onEdit={openEdit}
-                onDelete={removeGoal}
-                onComplete={completeGoal}
-              />
-            </>
-          )}
-
-          <GoalModal
-            open={showModal}
-            editingGoal={editingGoal}
-            onClose={() => {
-              setShowModal(false);
-              setEditingGoal(null);
-            }}
-            onSubmit={handleSubmit}
+          <GoalToolbar
+            search={search}
+            setSearch={setSearch}
+            category={category}
+            setCategory={setCategory}
+            status={status}
+            setStatus={setStatus}
+            sort={sort}
+            setSort={setSort}
           />
 
-        </div>
-      </div>
+          <GoalGrid
+            goals={filteredGoals}
+            onEdit={openEdit}
+            onDelete={removeGoal}
+            onComplete={completeGoal}
+          />
+        </>
+      )}
+
+      <GoalModal
+        open={showModal}
+        editingGoal={editingGoal}
+        onClose={() => {
+          setShowModal(false);
+          setEditingGoal(null);
+        }}
+        onSubmit={handleSubmit}
+      />
+
     </div>
-  );
+
+  </AppLayout>
+);
 }
