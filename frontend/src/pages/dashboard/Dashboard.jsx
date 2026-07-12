@@ -3,11 +3,7 @@ import {
   useState,
 } from "react";
 
-import Sidebar
-from "../../components/layout/Sidebar";
-
-import Navbar
-from "../../components/layout/Navbar";
+import AppLayout from "../../components/layout/AppLayout";
 
 import StatsCards
 from "../../components/dashboard/StatsCards";
@@ -137,79 +133,56 @@ const savings =
 
   return (
 
-    <div
-  className="
-    flex
-    flex-col
-    md:flex-row
-  "
->
+<AppLayout>
 
-      <Sidebar />
+  <HeroBanner
+    balance={balance}
+  />
 
-      <div
-        className="
-          flex-1
-          p-6
-          bg-gray-100
-          dark:bg-gray-800
-          min-h-screen
-          transition-colors
-        "
-      >
+  <StatsCards
+    balance={balance}
+    income={income}
+    expenses={expenses}
+    savings={savings}
+  />
 
-        <Navbar />
+  <AICoach />
 
-        <HeroBanner
-          balance={balance}
-        />
+  <AddTransaction
+    fetchTransactions={fetchTransactions}
+  />
 
-        <StatsCards
-          balance={balance}
-          income={income}
-          expenses={expenses}
-          savings={savings}
-        />
+  <RecurringTransactions />
 
-        <AICoach />
-        
-        <AddTransaction
-          fetchTransactions={
-          fetchTransactions
-        }
-        />
+  <RecentTransactions
+    transactions={transactions}
+    fetchTransactions={fetchTransactions}
+  />
 
-        
-        <RecurringTransactions />
-        
-        <RecentTransactions
-          transactions={transactions}
-          fetchTransactions={fetchTransactions}
-        />
+  <ExpenseChart
+    transactions={transactions}
+  />
 
-        <ExpenseChart
-          transactions={transactions}
-        />
+  <MonthlyTrendChart
+    transactions={transactions}
+  />
 
-        <MonthlyTrendChart
-          transactions={transactions}
-        />
+  <ExportTransactions
+    transactions={transactions}
+  />
 
-        <ExportTransactions
-          transactions={transactions}
-        />
+  <BudgetAlerts
+    budgets={budgets}
+    transactions={transactions}
+  />
 
-        <BudgetAlerts
-          budgets={budgets}
-          transactions={transactions}
-        />
-        <SavingsGoals />
+  <SavingsGoals />
 
-        <AIInsights />
-      </div>
+  <AIInsights />
 
-    </div>
-  );
+</AppLayout>
+
+);
 };
 
 export default Dashboard;
