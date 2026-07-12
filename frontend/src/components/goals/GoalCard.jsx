@@ -9,14 +9,20 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-const formatCurrency = (value) =>
-  new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    notation: "compact",
-    compactDisplay: "short",
-    maximumFractionDigits: 1,
-  }).format(Number(value || 0));
+const formatCurrency = (value) => {
+  const amount = Number(value || 0);
+
+  if (amount >= 10000000)
+    return `₹${(amount / 10000000).toFixed(1)}Cr`;
+
+  if (amount >= 100000)
+    return `₹${(amount / 100000).toFixed(1)}L`;
+
+  if (amount >= 1000)
+    return `₹${(amount / 1000).toFixed(1)}K`;
+
+  return `₹${amount.toLocaleString("en-IN")}`;
+};
 
 const daysLeft = (deadline) => {
   if (!deadline) return null;
@@ -189,93 +195,94 @@ useEffect(() => {
 
         </div>
 
-        {/* Progress */}
+       {/* Progress */}
 
-        <div className="flex justify-center my-8">
+<div className="flex justify-center my-5">
 
-          <GoalProgress
-            current={saved}
-            target={target}
-            completed={goal.completed}
-          />
+  <GoalProgress
+    current={saved}
+    target={target}
+    completed={goal.completed}
+  />
 
-        </div>
+</div>
 
-        {/* Stats */}
+{/* Stats */}
 
-         <div className="grid grid-cols-3 gap-3 mt-6">
+<div className="mt-4 grid grid-cols-3 gap-3">
 
-    <div className="rounded-xl bg-gray-50 p-4 min-h-[90px] flex flex-col justify-center text-center">
-                <p className="text-[11px] uppercase tracking-wider text-gray-400 mb-2">
-                Saved
-                </p>
+  <div className="rounded-xl bg-gray-50 p-3">
 
-              <p className="font-bold text-base text-green-600 truncate">
-                {formatCurrency(saved)}
-              </p>
+    <p className="text-[10px] uppercase tracking-wide text-gray-400">
+      Saved
+    </p>
 
-            </div>
-
-          <div className="rounded-xl bg-gray-50 p-4 min-h-[90px] flex flex-col justify-center text-center">
-              <p className="text-[11px] uppercase tracking-wider text-gray-400 mb-2">
-                Target
-              </p>
-
-              <p className="font-bold text-base text-gray-900 truncate">
-                {formatCurrency(target)}
-              </p>
-
-            </div>
-
-          <div className="rounded-xl bg-gray-50 p-4 min-h-[90px] flex flex-col justify-center text-center">
-                <p className="text-[11px] uppercase tracking-wider text-gray-400 mb-2">
-                Left
-              </p>
-
-              <p className="font-bold text-base text-gray-900 truncate">
-                {formatCurrency(remaining)}
-              </p>
-
-          </div>
-
-        </div>
-
-        {/* Footer */}
-
-{goal.deadline ? (
-
-  <div className="mt-6 flex flex-col gap-2 border-t border-gray-100 pt-5 text-sm">
-
-    <div className="flex items-center gap-2 text-gray-500">
-      <Calendar size={15} />
-
-      {new Date(goal.deadline).toLocaleDateString("en-IN")}
-
-    </div>
-
-    <span
-      className={
-        days < 0
-          ? "text-red-600 font-semibold"
-          : days <= 7
-          ? "text-yellow-600 font-semibold"
-          : "text-gray-500"
-      }
-    >
-      {days < 0
-        ? `${Math.abs(days)} days overdue`
-        : days === 0
-        ? "🎯 Due Today"
-        : `${days} days left`}
-    </span>
+    <p className="mt-1 text-sm font-bold text-green-600">
+      {formatCurrency(saved)}
+    </p>
 
   </div>
+
+  <div className="rounded-xl bg-gray-50 p-3">
+
+    <p className="text-[10px] uppercase tracking-wide text-gray-400">
+      Target
+    </p>
+
+    <p className="mt-1 text-sm font-bold text-gray-900">
+      {formatCurrency(target)}
+    </p>
+
+  </div>
+
+  <div className="rounded-xl bg-gray-50 p-3">
+
+    <p className="text-[10px] uppercase tracking-wide text-gray-400">
+      Left
+    </p>
+
+    <p className="mt-1 text-sm font-bold text-gray-900">
+      {formatCurrency(remaining)}
+    </p>
+
+  </div>
+
+</div>
+{goal.deadline ? (
+
+<div className="mt-5 flex items-center justify-between border-t pt-4 text-sm">
+
+  <div className="flex items-center gap-2 text-gray-500">
+
+    <Calendar size={15} />
+
+    {new Date(goal.deadline).toLocaleDateString("en-IN")}
+
+  </div>
+
+  <span
+    className={
+      days < 0
+        ? "text-red-600 font-semibold"
+        : days <= 7
+        ? "text-yellow-600 font-semibold"
+        : "text-gray-500"
+    }
+  >
+    {days < 0
+      ? `${Math.abs(days)} overdue`
+      : days === 0
+      ? "Today"
+      : `${days} days`}
+  </span>
+
+</div>
 
 ) : (
 
-  <div className="mt-6 border-t border-gray-100 pt-5 text-sm text-gray-400">
-    No deadline
-  </div>
+<div className="mt-5 border-t pt-4 text-sm text-gray-400">
+  No deadline
+</div>
 
 )}
 
