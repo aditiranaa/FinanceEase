@@ -22,7 +22,7 @@ const SavingsGoals = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm mt-8">
+    <div className="bg-white p-6 rounded-2xl shadow-sm mt-4">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Savings Goals</h2>
         <Link

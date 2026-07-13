@@ -61,7 +61,7 @@ const MonthlyTrendChart = ({
         rounded-2xl
         p-6
         shadow-sm
-        mt-8
+        mt-4
       "
     >
 

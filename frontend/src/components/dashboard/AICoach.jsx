@@ -75,7 +75,7 @@ const AICoach = () => {
           rounded-2xl
           shadow-sm
           p-6
-          mt-8
+          mt-4
         "
       >
 
@@ -98,7 +98,7 @@ const AICoach = () => {
           border-red-300
           rounded-2xl
           p-6
-          mt-8
+          mt-4
           text-red-600
         "
       >
@@ -121,7 +121,7 @@ const AICoach = () => {
           rounded-2xl
           shadow-sm
           p-6
-          mt-8
+          mt-4
         "
       >
 
@@ -141,7 +141,7 @@ const AICoach = () => {
         rounded-2xl
         shadow-sm
         p-6
-        mt-8
+        mt-4
       "
     >
 

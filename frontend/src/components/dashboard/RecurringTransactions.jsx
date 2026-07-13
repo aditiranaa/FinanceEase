@@ -87,7 +87,7 @@ const RecurringTransactions = () => {
         p-6
         rounded-2xl
         shadow-sm
-        mt-8
+        mt-4
       "
     >
 

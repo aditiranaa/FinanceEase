@@ -40,7 +40,7 @@ export default function Subscriptions() {
       <div className="flex-1 bg-gray-100 dark:bg-gray-950 min-h-screen p-6">
         <Navbar />
 
-        <div className="mt-8 space-y-8">
+        <div className="mt-4 space-y-8">
 
           <div>
             <h1 className="text-3xl font-bold">

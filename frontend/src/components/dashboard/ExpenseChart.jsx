@@ -40,7 +40,7 @@ const ExpenseChart = ({
 
     <div
       className="
-        mt-8
+        mt-4
         bg-white
         rounded-2xl
         shadow-sm

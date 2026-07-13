@@ -34,7 +34,7 @@ export default function DeleteGoalModal({
           "{goal?.title}" will be permanently deleted.
         </p>
 
-        <div className="mt-8 flex gap-4">
+        <div className="mt-4 flex gap-4">
 
           <button
             onClick={onClose}

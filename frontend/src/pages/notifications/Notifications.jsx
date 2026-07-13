@@ -42,7 +42,7 @@ export default function Notifications() {
 
         <Navbar />
 
-        <div className="mt-8 space-y-8">
+        <div className="mt-4 space-y-8">
 
           <div>
 

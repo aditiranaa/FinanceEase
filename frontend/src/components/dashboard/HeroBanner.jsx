@@ -10,7 +10,7 @@ const HeroBanner = ({
 
     <div
       className="
-        mt-8
+        mt-4
         rounded-3xl
         bg-gradient-to-r
         from-emerald-500
@@ -24,7 +24,7 @@ const HeroBanner = ({
         lg:flex-row
         justify-between
         items-center
-        gap-8
+        gap-4
       "
     >
 
@@ -61,7 +61,7 @@ const HeroBanner = ({
           backdrop-blur-md
           rounded-2xl
           px-8
-          py-6
+          py-4
           text-center
           min-w-[260px]
         "

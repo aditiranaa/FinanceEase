@@ -53,7 +53,7 @@ const StatsCards = ({
         sm:grid-cols-2
         xl:grid-cols-4
         gap-6
-        mt-8
+        mt-4
       "
     >
 

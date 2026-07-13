@@ -1,9 +1,11 @@
+import { useState } from "react";
 import {
   Bell,
-  Search,
-  User,
   Moon,
   Sun,
+  ChevronDown,
+  User,
+  LogOut,
 } from "lucide-react";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -18,92 +20,90 @@ const Navbar = () => {
   const { logout } = useAuth();
   const { darkMode, setDarkMode } = useTheme();
 
+  const [open, setOpen] = useState(false);
+
+  const titles = {
+    "/dashboard": "Dashboard",
+    "/transactions": "Transactions",
+    "/budgets": "Budgets",
+    "/goals": "Goals",
+    "/analytics": "Analytics",
+    "/profile": "Profile",
+  };
+
+  const title = titles[location.pathname] || "";
+
   const handleLogout = () => {
     logout();
     navigate("/");
   };
 
   return (
-  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl px-8 py-4 shadow-sm">
+    <div className="flex justify-end items-center py-2">
+      <div className="flex items-center justify-between">
+        
 
-    <div className="flex items-center justify-between">
+        {/* Right */}
+        <div className="flex items-center gap-5">
 
-      <div className="relative w-80">
-
-        <Search
-          size={18}
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-        />
-
-        <input
-          type="text"
-          placeholder="Search..."
-          className="
-            w-full
-            pl-11
-            pr-4
-            py-2.5
-            rounded-xl
-            border
-            border-gray-200
-            dark:border-gray-700
-            bg-gray-50
-            dark:bg-gray-800
-            focus:outline-none
-            focus:ring-2
-            focus:ring-green-500
-          "
-        />
-
-      </div>
-
-      <div className="flex items-center gap-5">
-
-        <button className="relative">
-
-          <Bell
-            size={21}
-            className="text-gray-600 dark:text-gray-300"
-          />
-
-          <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-red-500" />
-
-        </button>
-
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="p-2 rounded-full bg-gray-100 dark:bg-gray-700"
-        >
-          {darkMode ? (
-            <Sun
-              size={18}
-              className="text-yellow-400"
+          <button className="relative">
+            <Bell
+              size={20}
+              className="text-gray-600 dark:text-gray-300"
             />
-          ) : (
-            <Moon
-              size={18}
-              className="text-gray-700"
-            />
-          )}
-        </button>
+            <span className="absolute -top-1 -right-1 h-2.5 w-2.5 rounded-full bg-red-500" />
+          </button>
 
-        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-semibold">
-          U
+          {/* Profile */}
+          <div className="relative">
+
+            <button
+              onClick={() => setOpen(!open)}
+              className="flex items-center gap-3"
+            >
+              <div className="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                U
+              </div>
+
+              <span className="font-medium dark:text-white">
+                John Doe
+              </span>
+
+              <ChevronDown size={12} />
+            </button>
+
+            {open && (
+              <div className="absolute right-0 mt-3 w-52 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-xl">
+
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setOpen(false);
+                  }}
+                  className="flex w-full items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  <User size={12} />
+                  Profile
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
+                >
+                  <LogOut size={12} />
+                  Logout
+                </button>
+
+              </div>
+            )}
+
+          </div>
+
         </div>
 
-        <button
-          onClick={handleLogout}
-          className="rounded-xl bg-red-500 px-4 py-2 text-white hover:bg-red-600 transition"
-        >
-          Logout
-        </button>
-
       </div>
-
     </div>
-
-  </div>
-);
+  );
 };
 
 export default Navbar;

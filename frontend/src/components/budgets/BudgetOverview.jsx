@@ -52,7 +52,7 @@ export default function BudgetOverview({ budgets = [] }) {
         );
 
   return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mb-8">
+    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mb-4">
       <StatCard
         title="Total Budget"
         value={formatCurrency(totalBudget)}
