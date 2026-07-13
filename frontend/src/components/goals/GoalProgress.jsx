@@ -1,30 +1,25 @@
 export default function GoalProgress({
-  current,
-  target,
-  completed,
+  current = 0,
+  target = 0,
+  completed = false,
+  size = 84,
 }) {
   const percentage =
-    target === 0
-      ? 0
-      : Math.min(
+    target > 0
+      ? Math.min(
           100,
-          Math.round((current / target) * 100)
-        );
+          Math.round((Number(current) / Number(target)) * 100)
+        )
+      : 0;
 
   const progress = completed ? 100 : percentage;
 
-  const radius = 34;
-  const stroke = 6;
-
-  const normalizedRadius =
-    radius - stroke * 0.5;
-
-  const circumference =
-    normalizedRadius * 2 * Math.PI;
+  const stroke = 7;
+  const radius = (size - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
 
   const strokeDashoffset =
-    circumference -
-    (progress / 100) * circumference;
+    circumference - (progress / 100) * circumference;
 
   const color = completed
     ? "#16a34a"
@@ -37,39 +32,48 @@ export default function GoalProgress({
     : "#ef4444";
 
   return (
-    <svg width="80" height="80">
-
-      <circle
-        stroke="#e5e7eb"
-        fill="transparent"
-        strokeWidth={stroke}
-        r={normalizedRadius}
-        cx="40"
-        cy="40"
-      />
-
-      <circle
-        stroke={color}
-        fill="transparent"
-        strokeWidth={stroke}
-        strokeLinecap="round"
-        strokeDasharray={`${circumference} ${circumference}`}
-        strokeDashoffset={strokeDashoffset}
-        r={normalizedRadius}
-        cx="40"
-        cy="40"
-        transform="rotate(-90 40 40)"
-      />
-
-      <text
-        x="40"
-        y="44"
-        textAnchor="middle"
-        className="fill-gray-900 font-bold text-sm"
+    <div className="relative flex items-center justify-center">
+      <svg
+        width={size}
+        height={size}
+        className="-rotate-90"
       >
-        {progress}%
-      </text>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={stroke}
+          className="text-gray-200 dark:text-gray-700"
+        />
 
-    </svg>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill="none"
+          stroke={color}
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          style={{
+            transition:
+              "stroke-dashoffset 0.6s ease, stroke 0.3s ease",
+          }}
+        />
+      </svg>
+
+      <div className="absolute flex flex-col items-center justify-center">
+        <span className="text-lg font-bold text-gray-900 dark:text-white">
+          {progress}%
+        </span>
+
+        <span className="text-[10px] uppercase tracking-wide text-gray-400">
+          {completed ? "Done" : "Saved"}
+        </span>
+      </div>
+    </div>
   );
 }
