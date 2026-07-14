@@ -99,7 +99,7 @@ const Sidebar = () => {
           bg-gray-900
           dark:bg-black
           text-white
-          p-6
+          p-4
           w-64
           transform
           transition-transform

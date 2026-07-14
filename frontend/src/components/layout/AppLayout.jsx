@@ -7,14 +7,12 @@ export default function AppLayout({ children }) {
       <Sidebar />
 
       <main className="flex-1 overflow-x-hidden">
-        <div className="p-6">
-
+        <div className="px-5 pt-2 pb-4">
           <Navbar />
 
-          <div className="mt-6">
+          <div className="mt-2">
             {children}
           </div>
-
         </div>
       </main>
     </div>
