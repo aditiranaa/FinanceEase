@@ -5,6 +5,8 @@ import {
   Target,
 } from "lucide-react";
 
+import AnalyticsCard from "./AnalyticsCard";
+
 const formatCurrency = (value) =>
   Number(value || 0).toLocaleString("en-IN", {
     style: "currency",
@@ -12,57 +14,64 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   });
 
-const Card = ({ title, value, icon, color }) => (
-  <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-5">
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-sm text-gray-500">{title}</p>
-        <h2 className="mt-2 text-2xl font-bold">{value}</h2>
-      </div>
-
-      <div
-        className={`w-12 h-12 rounded-full flex items-center justify-center ${color}`}
-      >
-        {icon}
-      </div>
-    </div>
-  </div>
-);
-
-export default function AnalyticsOverview({ overview }) {
+export default function AnalyticsOverview({
+  overview,
+}) {
   if (!overview) return null;
 
+  const cards = [
+    {
+      title: "Income",
+      value: formatCurrency(
+        overview.totalIncome
+      ),
+      subtitle: "Money Earned",
+      icon: Wallet,
+      iconColor: "text-emerald-600",
+      iconBg:
+        "bg-emerald-100 dark:bg-emerald-900/30",
+    },
+    {
+      title: "Expenses",
+      value: formatCurrency(
+        overview.totalExpense
+      ),
+      subtitle: "Money Spent",
+      icon: TrendingDown,
+      iconColor: "text-red-600",
+      iconBg:
+        "bg-red-100 dark:bg-red-900/30",
+    },
+    {
+      title: "Savings",
+      value: formatCurrency(
+        overview.savings
+      ),
+      subtitle: "Current Balance",
+      icon: PiggyBank,
+      iconColor: "text-blue-600",
+      iconBg:
+        "bg-blue-100 dark:bg-blue-900/30",
+    },
+    {
+      title: "Goals",
+      value: `${overview.completedGoals}/${overview.totalGoals}`,
+      subtitle: "Completed",
+      icon: Target,
+      iconColor: "text-violet-600",
+      iconBg:
+        "bg-violet-100 dark:bg-violet-900/30",
+    },
+  ];
+
   return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-
-      <Card
-        title="Income"
-        value={formatCurrency(overview.totalIncome)}
-        color="bg-green-100 text-green-600"
-        icon={<Wallet size={24} />}
-      />
-
-      <Card
-        title="Expenses"
-        value={formatCurrency(overview.totalExpense)}
-        color="bg-red-100 text-red-600"
-        icon={<TrendingDown size={24} />}
-      />
-
-      <Card
-        title="Savings"
-        value={formatCurrency(overview.savings)}
-        color="bg-blue-100 text-blue-600"
-        icon={<PiggyBank size={24} />}
-      />
-
-      <Card
-        title="Goals Completed"
-        value={`${overview.completedGoals}/${overview.totalGoals}`}
-        color="bg-purple-100 text-purple-600"
-        icon={<Target size={24} />}
-      />
-
+    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+      {cards.map((card) => (
+        <AnalyticsCard
+          key={card.title}
+          {...card}
+        />
+      ))}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   getOverview,
@@ -9,26 +9,18 @@ import {
 
 export default function useAnalytics() {
   const [overview, setOverview] = useState(null);
+  const [expenseCategories, setExpenseCategories] = useState([]);
+  const [monthlyTrend, setMonthlyTrend] = useState([]);
+  const [savingsTrend, setSavingsTrend] = useState([]);
 
-  const [expenseCategories, setExpenseCategories] =
-    useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const [monthlyTrend, setMonthlyTrend] =
-    useState([]);
+  const loadAnalytics = useCallback(async () => {
+    setLoading(true);
+    setError("");
 
-  const [savingsTrend, setSavingsTrend] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState("");
-
-  const loadAnalytics = async () => {
     try {
-      setLoading(true);
-
       const [
         overviewData,
         categoryData,
@@ -45,30 +37,28 @@ export default function useAnalytics() {
       setExpenseCategories(categoryData);
       setMonthlyTrend(monthlyData);
       setSavingsTrend(savingsData);
-
     } catch (err) {
       console.error(err);
 
-      setError(
-        "Failed to load analytics."
-      );
-
+      setError("Failed to load analytics.");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadAnalytics();
-  }, []);
+  }, [loadAnalytics]);
 
   return {
     overview,
     expenseCategories,
     monthlyTrend,
     savingsTrend,
+
     loading,
     error,
+
     refresh: loadAnalytics,
   };
 }

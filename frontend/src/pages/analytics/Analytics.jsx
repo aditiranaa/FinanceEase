@@ -1,74 +1,53 @@
-import Navbar from "../../components/layout/Navbar";
-import Sidebar from "../../components/layout/Sidebar";
+import { useState } from "react";
+
+import AppLayout from "../../components/layout/AppLayout";
 
 import useAnalytics from "../../hooks/useAnalytics";
 
-import AnalyticsDashboard from "./AnalyticsDashboard";
+import AnalyticsHeader from "../../components/analytics/AnalyticsHeader";
+import AnalyticsOverview from "../../components/analytics/AnalyticsOverview";
+import AnalyticsGrid from "../../components/analytics/AnalyticsGrid";
+import AnalyticsSkeleton from "../../components/analytics/AnalyticsSkeleton";
+import EmptyAnalytics from "../../components/analytics/EmptyAnalytics";
 
 export default function Analytics() {
-
   const {
     overview,
     expenseCategories,
     monthlyTrend,
-    savingsTrend,
     loading,
     error,
   } = useAnalytics();
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-lg">
-          Loading analytics...
-        </p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen text-red-600">
-        {error}
-      </div>
-    );
-  }
+  const [period, setPeriod] = useState("all");
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <AppLayout>
+      {loading ? (
+        <AnalyticsSkeleton />
+      ) : error ? (
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-center text-red-600">
+          {error}
+        </div>
+      ) : !overview ? (
+        <EmptyAnalytics />
+      ) : (
+        <div className="mx-auto max-w-[1320px] space-y-4">
+          <AnalyticsHeader />
 
-      <Sidebar />
-
-      <div className="flex-1 p-6 bg-gray-100 dark:bg-gray-950 min-h-screen">
-
-        <Navbar />
-
-        <div className="mt-4 space-y-8">
-
-          <div>
-
-            <h1 className="text-3xl font-bold">
-              Financial Analytics
-            </h1>
-
-            <p className="text-gray-500">
-              Track your income, expenses,
-              savings and financial trends.
-            </p>
-
-          </div>
-
-          <AnalyticsDashboard
+          <AnalyticsOverview
             overview={overview}
-            expenseCategories={expenseCategories}
-            monthlyTrend={monthlyTrend}
-            savingsTrend={savingsTrend}
           />
 
+          <AnalyticsGrid
+            incomeExpenseData={monthlyTrend}
+            categoryData={expenseCategories}
+            monthlyData={monthlyTrend}
+          />
+
+          
         </div>
-
-      </div>
-
-    </div>
+      )}
+    </AppLayout>
   );
 }
