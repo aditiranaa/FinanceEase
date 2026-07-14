@@ -5,7 +5,7 @@ function EmptyState() {
   return (
     <div
       className="
-        rounded-3xl
+        rounded-2xl
         border
         border-dashed
         border-gray-300
@@ -74,7 +74,7 @@ export default function GoalGrid({
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
       {goals.map((goal) => (
         <GoalCard
           key={goal.id}

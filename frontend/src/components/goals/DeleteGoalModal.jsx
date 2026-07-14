@@ -11,7 +11,7 @@ export default function DeleteGoalModal({
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-      <div className="bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl">
+      <div className="bg-white rounded-2xl w-full max-w-md p-8 shadow-2xl">
 
         <div className="flex justify-center">
 
@@ -26,7 +26,7 @@ export default function DeleteGoalModal({
 
         </div>
 
-        <h2 className="mt-6 text-center text-2xl font-bold">
+        <h2 className="mt-6 text-center text-lg font-bold">
           Delete Goal?
         </h2>
 

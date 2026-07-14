@@ -33,14 +33,14 @@ const ChangePassword = () => {
         dark:bg-gray-900
         rounded-xl
         shadow
-        p-6
+        p-4
         mt-6
       "
     >
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-bold
           mb-4
           dark:text-white

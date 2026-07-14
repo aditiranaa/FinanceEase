@@ -277,7 +277,7 @@ const RecentTransactions = ({
         bg-white
         rounded-2xl
         shadow-sm
-        p-6
+        p-4
       "
     >
 
@@ -286,7 +286,7 @@ const RecentTransactions = ({
           flex
           justify-between
           items-center
-          mb-6
+          mb-3
         "
       >
 
@@ -294,7 +294,7 @@ const RecentTransactions = ({
 
           <h2
             className="
-              text-2xl
+              text-lg
               font-bold
               text-gray-800
             "
@@ -330,7 +330,7 @@ const RecentTransactions = ({
           rounded-lg
           px-4
           py-2
-          mb-6
+          mb-3
           w-full
         "
       />
@@ -346,7 +346,7 @@ const RecentTransactions = ({
     rounded-lg
     px-4
     py-2
-    mb-6
+    mb-3
   "
 >
 
@@ -376,7 +376,7 @@ const RecentTransactions = ({
     rounded-lg
     px-4
     py-2
-    mb-6
+    mb-3
     ml-3
   "
 >
@@ -407,7 +407,7 @@ const RecentTransactions = ({
     rounded-lg
     px-4
     py-2
-    mb-6
+    mb-3
     ml-3
   "
 >
@@ -573,7 +573,7 @@ const RecentTransactions = ({
                             px-3
                             py-1
                             rounded-full
-                            text-sm
+                            text-xs
                           "
                         >
                           {
@@ -748,7 +748,7 @@ const RecentTransactions = ({
 
               <p
   className="
-    text-sm
+    text-xs
     text-gray-500
   "
 >

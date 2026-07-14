@@ -30,7 +30,7 @@ export default function GoalHeader({
             Savings Goals
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
             Track your progress and stay on course toward every financial milestone.
           </p>
 
@@ -84,7 +84,7 @@ export default function GoalHeader({
           dark:bg-gray-900
           px-4
           py-2.5
-          text-sm
+          text-xs
           text-gray-600
           dark:text-gray-300
         "

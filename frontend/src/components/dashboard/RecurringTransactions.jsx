@@ -84,7 +84,7 @@ const RecurringTransactions = () => {
     <div
       className="
         bg-white
-        p-6
+        p-4
         rounded-2xl
         shadow-sm
         mt-4
@@ -93,7 +93,7 @@ const RecurringTransactions = () => {
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-bold
           mb-4
         "

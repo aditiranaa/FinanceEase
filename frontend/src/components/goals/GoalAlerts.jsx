@@ -46,7 +46,7 @@ function AlertCard({
       </h3>
 
       <p
-        className={`mt-2 text-sm ${colors.text}`}
+        className={`mt-2 text-xs ${colors.text}`}
       >
         {message}
       </p>

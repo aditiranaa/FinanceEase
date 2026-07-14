@@ -11,7 +11,7 @@ const HeroBanner = ({
     <div
       className="
         mt-4
-        rounded-3xl
+        rounded-2xl
         bg-gradient-to-r
         from-emerald-500
         via-green-500

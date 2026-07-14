@@ -110,9 +110,11 @@ exports.getMonthlyTrend = async (req, res) => {
     const months = {};
 
     transactions.forEach((t) => {
-      const month = t.date
-        .toISOString()
-        .slice(0, 7);
+      const month = new Date(t.date)
+        .toLocaleDateString("en-IN", {
+          month: "short",
+          year: "numeric",
+        });
 
       if (!months[month]) {
         months[month] = {

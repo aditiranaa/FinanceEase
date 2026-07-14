@@ -18,7 +18,7 @@ export default function BudgetAlerts({ budgets = [] }) {
           <h3 className="font-semibold text-green-700">
             Great job!
           </h3>
-          <p className="text-sm text-green-600">
+          <p className="text-xs text-green-600">
             All budgets are within a healthy spending range.
           </p>
         </div>

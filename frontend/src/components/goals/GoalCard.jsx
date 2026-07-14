@@ -124,7 +124,7 @@ export default function GoalCard({
         duration-300
       "
     >
-      <div className="p-6">
+      <div className="p-4">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <span
@@ -149,7 +149,7 @@ export default function GoalCard({
               className="
                 mt-3
                 break-words
-                text-2xl
+                text-lg
                 font-bold
                 leading-tight
                 text-gray-900
@@ -320,7 +320,7 @@ export default function GoalCard({
               Saved
             </p>
 
-            <p className="mt-1 text-sm font-bold text-green-600">
+            <p className="mt-1 text-xs font-bold text-green-600">
               {formatCurrency(saved)}
             </p>
           </div>
@@ -330,7 +330,7 @@ export default function GoalCard({
               Target
             </p>
 
-            <p className="mt-1 text-sm font-bold text-gray-900 dark:text-white">
+            <p className="mt-1 text-xs font-bold text-gray-900 dark:text-white">
               {formatCurrency(target)}
             </p>
           </div>
@@ -340,7 +340,7 @@ export default function GoalCard({
               Left
             </p>
 
-            <p className="mt-1 text-sm font-bold text-gray-900 dark:text-white">
+            <p className="mt-1 text-xs font-bold text-gray-900 dark:text-white">
               {formatCurrency(remaining)}
             </p>
           </div>
@@ -357,7 +357,7 @@ export default function GoalCard({
               border-gray-200
               dark:border-gray-700
               pt-4
-              text-sm
+              text-xs
             "
           >
             <div className="flex items-center gap-2 text-gray-500">
@@ -377,7 +377,7 @@ export default function GoalCard({
               border-gray-200
               dark:border-gray-700
               pt-4
-              text-sm
+              text-xs
               text-gray-400
             "
           >

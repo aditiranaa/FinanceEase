@@ -74,7 +74,7 @@ const AICoach = () => {
           bg-white
           rounded-2xl
           shadow-sm
-          p-6
+          p-4
           mt-4
         "
       >
@@ -97,7 +97,7 @@ const AICoach = () => {
           border
           border-red-300
           rounded-2xl
-          p-6
+          p-4
           mt-4
           text-red-600
         "
@@ -120,7 +120,7 @@ const AICoach = () => {
           bg-white
           rounded-2xl
           shadow-sm
-          p-6
+          p-4
           mt-4
         "
       >
@@ -140,16 +140,16 @@ const AICoach = () => {
         bg-white
         rounded-2xl
         shadow-sm
-        p-6
+        p-4
         mt-4
       "
     >
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-bold
-          mb-6
+          mb-3
         "
       >
         🤖 AI Spending Coach
@@ -175,7 +175,7 @@ const AICoach = () => {
             Income
           </p>
 
-          <h3 className="text-xl font-bold">
+          <h3 className="text-lg font-bold">
 
             ₹
             {
@@ -199,7 +199,7 @@ const AICoach = () => {
             Expenses
           </p>
 
-          <h3 className="text-xl font-bold">
+          <h3 className="text-lg font-bold">
 
             ₹
             {
@@ -223,7 +223,7 @@ const AICoach = () => {
             Savings
           </p>
 
-          <h3 className="text-xl font-bold">
+          <h3 className="text-lg font-bold">
 
             ₹
             {
@@ -247,7 +247,7 @@ const AICoach = () => {
             Savings Rate
           </p>
 
-          <h3 className="text-xl font-bold">
+          <h3 className="text-lg font-bold">
 
             {
               coachData.summary?.savingsRate ??

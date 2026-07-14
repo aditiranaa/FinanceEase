@@ -9,7 +9,7 @@ export default function GoalSkeleton() {
         dark:border-gray-700
         bg-white
         dark:bg-gray-900
-        p-6
+        p-4
         shadow-sm
       "
     >

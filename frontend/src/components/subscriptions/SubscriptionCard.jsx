@@ -28,7 +28,7 @@ export default function SubscriptionCard({
   const days = daysLeft(subscription.next_due);
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-6">
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-4">
 
       <div className="flex justify-between">
 
@@ -87,7 +87,7 @@ export default function SubscriptionCard({
         </div>
 
         {days !== null && (
-          <p className="text-sm text-blue-600">
+          <p className="text-xs text-blue-600">
             Renews in {days} days
           </p>
         )}

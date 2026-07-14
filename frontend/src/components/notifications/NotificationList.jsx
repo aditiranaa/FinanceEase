@@ -8,7 +8,7 @@ export default function NotificationList({
   if (notifications.length === 0) {
     return (
       <div className="bg-white dark:bg-gray-900 rounded-xl shadow p-10 text-center">
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-lg font-semibold">
           No Notifications
         </h2>
 

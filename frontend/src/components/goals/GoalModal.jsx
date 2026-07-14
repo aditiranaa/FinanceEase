@@ -48,7 +48,7 @@ export default function GoalModal({
           w-full
           max-w-2xl
           overflow-hidden
-          rounded-3xl
+          rounded-2xl
           border
           border-gray-200
           dark:border-gray-700
@@ -89,13 +89,13 @@ export default function GoalModal({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">
                 {editingGoal
                   ? "Edit Goal"
                   : "Create Goal"}
               </h2>
 
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 Fill in the details below to
                 save your financial goal.
               </p>

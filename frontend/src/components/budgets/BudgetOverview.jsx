@@ -12,11 +12,11 @@ const StatCard = ({ title, value, icon, color }) => (
   <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-5 transition hover:shadow-lg">
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {title}
         </p>
 
-        <h2 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="mt-2 text-lg font-bold text-gray-900 dark:text-white">
           {value}
         </h2>
       </div>

@@ -42,7 +42,7 @@ function OverviewCard({
             {title}
           </p>
 
-          <h2 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="mt-2 text-lg font-bold text-gray-900 dark:text-white">
             {value}
           </h2>
 

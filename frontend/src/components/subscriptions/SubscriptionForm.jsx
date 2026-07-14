@@ -71,9 +71,9 @@ export default function SubscriptionForm({
   return (
     <form
       onSubmit={submit}
-      className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6 space-y-4"
+      className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 space-y-4"
     >
-      <h2 className="text-xl font-bold">
+      <h2 className="text-lg font-bold">
         {editingSubscription
           ? "Edit Subscription"
           : "Add Subscription"}

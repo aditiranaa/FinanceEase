@@ -20,7 +20,7 @@ export default function BudgetProgress({
   return (
     <div>
 
-      <div className="flex justify-between text-sm mb-2">
+      <div className="flex justify-between text-xs mb-2">
 
         <span>
           Budget Usage

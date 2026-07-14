@@ -56,13 +56,13 @@ export default function GoalToolbar({
   return (
     <div
       className="
-        rounded-3xl
+        rounded-2xl
         border
         border-gray-200
         dark:border-gray-700
         bg-white
         dark:bg-gray-900
-        p-6
+        p-4
         shadow-sm
       "
     >
@@ -238,7 +238,7 @@ export default function GoalToolbar({
                 dark:border-gray-700
                 px-4
                 py-3
-                text-sm
+                text-xs
                 transition
                 hover:bg-gray-100
                 dark:hover:bg-gray-800

@@ -52,7 +52,7 @@ const StatsCards = ({
         grid-cols-1
         sm:grid-cols-2
         xl:grid-cols-4
-        gap-6
+        gap-4
         mt-4
       "
     >
@@ -66,7 +66,7 @@ const StatsCards = ({
             bg-white
             dark:bg-gray-900
             rounded-2xl
-            p-6
+            p-4
             shadow-sm
             hover:shadow-xl
             hover:-translate-y-1
@@ -109,7 +109,7 @@ const StatsCards = ({
                 <p
                   className="
                     text-green-500
-                    text-sm
+                    text-xs
                     mt-2
                     font-semibold
                   "

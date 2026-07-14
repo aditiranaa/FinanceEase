@@ -21,7 +21,7 @@ export default function BudgetCard({
   const remaining = limit - spent;
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-6 transition hover:shadow-lg">
+    <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-4 transition hover:shadow-lg">
 
       <div className="flex items-center justify-between">
 
@@ -31,7 +31,7 @@ export default function BudgetCard({
             {budget.category}
           </h2>
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-gray-500">
             {budget.month}
           </p>
 

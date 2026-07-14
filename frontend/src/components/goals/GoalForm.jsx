@@ -113,10 +113,10 @@ export default function GoalForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6"
+      className="space-y-4"
     >
       <div>
-        <label className="mb-2 block text-sm font-semibold">
+        <label className="mb-2 block text-xs font-semibold">
           Goal Title
         </label>
 
@@ -143,7 +143,7 @@ export default function GoalForm({
         />
 
         {errors.title && (
-          <p className="mt-2 text-sm text-red-600">
+          <p className="mt-2 text-xs text-red-600">
             {errors.title}
           </p>
         )}
@@ -151,7 +151,7 @@ export default function GoalForm({
 
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-semibold">
+          <label className="mb-2 block text-xs font-semibold">
             Category
           </label>
 
@@ -183,7 +183,7 @@ export default function GoalForm({
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-semibold">
+          <label className="mb-2 block text-xs font-semibold">
             Deadline
           </label>
 
@@ -209,7 +209,7 @@ export default function GoalForm({
 
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm font-semibold">
+          <label className="mb-2 block text-xs font-semibold">
             Target Amount
           </label>
 
@@ -235,14 +235,14 @@ export default function GoalForm({
           />
 
           {errors.target_amount && (
-            <p className="mt-2 text-sm text-red-600">
+            <p className="mt-2 text-xs text-red-600">
               {errors.target_amount}
             </p>
           )}
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-semibold">
+          <label className="mb-2 block text-xs font-semibold">
             Current Saved
           </label>
 
@@ -267,7 +267,7 @@ export default function GoalForm({
           />
 
           {errors.current_amount && (
-            <p className="mt-2 text-sm text-red-600">
+            <p className="mt-2 text-xs text-red-600">
               {errors.current_amount}
             </p>
           )}
@@ -275,7 +275,7 @@ export default function GoalForm({
       </div>
 
       <div>
-        <div className="mb-2 flex items-center justify-between text-sm">
+        <div className="mb-2 flex items-center justify-between text-xs">
           <span className="font-medium text-gray-600 dark:text-gray-300">
             Progress Preview
           </span>

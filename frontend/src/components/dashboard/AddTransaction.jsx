@@ -74,7 +74,7 @@ const AddTransaction = ({
     <div
       className="
         bg-white
-        p-6
+        p-4
         rounded-lg
         shadow
         mt-6
@@ -83,7 +83,7 @@ const AddTransaction = ({
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-semibold
           mb-4
         "

@@ -10,15 +10,15 @@ const ProfileCard = ({
         dark:bg-gray-900
         rounded-xl
         shadow
-        p-6
+        p-4
       "
     >
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-bold
-          mb-6
+          mb-3
           dark:text-white
         "
       >

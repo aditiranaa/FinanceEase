@@ -50,7 +50,7 @@ const Profile = () => {
     return (
       <p
         className="
-          p-6
+          p-4
         "
       >
         Loading...

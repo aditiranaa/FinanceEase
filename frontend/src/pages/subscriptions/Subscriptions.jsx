@@ -37,7 +37,7 @@ export default function Subscriptions() {
     <div className="flex flex-col md:flex-row">
       <Sidebar />
 
-      <div className="flex-1 bg-gray-100 dark:bg-gray-950 min-h-screen p-6">
+      <div className="flex-1 bg-gray-100 dark:bg-gray-950 min-h-screen p-4">
         <Navbar />
 
         <div className="mt-4 space-y-8">

@@ -22,12 +22,12 @@ const SavingsGoals = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm mt-4">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Savings Goals</h2>
+    <div className="bg-white p-4 rounded-2xl shadow-sm mt-4">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-lg font-bold">Savings Goals</h2>
         <Link
           to="/goals"
-          className="text-sm text-green-600 hover:text-green-700 font-medium"
+          className="text-xs text-green-600 hover:text-green-700 font-medium"
         >
           View all →
         </Link>
@@ -97,7 +97,7 @@ const SavingsGoals = () => {
                   <GoalProgress current={current} target={target} />
                 </div>
 
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-xs text-gray-500 mt-2">
                   {percentage.toFixed(0)}% Complete
                 </p>
               </div>

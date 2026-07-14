@@ -59,7 +59,7 @@ const MonthlyTrendChart = ({
       className="
         bg-white
         rounded-2xl
-        p-6
+        p-4
         shadow-sm
         mt-4
       "
@@ -67,9 +67,9 @@ const MonthlyTrendChart = ({
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-bold
-          mb-6
+          mb-3
         "
       >
         Monthly Spending Trend

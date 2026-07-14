@@ -13,11 +13,11 @@ const Card = ({
   <div className="bg-white dark:bg-gray-900 rounded-xl shadow p-5">
     <div className="flex justify-between items-center">
       <div>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-xs">
           {title}
         </p>
 
-        <h2 className="text-2xl font-bold mt-2">
+        <h2 className="text-lg font-bold mt-2">
           {value}
         </h2>
       </div>

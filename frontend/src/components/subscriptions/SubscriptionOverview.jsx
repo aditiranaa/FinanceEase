@@ -15,8 +15,8 @@ const Card = ({ title, value, icon, color }) => (
   <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-5">
     <div className="flex items-center justify-between">
       <div>
-        <p className="text-sm text-gray-500">{title}</p>
-        <h2 className="mt-2 text-2xl font-bold">{value}</h2>
+        <p className="text-xs text-gray-500">{title}</p>
+        <h2 className="mt-2 text-lg font-bold">{value}</h2>
       </div>
 
       <div

@@ -22,7 +22,7 @@ export default function BudgetManager({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
 
       <BudgetForm
         editingBudget={editingBudget}
@@ -32,7 +32,7 @@ export default function BudgetManager({
 
       {budgets.length === 0 ? (
         <div className="text-center bg-white rounded-xl shadow p-10">
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-lg font-semibold">
             No Budgets Yet
           </h2>
 
@@ -41,7 +41,7 @@ export default function BudgetManager({
           </p>
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
 
           {budgets.map((budget) => (
             <BudgetCard

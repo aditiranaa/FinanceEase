@@ -44,15 +44,15 @@ const ExpenseChart = ({
         bg-white
         rounded-2xl
         shadow-sm
-        p-6
+        p-4
       "
     >
 
       <h2
         className="
-          text-2xl
+          text-lg
           font-bold
-          mb-6
+          mb-3
           text-gray-800
         "
       >
