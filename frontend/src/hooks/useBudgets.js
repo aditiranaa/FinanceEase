@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-
+import { useState, useEffect, useCallback } from "react";
 import {
   getBudgets,
   createBudget,
@@ -9,54 +8,55 @@ import {
 
 export default function useBudgets() {
   const [budgets, setBudgets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState(null);
-
-  const loadBudgets = async () => {
+  const fetchBudgets = useCallback(async () => {
     try {
       setLoading(true);
 
-      const data =
-        await getBudgets();
+      const data = await getBudgets();
 
       setBudgets(data);
-
       setError(null);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to load budgets."
-      );
+      setError(err);
     } finally {
       setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    loadBudgets();
   }, []);
 
-  const addBudget = async (budget) => {
-    await createBudget(budget);
-    loadBudgets();
-  };
+  useEffect(() => {
+    fetchBudgets();
+  }, [fetchBudgets]);
 
-  const editBudget = async (
-    id,
-    budget
-  ) => {
-    await updateBudget(id, budget);
-    loadBudgets();
-  };
+  const addBudget = useCallback(async (data) => {
+    const created = await createBudget(data);
 
-  const removeBudget = async (id) => {
+    setBudgets((prev) => [...prev, created]);
+
+    return created;
+  }, []);
+
+  const editBudget = useCallback(async (id, data) => {
+    const updated = await updateBudget(id, data);
+
+    setBudgets((prev) =>
+      prev.map((budget) =>
+        budget.id === id ? updated : budget
+      )
+    );
+
+    return updated;
+  }, []);
+
+  const removeBudget = useCallback(async (id) => {
     await deleteBudget(id);
-    loadBudgets();
-  };
+
+    setBudgets((prev) =>
+      prev.filter((budget) => budget.id !== id)
+    );
+  }, []);
 
   return {
     budgets,
@@ -65,6 +65,6 @@ export default function useBudgets() {
     addBudget,
     editBudget,
     removeBudget,
-    refresh: loadBudgets,
+    refetch: fetchBudgets,
   };
 }

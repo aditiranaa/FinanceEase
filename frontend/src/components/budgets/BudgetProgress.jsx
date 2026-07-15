@@ -1,48 +1,54 @@
-export default function BudgetProgress({
-  spent,
-  limit,
-}) {
-  const percentage =
-    limit === 0
-      ? 0
-      : Math.min(
-          100,
-          Math.round((spent / limit) * 100)
-        );
+const STATUS_STYLES = {
+  good: {
+    bar: "bg-emerald-500",
+    text: "text-emerald-600",
+  },
+  warning: {
+    bar: "bg-amber-400",
+    text: "text-amber-500",
+  },
+  over: {
+    bar: "bg-red-500",
+    text: "text-red-500",
+  },
+};
 
-  const color =
-    percentage >= 100
-      ? "bg-red-600"
-      : percentage >= 80
-      ? "bg-yellow-500"
-      : "bg-green-600";
+export default function BudgetProgress({
+  percentUsed,
+  status,
+}) {
+  const styles =
+    STATUS_STYLES[status] || STATUS_STYLES.good;
+
+  const progress = Math.min(
+    Math.max(percentUsed, 0),
+    100
+  );
 
   return (
-    <div>
-
-      <div className="flex justify-between text-xs mb-2">
-
-        <span>
-          Budget Usage
+    <div className="w-full">
+      <div className="mb-3 flex items-center justify-between">
+        <span
+          className={`text-base font-semibold ${styles.text}`}
+        >
+          {percentUsed}% of budget used
         </span>
 
-        <span>
-          {percentage}%
+        <span className="text-sm text-gray-500">
+          {percentUsed >= 100
+            ? "Limit reached"
+            : `${100 - percentUsed}% remaining`}
         </span>
-
       </div>
 
-      <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-
+      <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
         <div
-          className={`h-full transition-all duration-500 ${color}`}
+          className={`h-full rounded-full transition-all duration-500 ease-out ${styles.bar}`}
           style={{
-            width: `${percentage}%`,
+            width: `${progress}%`,
           }}
         />
-
       </div>
-
     </div>
   );
 }

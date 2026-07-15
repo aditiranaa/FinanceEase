@@ -9,8 +9,7 @@ export default function BudgetManager({
   editBudget,
   removeBudget,
 }) {
-  const [editingBudget, setEditingBudget] =
-    useState(null);
+  const [editingBudget, setEditingBudget] = useState(null);
 
   const handleSubmit = async (budget) => {
     if (editingBudget) {
@@ -22,8 +21,7 @@ export default function BudgetManager({
   };
 
   return (
-    <div className="space-y-4">
-
+    <div className="space-y-8">
       <BudgetForm
         editingBudget={editingBudget}
         onSubmit={handleSubmit}
@@ -31,18 +29,17 @@ export default function BudgetManager({
       />
 
       {budgets.length === 0 ? (
-        <div className="text-center bg-white rounded-xl shadow p-10">
-          <h2 className="text-lg font-semibold">
+        <div className="rounded-2xl border border-gray-200 bg-white py-16 text-center shadow-sm">
+          <h2 className="text-2xl font-bold text-gray-900">
             No Budgets Yet
           </h2>
 
-          <p className="text-gray-500 mt-2">
+          <p className="mt-3 text-gray-500">
             Add your first monthly budget.
           </p>
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-
+        <div className="space-y-5">
           {budgets.map((budget) => (
             <BudgetCard
               key={budget.id}
@@ -51,10 +48,8 @@ export default function BudgetManager({
               onDelete={removeBudget}
             />
           ))}
-
         </div>
       )}
-
     </div>
   );
 }

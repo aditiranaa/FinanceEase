@@ -1,43 +1,56 @@
-import { IndianRupee, Wallet, TrendingDown, Percent } from "lucide-react";
+import {
+  IndianRupee,
+  Wallet,
+  TrendingDown,
+  Percent,
+} from "lucide-react";
 
-const formatCurrency = (value) => {
-  return Number(value || 0).toLocaleString("en-IN", {
+const formatCurrency = (value) =>
+  Number(value || 0).toLocaleString("en-IN", {
     style: "currency",
     currency: "INR",
     maximumFractionDigits: 2,
   });
-};
 
-const StatCard = ({ title, value, icon, color }) => (
-  <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800 p-5 transition hover:shadow-lg">
-    <div className="flex items-center justify-between">
-      <div>
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          {title}
-        </p>
+function StatCard({
+  title,
+  value,
+  icon,
+  iconClass,
+}) {
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md">
+      <div className="flex items-center justify-between">
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-gray-500">
+            {title}
+          </p>
 
-        <h2 className="mt-2 text-lg font-bold text-gray-900 dark:text-white">
-          {value}
-        </h2>
-      </div>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">
+            {value}
+          </h2>
+        </div>
 
-      <div
-        className={`w-12 h-12 rounded-full flex items-center justify-center ${color}`}
-      >
-        {icon}
+        <div
+          className={`flex h-14 w-14 items-center justify-center rounded-2xl ${iconClass}`}
+        >
+          {icon}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
-export default function BudgetOverview({ budgets = [] }) {
+export default function BudgetOverview({
+  budgets = [],
+}) {
   const totalBudget = budgets.reduce(
-    (sum, budget) => sum + Number(budget.limit),
+    (sum, budget) => sum + Number(budget.limit || 0),
     0
   );
 
   const totalSpent = budgets.reduce(
-    (sum, budget) => sum + Number(budget.spent),
+    (sum, budget) => sum + Number(budget.spent || 0),
     0
   );
 
@@ -48,48 +61,50 @@ export default function BudgetOverview({ budgets = [] }) {
       ? 0
       : Math.min(
           100,
-          Math.round((totalSpent / totalBudget) * 100)
+          Math.round(
+            (totalSpent / totalBudget) * 100
+          )
         );
 
   return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mb-4">
+    <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       <StatCard
         title="Total Budget"
         value={formatCurrency(totalBudget)}
-        color="bg-blue-100 text-blue-600"
-        icon={<Wallet size={24} />}
+        icon={<Wallet size={28} />}
+        iconClass="bg-blue-100 text-blue-600"
       />
 
       <StatCard
         title="Spent"
         value={formatCurrency(totalSpent)}
-        color="bg-red-100 text-red-600"
-        icon={<TrendingDown size={24} />}
+        icon={<TrendingDown size={28} />}
+        iconClass="bg-red-100 text-red-600"
       />
 
       <StatCard
         title="Remaining"
         value={formatCurrency(remaining)}
-        color={
+        icon={<IndianRupee size={28} />}
+        iconClass={
           remaining >= 0
-            ? "bg-green-100 text-green-600"
+            ? "bg-emerald-100 text-emerald-600"
             : "bg-red-100 text-red-600"
         }
-        icon={<IndianRupee size={24} />}
       />
 
       <StatCard
         title="Budget Used"
         value={`${percentage}%`}
-        color={
+        icon={<Percent size={28} />}
+        iconClass={
           percentage >= 90
             ? "bg-red-100 text-red-600"
             : percentage >= 70
-            ? "bg-yellow-100 text-yellow-600"
-            : "bg-green-100 text-green-600"
+            ? "bg-amber-100 text-amber-600"
+            : "bg-emerald-100 text-emerald-600"
         }
-        icon={<Percent size={24} />}
       />
-    </div>
+    </section>
   );
 }

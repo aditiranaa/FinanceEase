@@ -14,12 +14,12 @@ export const getBudget = async (id) => {
 
 export const createBudget = async (data) => {
   const res = await API.post(BASE, data);
-  return res.data;
+  return res.data.budget;
 };
 
 export const updateBudget = async (id, data) => {
   const res = await API.put(`${BASE}/${id}`, data);
-  return res.data;
+  return res.data.budget;
 };
 
 export const deleteBudget = async (id) => {
