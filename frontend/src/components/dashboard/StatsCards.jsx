@@ -3,141 +3,115 @@ import {
   TrendingUp,
   TrendingDown,
   PiggyBank,
+  ArrowUpRight,
 } from "lucide-react";
 
-const StatsCards = ({
+const formatCurrency = (value) =>
+  Number(value || 0).toLocaleString("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  });
+
+function StatCard({
+  title,
+  value,
+  icon: Icon,
+  iconBg,
+  iconColor,
+  subtitle,
+}) {
+  return (
+    <div className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-500">
+            {title}
+          </p>
+
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-gray-900">
+            {value}
+          </h2>
+        </div>
+
+        <div
+          className={`flex h-14 w-14 items-center justify-center rounded-2xl ${iconBg}`}
+        >
+          <Icon
+            size={28}
+            className={iconColor}
+          />
+        </div>
+      </div>
+
+      <div className="mt-8 flex items-center justify-between border-t border-gray-100 pt-5">
+        <span className="text-sm text-gray-500">
+          {subtitle}
+        </span>
+
+        <div className="flex items-center gap-1 text-sm font-semibold text-emerald-600">
+          <ArrowUpRight size={16} />
+          Live
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function StatsCards({
   balance,
   income,
   expenses,
   savings,
-}) => {
-
+}) {
   const cards = [
-
     {
       title: "Total Balance",
-      amount: `₹${Number(balance).toLocaleString("en-IN")}`,
-      icon: <Wallet size={28} />,
-      bg: "bg-blue-500",
+      value: formatCurrency(balance),
+      icon: Wallet,
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
+      subtitle: "Current balance",
     },
-
     {
       title: "Income",
-      amount: `₹${Number(income).toLocaleString("en-IN")}`,
-      icon: <TrendingUp size={28} />,
-      bg: "bg-green-500",
+      value: formatCurrency(income),
+      icon: TrendingUp,
+      iconBg: "bg-emerald-100",
+      iconColor: "text-emerald-600",
+      subtitle: "Money received",
     },
-
     {
       title: "Expenses",
-      amount: `₹${Math.abs(expenses).toLocaleString("en-IN")}`,
-      icon: <TrendingDown size={28} />,
-      bg: "bg-red-500",
+      value: formatCurrency(Math.abs(expenses)),
+      icon: TrendingDown,
+      iconBg: "bg-red-100",
+      iconColor: "text-red-600",
+      subtitle: "Money spent",
     },
-
     {
       title: "Savings",
-      amount: `₹${Number(savings).toLocaleString("en-IN")}`,
-      icon: <PiggyBank size={28} />,
-      bg: "bg-purple-500",
+      value: formatCurrency(savings),
+      icon: PiggyBank,
+      iconBg: "bg-violet-100",
+      iconColor: "text-violet-600",
+      subtitle: "Available savings",
     },
-
   ];
 
   return (
-
-    <div
-      className="
-        grid
-        grid-cols-1
-        sm:grid-cols-2
-        xl:grid-cols-4
-        gap-4
-        mt-4
-      "
-    >
-
+    <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => (
-
-        <div
+        <StatCard
           key={card.title}
-
-          className="
-            bg-white
-            dark:bg-gray-900
-            rounded-2xl
-            p-4
-            shadow-sm
-            hover:shadow-xl
-            hover:-translate-y-1
-            transition-all
-            duration-300
-            "
-        >
-
-          <div
-            className="
-              flex
-              justify-between
-              items-center
-            "
-          >
-
-            <div>
-
-              <p
-                className="
-                text-gray-500
-                dark:text-gray-300
-                "
-                >
-                {card.title}
-              </p>
-
-              <h2
-                className="
-                  text-4xl
-                  font-extrabold
-                  mt-3
-                  text-gray-800
-                  dark:text-white
-                "
-              >
-                {card.amount}
-              </h2>
-
-                <p
-                  className="
-                    text-green-500
-                    text-xs
-                    mt-2
-                    font-semibold
-                  "
-                >
-                  ▲ Updated recently
-                </p>
-            </div>
-
-            <div
-              className={`
-                ${card.bg}
-                text-white
-                p-5
-                rounded-2xl
-                shadow-lg
-              `}
-            >
-              {card.icon}
-            </div>
-
-          </div>
-
-        </div>
-
+          title={card.title}
+          value={card.value}
+          icon={card.icon}
+          iconBg={card.iconBg}
+          iconColor={card.iconColor}
+          subtitle={card.subtitle}
+        />
       ))}
-
-    </div>
+    </section>
   );
-};
-
-export default StatsCards;
+}

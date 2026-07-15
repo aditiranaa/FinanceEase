@@ -1,115 +1,175 @@
 import {
-  LineChart,
-  Line,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
   CartesianGrid,
+  Tooltip,
 } from "recharts";
 
-const MonthlyTrendChart = ({
-  transactions,
-}) => {
+const MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
+export default function MonthlyTrendChart({
+  transactions,
+}) {
   const monthlyData = {};
 
-  transactions.forEach(
-    (transaction) => {
+  transactions.forEach((transaction) => {
+    const month = new Date(
+      transaction.date
+    ).toLocaleString("default", {
+      month: "short",
+    });
 
-      const month =
-        new Date(
-          transaction.date
-        ).toLocaleString(
-          "default",
-          {
-            month: "short",
-          }
-        );
-
-      if (!monthlyData[month]) {
-
-        monthlyData[month] = 0;
-
-      }
-
-      monthlyData[month] +=
-        Math.abs(
-          Number(
-            transaction.amount
-          )
-        );
-
+    if (!monthlyData[month]) {
+      monthlyData[month] = {
+        income: 0,
+        expenses: 0,
+      };
     }
-  );
 
-  const chartData =
-    Object.entries(
-      monthlyData
-    ).map(
-      ([month, total]) => ({
-        month,
-        total,
-      })
-    );
+    const amount = Number(transaction.amount);
+
+    if (amount >= 0) {
+      monthlyData[month].income += amount;
+    } else {
+      monthlyData[month].expenses += Math.abs(amount);
+    }
+  });
+
+  const chartData = MONTHS.filter(
+    (month) => monthlyData[month]
+  ).map((month) => ({
+    month,
+    income: monthlyData[month].income,
+    expenses: monthlyData[month].expenses,
+  }));
 
   return (
+    <section className="rounded-3xl border border-gray-200 bg-white p-7 shadow-sm">
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">
+            Monthly Cash Flow
+          </h2>
 
-    <div
-      className="
-        bg-white
-        rounded-2xl
-        p-4
-        shadow-sm
-        mt-4
-      "
-    >
+          <p className="mt-1 text-sm text-gray-500">
+            Income versus expenses over time.
+          </p>
+        </div>
+      </div>
 
-      <h2
-        className="
-          text-lg
-          font-bold
-          mb-3
-        "
-      >
-        Monthly Spending Trend
-      </h2>
-
-      <ResponsiveContainer
-        width="100%"
-        height={300}
-      >
-
-        <LineChart
-          data={chartData}
+      {chartData.length === 0 ? (
+        <div className="flex h-80 items-center justify-center rounded-2xl border border-dashed border-gray-200 bg-gray-50">
+          <p className="text-gray-500">
+            No monthly data available.
+          </p>
+        </div>
+      ) : (
+        <ResponsiveContainer
+          width="100%"
+          height={360}
         >
+          <AreaChart data={chartData}>
+            <defs>
+              <linearGradient
+                id="incomeFill"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="5%"
+                  stopColor="#10B981"
+                  stopOpacity={0.35}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="#10B981"
+                  stopOpacity={0}
+                />
+              </linearGradient>
 
-          <CartesianGrid
-            strokeDasharray="3 3"
-          />
+              <linearGradient
+                id="expenseFill"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop
+                  offset="5%"
+                  stopColor="#EF4444"
+                  stopOpacity={0.28}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="#EF4444"
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
 
-          <XAxis
-            dataKey="month"
-          />
+            <CartesianGrid
+              strokeDasharray="4 4"
+              vertical={false}
+              stroke="#E5E7EB"
+            />
 
-          <YAxis />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+            />
 
-          <Tooltip />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+            />
 
-          <Line
-            type="monotone"
-            dataKey="total"
-            stroke="#3B82F6"
-          />
+            <Tooltip
+              formatter={(value) => [
+                `₹${Number(value).toLocaleString(
+                  "en-IN"
+                )}`,
+              ]}
+            />
 
-        </LineChart>
+            <Area
+              type="monotone"
+              dataKey="income"
+              name="Income"
+              stroke="#10B981"
+              strokeWidth={3}
+              fill="url(#incomeFill)"
+            />
 
-      </ResponsiveContainer>
-
-    </div>
-
+            <Area
+              type="monotone"
+              dataKey="expenses"
+              name="Expenses"
+              stroke="#EF4444"
+              strokeWidth={3}
+              fill="url(#expenseFill)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
+    </section>
   );
-
-};
-
-export default MonthlyTrendChart;
+}
