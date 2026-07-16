@@ -1,43 +1,37 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Bell,
-  ChevronDown,
   User,
+  Settings,
+  ChevronDown,
   LogOut,
-  Search,
-  Plus,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
+import { getProfile } from "../../api/authApi";
 
-export default function Navbar() {
+const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { logout } = useAuth();
+  const { darkMode, setDarkMode } = useTheme();
 
-  const [open, setOpen] = useState(false);
-
-  const menuRef = useRef(null);
+  const [profile, setProfile] = useState(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(e.target)
-      ) {
-        setOpen(false);
+    const fetchProfile = async () => {
+      try {
+        const data = await getProfile();
+        setProfile(data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
       }
-    }
+    };
 
-    document.addEventListener(
-      "mousedown",
-      handleClickOutside
-    );
-
-    return () =>
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+    fetchProfile();
   }, []);
 
   const handleLogout = () => {
@@ -45,108 +39,135 @@ export default function Navbar() {
     navigate("/");
   };
 
-  return (
-    <header className="sticky top-0 z-20 mb-8 flex h-20 items-center justify-between rounded-3xl border border-gray-200 bg-white px-8 shadow-sm">
-      {/* Left */}
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-          Welcome Back 👋
-        </h1>
+  const pageInfo = {
+    "/dashboard": "Overview",
+    "/transactions": "Transactions",
+    "/budgets": "Budgets",
+    "/goals": "Goals",
+    "/analytics": "Analytics",
+    "/profile": "Profile",
+  };
 
-        <p className="mt-1 text-sm text-gray-500">
-          Here's what's happening with your finances today.
-        </p>
-      </div>
+  const title =
+    pageInfo[location.pathname] || "FinanceEase";
+
+  const getInitials = (name) => {
+    if (!name) return "JD";
+
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  return (
+    <header className="mb-6 flex items-center justify-between border-b border-slate-200/80 pb-4 dark:border-white/[0.05]">
+
+      {/* Left */}
+      <h1 className="text-xl font-bold text-slate-800 dark:text-white">
+        {title}
+      </h1>
 
       {/* Right */}
       <div className="flex items-center gap-4">
-        {/* Search */}
-        <div className="hidden items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 lg:flex">
-          <Search
-            size={18}
-            className="text-gray-400"
-          />
-
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-56 bg-transparent text-sm outline-none placeholder:text-gray-400"
-          />
-        </div>
-
-        {/* Quick Add */}
-        <button className="hidden items-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white transition hover:bg-emerald-700 lg:flex">
-          <Plus size={18} />
-          Add New
-        </button>
 
         {/* Notifications */}
-        <button className="relative rounded-2xl border border-gray-200 bg-white p-3 transition hover:bg-gray-50">
-          <Bell
-            size={20}
-            className="text-gray-600"
-          />
+        <button className="relative rounded-full p-1.5 transition hover:bg-slate-100 dark:hover:bg-slate-800">
+          <Bell className="h-4 w-4 text-slate-600 dark:text-slate-300" />
 
-          <span className="absolute right-3 top-3 h-2.5 w-2.5 rounded-full border-2 border-white bg-red-500" />
+          <span className="absolute right-1 top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-white bg-blue-500 text-[8px] font-bold text-white dark:border-slate-900">
+            3
+          </span>
+        </button>
+
+        {/* Theme */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="rounded-full p-1.5 transition hover:bg-slate-100 dark:hover:bg-slate-800"
+        >
+          <Settings className="h-4 w-4 text-slate-600 dark:text-slate-300" />
         </button>
 
         {/* Profile */}
-        <div
-          className="relative"
-          ref={menuRef}
-        >
+        <div className="relative">
+
           <button
             onClick={() =>
-              setOpen((prev) => !prev)
+              setIsProfileOpen(!isProfileOpen)
             }
-            className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-3 py-2 transition hover:bg-gray-50"
+            className="flex items-center gap-2 rounded-lg p-1 transition hover:bg-slate-100 dark:hover:bg-slate-800"
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-600 text-base font-bold text-white">
-              U
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white">
+              {profile
+                ? getInitials(profile.name)
+                : "JD"}
             </div>
 
-            <div className="hidden text-left md:block">
-              <p className="text-sm font-semibold text-gray-900">
-                John Doe
-              </p>
+            <span className="hidden text-xs font-semibold text-slate-700 dark:text-slate-200 sm:inline">
+              {profile
+                ? profile.name
+                : "John Doe"}
+            </span>
 
-              <p className="text-xs text-gray-500">
-                Personal Account
-              </p>
-            </div>
-
-            <ChevronDown
-              size={18}
-              className={`text-gray-500 transition-transform ${
-                open ? "rotate-180" : ""
-              }`}
-            />
+            <ChevronDown className="h-3 w-3 text-slate-400" />
           </button>
 
-          {open && (
-            <div className="absolute right-0 mt-3 w-60 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
-              <button
-                onClick={() => {
-                  navigate("/profile");
-                  setOpen(false);
-                }}
-                className="flex w-full items-center gap-3 px-5 py-4 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-              >
-                <User size={18} />
-                Profile
-              </button>
+          {isProfileOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-30"
+                onClick={() =>
+                  setIsProfileOpen(false)
+                }
+              />
 
-              <button
-                onClick={handleLogout}
-                className="flex w-full items-center gap-3 px-5 py-4 text-sm font-medium text-red-600 transition hover:bg-red-50"
-              >
-                <LogOut size={18} />
-                Logout
-              </button>
-            </div>
+              <div className="absolute right-0 z-40 mt-2 w-48 rounded-xl border border-slate-100 bg-white p-1.5 shadow-lg dark:border-white/[0.08] dark:bg-slate-900">
+
+                <div className="border-b border-slate-100 px-3 py-2 dark:border-white/[0.04]">
+                  <p className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                    {profile
+                      ? profile.name
+                      : "John Doe"}
+                  </p>
+
+                  <p className="truncate text-[10px] text-slate-400">
+                    {profile
+                      ? profile.email
+                      : "john@example.com"}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setIsProfileOpen(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-slate-600 transition hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  <User className="h-3.5 w-3.5" />
+                  My Profile
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs font-medium text-rose-600 transition hover:bg-rose-50 dark:hover:bg-rose-950/20"
+                >
+                  <LogOut className="h-3.5 w-3.5" />
+                  Sign Out
+                </button>
+
+              </div>
+            </>
           )}
+
         </div>
+
       </div>
+
     </header>
   );
-}
+};
+
+export default Navbar;

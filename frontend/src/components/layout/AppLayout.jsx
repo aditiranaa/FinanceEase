@@ -1,18 +1,32 @@
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
 export default function AppLayout({ children }) {
-  return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
-      <Sidebar />
+  const [collapsed, setCollapsed] = useState(false);
 
-      <main className="flex-1 overflow-x-hidden">
-        <div className="px-5 pt-2 pb-4">
+  return (
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
+      <Sidebar
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+      />
+
+      <main
+        className={`
+          transition-all
+          duration-300
+          ${
+            collapsed
+              ? "md:ml-24"
+              : "md:ml-72"
+          }
+        `}
+      >
+        <div className="px-6 pt-2 pb-4">
           <Navbar />
 
-          <div className="mt-2">
-            {children}
-          </div>
+          {children}
         </div>
       </main>
     </div>

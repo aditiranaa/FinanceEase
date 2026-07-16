@@ -9,8 +9,7 @@ from "../../components/layout/Sidebar";
 import Navbar
 from "../../components/layout/Navbar";
 
-import AddTransaction
-from "../../components/dashboard/AddTransaction";
+
 
 import RecentTransactions
 from "../../components/dashboard/RecentTransactions";
@@ -70,7 +69,7 @@ const Transactions = () => {
       <div
         className="
           flex-1
-          p-4
+          p-6
           bg-gray-100
           min-h-screen
         "
@@ -78,11 +77,7 @@ const Transactions = () => {
 
         <Navbar />
 
-        <AddTransaction
-          fetchTransactions={
-            fetchTransactions
-          }
-        />
+        
 
         <RecentTransactions
           transactions={

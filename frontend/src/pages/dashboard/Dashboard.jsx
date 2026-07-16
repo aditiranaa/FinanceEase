@@ -1,76 +1,168 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-import AppLayout from "../../components/layout/AppLayout";
+import Sidebar
+from "../../components/layout/Sidebar";
 
-import HeroBanner from "../../components/dashboard/HeroBanner";
-import StatsCards from "../../components/dashboard/StatsCards";
-import AICoach from "../../components/dashboard/AICoach";
-import AddTransaction from "../../components/dashboard/AddTransaction";
-import RecentTransactions from "../../components/dashboard/RecentTransactions";
-import ExpenseChart from "../../components/dashboard/ExpenseChart";
-import MonthlyTrendChart from "../../components/dashboard/MonthlyTrendChart";
-import ExportTransactions from "../../components/dashboard/ExportTransactions";
-import BudgetAlerts from "../../components/budgets/BudgetAlerts";
-import SavingsGoals from "../../components/dashboard/SavingsGoals";
-import AIInsights from "../../components/dashboard/AIInsights";
-import RecurringTransactions from "../../components/dashboard/RecurringTransactions";
+import Navbar
+from "../../components/layout/Navbar";
+
+import StatsCards
+from "../../components/dashboard/StatsCards";
+
+
+
+import RecentTransactions
+from "../../components/dashboard/RecentTransactions";
+
+import ExpenseChart
+from "../../components/dashboard/ExpenseChart";
+
+import BudgetManager
+from "../budgets/BudgetManager";
+
+import MonthlyTrendChart
+from "../../components/dashboard/MonthlyTrendChart";
+
+import AIInsights
+from "../../components/dashboard/AIInsights";
+
+import ExportTransactions
+from "../../components/dashboard/ExportTransactions";
+
+import RecurringTransactions
+from "../../components/dashboard/RecurringTransactions";
+
+import BudgetAlerts
+from "../../components/budgets/BudgetAlerts";
+
+import SavingsGoals
+from "../../components/dashboard/SavingsGoals";
 
 import {
   getTransactions,
   getBudgets,
 } from "../../api/authApi";
 
+import AICoach
+from "../../components/dashboard/AICoach";
+
+import HeroBanner
+from "../../components/dashboard/HeroBanner";
+
 const Dashboard = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [budgets, setBudgets] = useState([]);
 
-  const income = transactions
-    .filter((transaction) => transaction.amount > 0)
+  const [transactions,
+    setTransactions] =
+      useState([]);
+
+  const [budgets, setBudgets] =
+  useState([]);
+
+  const income =
+  transactions
+    .filter(
+      (transaction) =>
+        transaction.amount > 0
+    )
     .reduce(
-      (acc, transaction) => acc + Number(transaction.amount),
+      (acc, transaction) =>
+        acc + Number(transaction.amount),
       0
     );
 
-  const expenses = transactions
-    .filter((transaction) => transaction.amount < 0)
+const expenses =
+  transactions
+    .filter(
+      (transaction) =>
+        transaction.amount < 0
+    )
     .reduce(
-      (acc, transaction) => acc + Number(transaction.amount),
+      (acc, transaction) =>
+        acc + Number(transaction.amount),
       0
     );
 
-  const balance = income + expenses;
-  const savings = balance;
+const balance =
+  income + expenses;
 
-  const fetchTransactions = async () => {
+const savings =
+  balance;
+
+  const fetchTransactions =
+    async () => {
+
     try {
-      const data = await getTransactions();
+
+      const data =
+        await getTransactions();
+
       setTransactions(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const fetchBudgets = async () => {
-    try {
-      const data = await getBudgets();
-      setBudgets(data);
     } catch (error) {
+
       console.log(error);
+
     }
   };
 
   useEffect(() => {
-    fetchTransactions();
-    fetchBudgets();
-  }, []);
+
+  fetchTransactions();
+
+  fetchBudgets();
+
+}, []);
+
+  const fetchBudgets =
+  async () => {
+
+    try {
+
+      const data =
+        await getBudgets();
+
+      setBudgets(data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  };
 
   return (
-    <AppLayout>
-      <div className="space-y-8">
-        {/* Hero */}
-        <HeroBanner balance={balance} />
 
-        {/* Statistics */}
+    <div
+  className="
+    flex
+    flex-col
+    md:flex-row
+  "
+>
+
+      <Sidebar />
+
+      <div
+        className="
+          flex-1
+          p-6
+          bg-gray-100
+          dark:bg-gray-800
+          min-h-screen
+          transition-colors
+        "
+      >
+
+        <Navbar />
+
+        <HeroBanner
+          balance={balance}
+        />
+
         <StatsCards
           balance={balance}
           income={income}
@@ -78,48 +170,39 @@ const Dashboard = () => {
           savings={savings}
         />
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
-          {/* Left */}
-          <div className="space-y-8 xl:col-span-8">
-            <ExpenseChart
-              transactions={transactions}
-            />
+        <AICoach />
+        
+        
 
-            <MonthlyTrendChart
-              transactions={transactions}
-            />
+        <RecurringTransactions />
+        
+        <RecentTransactions
+          transactions={transactions}
+          fetchTransactions={fetchTransactions}
+        />
 
-            <RecentTransactions
-              transactions={transactions}
-              fetchTransactions={fetchTransactions}
-            />
-          </div>
+        <ExpenseChart
+          transactions={transactions}
+        />
 
-          {/* Right */}
-          <div className="space-y-8 xl:col-span-4">
-            <AICoach />
+        <MonthlyTrendChart
+          transactions={transactions}
+        />
 
-            <AddTransaction
-              fetchTransactions={fetchTransactions}
-            />
+        <ExportTransactions
+          transactions={transactions}
+        />
 
-            <BudgetAlerts budgets={budgets} />
+        <BudgetAlerts
+          budgets={budgets}
+          transactions={transactions}
+        />
+        <SavingsGoals />
 
-            <SavingsGoals />
-
-            <RecurringTransactions />
-
-            <ExportTransactions
-              transactions={transactions}
-            />
-          </div>
-        </div>
-
-        {/* Bottom */}
         <AIInsights />
       </div>
-    </AppLayout>
+
+    </div>
   );
 };
 

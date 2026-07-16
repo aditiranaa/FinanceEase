@@ -10,9 +10,14 @@ import {
   Menu,
   X,
   ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({
+  collapsed,
+  setCollapsed,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -61,7 +66,7 @@ const Sidebar = () => {
         {isOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
 
-      {/* Overlay */}
+      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm md:hidden"
@@ -72,12 +77,26 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed left-0 top-0 z-40 flex h-screen w-72 flex-col
-          border-r border-gray-200
+          fixed
+          left-0
+          top-0
+          z-40
+          flex
+          h-screen
+          flex-col
+          border-r
+          border-gray-200
           bg-white
-          px-6 py-8
+          py-8
           shadow-xl
-          transition-transform duration-300
+          transition-all
+          duration-300
+
+          ${
+            collapsed
+              ? "w-24 px-3"
+              : "w-72 px-6"
+          }
 
           ${
             isOpen
@@ -88,27 +107,60 @@ const Sidebar = () => {
           md:translate-x-0
         `}
       >
-        {/* Logo */}
-        <div>
-          <div className="flex items-center gap-3">
+        {/* Header */}
+        <div className="mb-10 flex items-center justify-between">
+
+          <div
+            className={`flex items-center ${
+              collapsed
+                ? "justify-center"
+                : "gap-3"
+            }`}
+          >
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-xl font-bold text-white shadow-sm">
               F
             </div>
 
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-gray-900">
-                FinanceEase
-              </h1>
+            {!collapsed && (
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+                  FinanceEase
+                </h1>
 
-              <p className="text-sm text-gray-500">
-                Personal Finance
-              </p>
-            </div>
+                <p className="text-sm text-gray-500">
+                  Personal Finance
+                </p>
+              </div>
+            )}
           </div>
+
+          <button
+            onClick={() =>
+              setCollapsed(!collapsed)
+            }
+            className="
+              hidden
+              md:flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-lg
+              transition
+              hover:bg-gray-100
+            "
+          >
+            {collapsed ? (
+              <PanelLeftOpen size={18} />
+            ) : (
+              <PanelLeftClose size={18} />
+            )}
+          </button>
+
         </div>
 
         {/* Navigation */}
-        <nav className="mt-12 flex-1 space-y-2">
+        <nav className="flex-1 space-y-2">
           {menuItems.map((item) => {
             const Icon = item.icon;
 
@@ -127,11 +179,13 @@ const Sidebar = () => {
                   flex
                   w-full
                   items-center
-                  justify-between
+                  ${
+                    collapsed
+                      ? "justify-center px-2"
+                      : "justify-between px-4"
+                  }
                   rounded-2xl
-                  px-4
                   py-4
-                  text-left
                   transition-all
                   duration-200
 
@@ -142,10 +196,21 @@ const Sidebar = () => {
                   }
                 `}
               >
-                <div className="flex items-center gap-4">
+                <div
+                  className={`flex items-center ${
+                    collapsed
+                      ? "justify-center"
+                      : "gap-4"
+                  }`}
+                >
                   <div
                     className={`
-                      flex h-11 w-11 items-center justify-center rounded-xl
+                      flex
+                      h-11
+                      w-11
+                      items-center
+                      justify-center
+                      rounded-xl
 
                       ${
                         active
@@ -156,13 +221,14 @@ const Sidebar = () => {
                   >
                     <Icon size={21} />
                   </div>
-
-                  <span className="text-[16px] font-semibold">
-                    {item.name}
-                  </span>
+                                    {!collapsed && (
+                    <span className="whitespace-nowrap text-[16px] font-semibold">
+                      {item.name}
+                    </span>
+                  )}
                 </div>
 
-                {active && (
+                {!collapsed && active && (
                   <ChevronRight
                     size={18}
                     className="text-emerald-600"
@@ -173,24 +239,27 @@ const Sidebar = () => {
           })}
         </nav>
 
-        {/* Bottom User Card */}
-        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-lg font-bold text-white">
-              U
-            </div>
+        {/* Bottom Card */}
+        {!collapsed && (
+          <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-lg font-bold text-white">
+                U
+              </div>
 
-            <div>
-              <h3 className="font-semibold text-gray-900">
-                Welcome Back
-              </h3>
+              <div>
+                <h3 className="font-semibold text-gray-900">
+                  Welcome Back
+                </h3>
 
-              <p className="text-sm text-gray-500">
-                Manage your finances
-              </p>
+                <p className="text-sm text-gray-500">
+                  Manage your finances
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
       </aside>
     </>
   );
