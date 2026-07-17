@@ -14,10 +14,7 @@ import {
   PanelLeftOpen,
 } from "lucide-react";
 
-const Sidebar = ({
-  collapsed,
-  setCollapsed,
-}) => {
+const Sidebar = ({ collapsed, setCollapsed }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -58,15 +55,15 @@ const Sidebar = ({
 
   return (
     <>
-      {/* Mobile Toggle */}
+      {/* Mobile Menu Button */}
       <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed left-5 top-5 z-50 rounded-xl border border-gray-200 bg-white p-2 shadow-lg md:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed left-5 top-5 z-50 flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-lg transition hover:bg-slate-50 md:hidden"
       >
-        {isOpen ? <X size={22} /> : <Menu size={22} />}
+        {isOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Mobile Overlay */}
+      {/* Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm md:hidden"
@@ -85,122 +82,110 @@ const Sidebar = ({
           h-screen
           flex-col
           border-r
-          border-gray-200
+          border-slate-200
           bg-white
-          py-8
           shadow-xl
-          transition-all
+          transition-[width,transform]
           duration-300
+          ease-in-out
+          overflow-hidden
 
-          ${
-            collapsed
-              ? "w-24 px-3"
-              : "w-72 px-6"
-          }
+          ${collapsed ? "w-20" : "w-72"}
 
           ${
             isOpen
               ? "translate-x-0"
-              : "-translate-x-full"
+              : "-translate-x-full md:translate-x-0"
           }
-
-          md:translate-x-0
         `}
       >
         {/* Header */}
-        <div className="mb-10 flex items-center justify-between">
-
+        <div className="flex items-center justify-between px-5 py-6">
           <div
             className={`flex items-center ${
-              collapsed
-                ? "justify-center"
-                : "gap-3"
+              collapsed ? "justify-center w-full" : "gap-3"
             }`}
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-xl font-bold text-white shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-600 text-xl font-bold text-white shadow">
               F
             </div>
 
             {!collapsed && (
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+              <div className="overflow-hidden">
+                <h1 className="truncate text-xl font-bold text-slate-900">
                   FinanceEase
                 </h1>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-slate-500">
                   Personal Finance
                 </p>
               </div>
             )}
           </div>
 
-          <button
-            onClick={() =>
-              setCollapsed(!collapsed)
-            }
-            className="
-              hidden
-              md:flex
-              h-9
-              w-9
-              items-center
-              justify-center
-              rounded-lg
-              transition
-              hover:bg-gray-100
-            "
-          >
-            {collapsed ? (
-              <PanelLeftOpen size={18} />
-            ) : (
+          {!collapsed && (
+            <button
+              onClick={() => setCollapsed(true)}
+              className="hidden h-9 w-9 items-center justify-center rounded-lg transition hover:bg-slate-100 md:flex"
+            >
               <PanelLeftClose size={18} />
-            )}
-          </button>
-
+            </button>
+          )}
         </div>
 
+        {/* Collapse Button */}
+        {collapsed && (
+          <div className="mb-4 flex justify-center">
+            <button
+              onClick={() => setCollapsed(false)}
+              className="hidden h-10 w-10 items-center justify-center rounded-xl transition hover:bg-slate-100 md:flex"
+            >
+              <PanelLeftOpen size={18} />
+            </button>
+          </div>
+        )}
+
         {/* Navigation */}
-        <nav className="flex-1 space-y-2">
+        <nav className="flex-1 space-y-2 px-3">
           {menuItems.map((item) => {
             const Icon = item.icon;
 
-            const active =
-              location.pathname === item.path;
+            const active = location.pathname === item.path;
 
             return (
               <button
                 key={item.path}
+                title={collapsed ? item.name : ""}
                 onClick={() => {
                   navigate(item.path);
                   setIsOpen(false);
                 }}
                 className={`
                   group
+                  relative
                   flex
                   w-full
                   items-center
-                  ${
-                    collapsed
-                      ? "justify-center px-2"
-                      : "justify-between px-4"
-                  }
                   rounded-2xl
-                  py-4
                   transition-all
                   duration-200
 
                   ${
+                    collapsed
+                      ? "justify-center h-14"
+                      : "justify-between px-4 py-3"
+                  }
+
+                  ${
                     active
-                      ? "bg-emerald-50 text-emerald-700 shadow-sm"
-                      : "text-gray-600 hover:bg-gray-100"
+                      ? "bg-emerald-50 text-emerald-700"
+                      : "text-slate-600 hover:bg-slate-100"
                   }
                 `}
               >
                 <div
                   className={`flex items-center ${
-                    collapsed
-                      ? "justify-center"
-                      : "gap-4"
+                    collapsed ? "" : "gap-4"
                   }`}
                 >
                   <div
@@ -211,18 +196,20 @@ const Sidebar = ({
                       items-center
                       justify-center
                       rounded-xl
+                      transition-all
 
                       ${
                         active
-                          ? "bg-emerald-600 text-white"
-                          : "bg-gray-100 text-gray-600 group-hover:bg-white"
+                          ? "bg-emerald-600 text-white shadow"
+                          : "bg-slate-100 text-slate-600 group-hover:bg-white"
                       }
                     `}
                   >
-                    <Icon size={21} />
+                    <Icon size={20} />
                   </div>
-                                    {!collapsed && (
-                    <span className="whitespace-nowrap text-[16px] font-semibold">
+
+                  {!collapsed && (
+                    <span className="font-semibold">
                       {item.name}
                     </span>
                   )}
@@ -239,27 +226,26 @@ const Sidebar = ({
           })}
         </nav>
 
-        {/* Bottom Card */}
+        {/* Footer */}
         {!collapsed && (
-          <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+          <div className="m-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-lg font-bold text-white">
                 U
               </div>
 
               <div>
-                <h3 className="font-semibold text-gray-900">
+                <h3 className="font-semibold text-slate-900">
                   Welcome Back
                 </h3>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-slate-500">
                   Manage your finances
                 </p>
               </div>
             </div>
           </div>
         )}
-
       </aside>
     </>
   );

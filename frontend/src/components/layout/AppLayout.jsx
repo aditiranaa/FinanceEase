@@ -13,19 +13,12 @@ export default function AppLayout({ children }) {
       />
 
       <main
-        className={`
-          transition-all
-          duration-300
-          ${
-            collapsed
-              ? "md:ml-24"
-              : "md:ml-72"
-          }
-        `}
+        className={`transition-[margin] duration-300 ${
+          collapsed ? "md:ml-20" : "md:ml-72"
+        }`}
       >
         <div className="px-6 pt-2 pb-4">
           <Navbar />
-
           {children}
         </div>
       </main>
