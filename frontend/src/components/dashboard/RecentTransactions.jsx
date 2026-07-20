@@ -71,10 +71,10 @@ const CATEGORY_ICONS = {
 };
 
 const inputClass =
-  "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-slate-900/80 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-blue-400";
+  "w-full rounded-3xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 dark:border-white/10 dark:bg-slate-900/80 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-blue-400";
 
 const toolbarSelectClass =
-  "rounded-lg border border-slate-200 bg-white pl-8 pr-8 py-2 text-xs font-semibold text-slate-600 appearance-none outline-none hover:border-slate-300 dark:border-white/10 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-white/20 transition-all cursor-pointer";
+  "rounded-2xl border border-slate-200 bg-white pl-8 pr-8 py-2 text-xs font-semibold text-slate-600 appearance-none outline-none hover:border-slate-300 dark:border-white/10 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-white/20 transition-all cursor-pointer";
 
 const getTransactionId = (transaction) =>
   transaction?.id ?? transaction?._id ?? transaction?.transactionId;
@@ -345,7 +345,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
   const amountBadge = (amount) => {
     const isIncome = toAmount(amount) >= 0;
     return (
-      <span className={`text-xs md:text-sm font-bold tracking-tight shrink-0 ${isIncome ? "text-emerald-600 dark:text-emerald-400" : "text-slate-700 dark:text-slate-300"}`}>
+      <span className={`text-lg font-bold tracking-tight shrink-0 ${isIncome ? "text-emerald-600 dark:text-emerald-400" : "text-slate-700 dark:text-slate-300"}`}>
         {isIncome ? "+" : "-"}
         {formatCurrency(amount)}
       </span>
@@ -354,15 +354,13 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
 
   return (
     <div className="space-y-4">
-      {/* Yellow Pending Warning Banner */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-800/30 rounded-2xl p-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-800/30 rounded-2xl p-6">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl text-amber-600 dark:text-amber-400 shrink-0">
+          <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-3xl text-amber-600 dark:text-amber-400 shrink-0">
             <AlertTriangle className="h-5 w-5" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
-              You have 3 pending items that need your attention.
+            <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
             </h4>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               Review and categorize your transactions to keep your finances up to date.
@@ -372,23 +370,41 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
         <button
           type="button"
           onClick={() => setCategoryFilter("other")}
-          className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-amber-200 bg-white/80 dark:border-amber-900/30 dark:bg-slate-900 px-3 py-1.5 text-xs font-bold text-amber-700 dark:text-amber-400 shadow-sm hover:bg-amber-50 dark:hover:bg-amber-900/20 transition self-stretch sm:self-center"
+          className="inline-flex items-center justify-center gap-1.5 rounded-2xl border border-amber-200 bg-white/80 dark:border-amber-900/30 dark:bg-slate-900 px-3 py-3 text-sm font-bold text-amber-700 dark:text-amber-400 shadow-sm hover:bg-amber-50 dark:hover:bg-amber-900/20 transition self-stretch sm:self-center"
         >
           Review Pending Items
           <ChevronRight className="h-3 w-3" />
         </button>
       </div>
 
+      <div className="flex items-center justify-between">
+  <div>
+    <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+      Recent Transactions
+    </h2>
+
+    <p className="mt-1 text-slate-500">
+      Review, search and manage your latest financial activity.
+    </p>
+  </div>
+
+  <div className="rounded-2xl bg-blue-50 px-4 py-2">
+    <p className="text-sm font-semibold text-blue-700">
+      {transactions.length} Transactions
+    </p>
+  </div>
+</div>
+
       {/* Toolbar / Filters (Mockup Style) */}
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/[0.05] rounded-xl p-3.5 shadow-sm">
-        <div className="relative flex-1 max-w-xs">
+      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/[0.05] rounded-3xl p-6 shadow-sm">
+        <div className="relative flex-1 max-w-md">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
           <input
             type="search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search transactions..."
-            className="w-full rounded-lg border border-slate-200 bg-white pl-8 pr-3.5 py-1.5 text-xs font-medium text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 dark:border-white/10 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
+            className="w-full rounded-2xl border border-slate-200 bg-white pl-8 pr-3.5 py-3 text-xs font-medium text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 dark:border-white/10 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500"
           />
         </div>
 
@@ -431,7 +447,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
           <button
             type="button"
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 px-3.5 text-xs font-bold text-white shadow-sm shadow-blue-500/15 transition"
+            className="inline-flex h-11 items-center gap-1.5 rounded-2xl bg-blue-600 hover:bg-blue-700 px-3.5 text-sm font-bold text-white shadow-sm shadow-blue-500/15 transition"
           >
             <Plus className="h-3.5 w-3.5" />
             Add Transaction
@@ -442,11 +458,11 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
       {/* Grid of Transaction Cards */}
       {currentTransactions.length === 0 ? (
         <div className="rounded-2xl border border-slate-200/60 bg-white/40 dark:border-white/10 dark:bg-slate-900/40 px-5 py-16 text-center shadow-sm">
-          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-400 dark:bg-white/5">
+          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-3xl bg-slate-100 text-slate-400 dark:bg-white/5">
             <Receipt className="h-5 w-5" />
           </div>
           <h3 className="mt-4 text-sm font-bold text-slate-900 dark:text-white">No transactions found</h3>
-          <p className="mx-auto mt-1 max-w-xs text-xs text-slate-500 dark:text-slate-400">Try changing your search or filter settings.</p>
+          <p className="mx-auto mt-1 max-w-md text-xs text-slate-500 dark:text-slate-400">Try changing your search or filter settings.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -457,7 +473,9 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
             return (
               <article
                 key={id}
-                className="relative flex flex-col justify-between overflow-visible rounded-xl border border-slate-100 bg-white p-4 shadow-sm hover:shadow-md dark:border-white/[0.05] dark:bg-slate-900 transition"
+                className="relative flex flex-col justify-between overflow-visible rounded-3xl border border-slate-100 bg-white p-6 shadow-sm hover:-translate-y-1
+hover:shadow-xl
+duration-300 dark:border-white/[0.05] dark:bg-slate-900 transition"
               >
                 {/* Card Header: Date & Menu */}
                 <div className="flex items-center justify-between pb-3">
@@ -471,7 +489,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
                     <button
                       type="button"
                       onClick={() => setActiveMenuId(activeMenuId === id ? null : id)}
-                      className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 dark:text-slate-500 hover:text-slate-600 transition"
+                      className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl text-slate-400 dark:text-slate-500 hover:text-slate-600 transition"
                     >
                       <MoreHorizontal className="h-3.5 w-3.5" />
                     </button>
@@ -479,11 +497,11 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
                     {activeMenuId === id && (
                       <>
                         <div className="fixed inset-0 z-10" onClick={() => setActiveMenuId(null)} />
-                        <div className="absolute right-0 mt-1 w-24 rounded-lg border border-slate-100 dark:border-white/[0.08] bg-white p-1 shadow-lg dark:bg-slate-900 z-20">
+                        <div className="absolute right-0 mt-1 w-24 rounded-2xl border border-slate-100 dark:border-white/[0.08] bg-white p-1 shadow-lg dark:bg-slate-900 z-20">
                           <button
                             type="button"
                             onClick={() => startEditing(transaction)}
-                            className="w-full text-left flex items-center gap-2 px-2.5 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition"
+                            className="w-full text-left flex items-center gap-2 px-2.5 py-3 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-md transition"
                           >
                             <Pencil className="h-3 w-3" />
                             Edit
@@ -494,7 +512,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
                               setDeleteTarget(transaction);
                               setActiveMenuId(null);
                             }}
-                            className="w-full text-left flex items-center gap-2 px-2.5 py-1.5 text-xs font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-md transition"
+                            className="w-full text-left flex items-center gap-2 px-2.5 py-3 text-sm font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-md transition"
                           >
                             <Trash2 className="h-3 w-3" />
                             Delete
@@ -507,11 +525,11 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
 
                 {/* Card Middle: Icon, Details & Amount */}
                 <div className="flex items-center gap-3 py-1">
-                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full shadow-sm ${getCategoryIconStyles(transaction.category)}`}>
-                    <CategoryIcon className="h-4 w-4" />
+                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl shadow-sm ${getCategoryIconStyles(transaction.category)}`}>
+                    <CategoryIcon className="h-5 w-5" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className="truncate text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight">
+                    <h4 className="truncate text-sm font-bold text-slate-800 dark:text-slate-100 leading-tight">
                       {transaction.description || "Untitled Transaction"}
                     </h4>
                     <p className="truncate text-[10px] text-slate-400 dark:text-slate-500 mt-0.5 font-medium leading-none">
@@ -536,7 +554,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
 
       {/* Pagination (Mockup Style) */}
       {sortedTransactions.length > 0 && (
-        <div className="flex flex-col gap-3 rounded-xl border border-slate-100 dark:border-white/[0.04] bg-slate-50/10 px-3 py-3 sm:flex-row sm:items-center sm:justify-between text-xs">
+        <div className="flex flex-col gap-3 rounded-3xl border border-slate-100 dark:border-white/[0.04] bg-slate-50/10 px-3 py-3 sm:flex-row sm:items-center sm:justify-between text-xs">
           <p className="text-slate-500 dark:text-slate-400 font-medium">
             Showing <span className="font-bold text-slate-700 dark:text-slate-200">{startIndex + 1}–{Math.min(endIndex, sortedTransactions.length)}</span> of <span className="font-bold text-slate-700 dark:text-slate-200">{sortedTransactions.length}</span>
           </p>
@@ -546,13 +564,13 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
                 type="button"
                 onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
                 disabled={safePage === 1}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:border-white/10 dark:text-slate-300 dark:hover:bg-slate-800 transition"
+                className="inline-flex h-11 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:border-white/10 dark:text-slate-300 dark:hover:bg-slate-800 transition"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
               {paginationItems.map((item, idx) =>
                 typeof item === "string" ? (
-                  <span key={`ellipsis-${idx}`} className="inline-flex h-8 w-5 items-center justify-center text-xs text-slate-400">
+                  <span key={`ellipsis-${idx}`} className="inline-flex h-11 w-5 items-center justify-center text-xs text-slate-400">
                     …
                   </span>
                 ) : (
@@ -561,7 +579,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
                     key={`page-${item}`}
                     onClick={() => setCurrentPage(item)}
                     aria-current={safePage === item ? "page" : undefined}
-                    className={`inline-flex h-8 min-w-8 items-center justify-center rounded-md px-1.5 text-xs font-bold ${safePage === item ? "bg-blue-600 text-white rounded-md" : "border border-slate-200 text-slate-600 dark:border-white/10 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"} transition`}
+                    className={`inline-flex h-11 min-w-8 items-center justify-center rounded-md px-1.5 text-sm font-bold ${safePage === item ? "bg-blue-600 text-white rounded-md" : "border border-slate-200 text-slate-600 dark:border-white/10 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"} transition`}
                   >
                     {item}
                   </button>
@@ -571,7 +589,7 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
                 type="button"
                 onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
                 disabled={safePage === totalPages}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:border-white/10 dark:text-slate-300 dark:hover:bg-slate-800 transition"
+                className="inline-flex h-11 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-600 disabled:opacity-40 hover:bg-slate-50 dark:border-white/10 dark:text-slate-300 dark:hover:bg-slate-800 transition"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -582,38 +600,38 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
 
       {/* Add Transaction Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-6 backdrop-blur-sm" role="dialog" aria-modal="true">
           <div className="w-full max-w-md rounded-2xl border border-slate-100 dark:border-white/[0.08] bg-white p-5 shadow-2xl dark:bg-slate-900">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-white/[0.04]">
               <h3 className="text-base font-bold text-slate-900 dark:text-white">Add Transaction</h3>
-              <button type="button" onClick={() => setIsAddModalOpen(false)} className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+              <button type="button" onClick={() => setIsAddModalOpen(false)} className="rounded-2xl p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <form onSubmit={handleAddSubmit} className="space-y-3.5 mt-4">
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Description</label>
+                <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Description</label>
                 <input required className={inputClass} placeholder="e.g. Walmart Supercenter" value={addData.description} onChange={(e) => setAddData({ ...addData, description: e.target.value })} />
               </div>
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Category</label>
+                  <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Category</label>
                   <input required className={inputClass} placeholder="e.g. Shopping" value={addData.category} onChange={(e) => setAddData({ ...addData, category: e.target.value })} />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Amount</label>
+                  <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Amount</label>
                   <input required type="number" step="0.01" className={inputClass} placeholder="e.g. -82.47 or 3200" value={addData.amount} onChange={(e) => setAddData({ ...addData, amount: e.target.value })} />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Date</label>
+                <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Date</label>
                 <input required type="date" className={inputClass} value={addData.date} onChange={(e) => setAddData({ ...addData, date: e.target.value })} />
               </div>
               <div className="mt-5 grid grid-cols-2 gap-2">
-                <button type="button" onClick={() => setIsAddModalOpen(false)} className="min-h-10 rounded-lg border border-slate-200 px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-slate-800 transition">
+                <button type="button" onClick={() => setIsAddModalOpen(false)} className="min-h-10 rounded-2xl border border-slate-200 px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-slate-800 transition">
                   Cancel
                 </button>
-                <button type="submit" disabled={isSaving} className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 text-xs font-bold text-white hover:bg-blue-700 disabled:opacity-60 transition">
+                <button type="submit" disabled={isSaving} className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-blue-600 px-4 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-60 transition">
                   {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
                   Add Transaction
                 </button>
@@ -625,38 +643,38 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
 
       {/* Edit Transaction Modal */}
       {editingId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-6 backdrop-blur-sm" role="dialog" aria-modal="true">
           <div className="w-full max-w-md rounded-2xl border border-slate-100 dark:border-white/[0.08] bg-white p-5 shadow-2xl dark:bg-slate-900">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-white/[0.04]">
               <h3 className="text-base font-bold text-slate-900 dark:text-white">Edit Transaction</h3>
-              <button type="button" onClick={cancelEditing} className="rounded-lg p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+              <button type="button" onClick={cancelEditing} className="rounded-2xl p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <form onSubmit={saveTransaction} className="space-y-3.5 mt-4">
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Description</label>
+                <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Description</label>
                 <input required className={inputClass} value={editData.description} onChange={(e) => setEditData({ ...editData, description: e.target.value })} />
               </div>
               <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Category</label>
+                  <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Category</label>
                   <input required className={inputClass} value={editData.category} onChange={(e) => setEditData({ ...editData, category: e.target.value })} />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Amount</label>
+                  <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Amount</label>
                   <input required type="number" step="0.01" className={inputClass} value={editData.amount} onChange={(e) => setEditData({ ...editData, amount: e.target.value })} />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Date</label>
+                <label className="mb-1 block text-sm font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Date</label>
                 <input required type="date" className={inputClass} value={editData.date} onChange={(e) => setEditData({ ...editData, date: e.target.value })} />
               </div>
               <div className="mt-5 grid grid-cols-2 gap-2">
-                <button type="button" onClick={cancelEditing} className="min-h-10 rounded-lg border border-slate-200 px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-slate-800 transition">
+                <button type="button" onClick={cancelEditing} className="min-h-10 rounded-2xl border border-slate-200 px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:bg-slate-800 transition">
                   Cancel
                 </button>
-                <button type="submit" disabled={isSaving} className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 text-xs font-bold text-white hover:bg-blue-700 disabled:opacity-60 transition">
+                <button type="submit" disabled={isSaving} className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-2xl bg-blue-600 px-4 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-60 transition">
                   {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
                   Save Changes
                 </button>
@@ -668,9 +686,9 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
 
       {/* Delete Confirmation Modal */}
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="delete-transaction-title" onMouseDown={(event) => { if (event.target === event.currentTarget && !isDeleting) setDeleteTarget(null); }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-6 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="delete-transaction-title" onMouseDown={(event) => { if (event.target === event.currentTarget && !isDeleting) setDeleteTarget(null); }}>
           <div className="w-full max-w-sm rounded-2xl border border-slate-100 dark:border-white/[0.08] bg-white p-5 shadow-xl dark:bg-slate-900">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-500/10 text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
+            <div className="flex h-10 w-10 items-center justify-center rounded-3xl bg-rose-500/10 text-rose-600 dark:bg-rose-400/10 dark:text-rose-300">
               <Trash2 className="h-5 w-5" />
             </div>
             <h3 id="delete-transaction-title" className="mt-4 text-base font-bold text-slate-900 dark:text-white">Delete Transaction</h3>
@@ -678,10 +696,10 @@ const RecentTransactions = ({ transactions = [], fetchTransactions }) => {
               Are you sure you want to permanently delete <span className="font-semibold text-slate-700 dark:text-slate-200">{deleteTarget.description || "this transaction"}</span>? This action cannot be undone.
             </p>
             <div className="mt-5 grid grid-cols-2 gap-2">
-              <button type="button" onClick={() => setDeleteTarget(null)} disabled={isDeleting} className="min-h-9 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 disabled:opacity-60 dark:border-white/10 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+              <button type="button" onClick={() => setDeleteTarget(null)} disabled={isDeleting} className="min-h-9 rounded-2xl border border-slate-200 px-3 py-3 text-xs font-semibold text-slate-700 disabled:opacity-60 dark:border-white/10 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition">
                 Cancel
               </button>
-              <button type="button" onClick={confirmDelete} disabled={isDeleting} className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-rose-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-rose-700 disabled:opacity-60 transition">
+              <button type="button" onClick={confirmDelete} disabled={isDeleting} className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-2xl bg-rose-600 px-3 py-3 text-sm font-bold text-white hover:bg-rose-700 disabled:opacity-60 transition">
                 {isDeleting ? (
                   <>
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
