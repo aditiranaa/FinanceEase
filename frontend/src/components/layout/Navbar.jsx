@@ -7,6 +7,7 @@ import {
   User,
   LogOut,
   ChevronDown,
+  Plus,  
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -69,7 +70,22 @@ const Navbar = () => {
   };
 
   const title =
-    pages[location.pathname] || "FinanceEase";
+  pages[location.pathname] || "FinanceEase";
+
+const hour = new Date().getHours();
+
+const greeting =
+  hour < 12
+    ? "Good Morning"
+    : hour < 18
+    ? "Good Afternoon"
+    : "Good Evening";
+
+const today = new Date().toLocaleDateString("en-US", {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+});
 
   const getInitials = (name) => {
     if (!name) return "JD";
@@ -83,48 +99,141 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-30 mb-8 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-6 py-4 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80">
-      {/* Left */}
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-          {title}
-        </h1>
+    <header
+  className="
+    sticky
+    top-5
+    z-30
 
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Welcome back 👋
-        </p>
-      </div>
+    mb-8
+
+    flex
+    items-center
+    justify-between
+
+    rounded-[30px]
+
+    border
+    border-white/40
+
+    bg-white/75
+
+    px-8
+    py-5
+
+    shadow-[0_20px_60px_rgba(15,23,42,.08)]
+
+    backdrop-blur-2xl
+
+    dark:border-slate-800
+    dark:bg-slate-900/80
+  "
+>
+    {/* Left */}
+
+<div>
+
+  <p className="text-sm font-medium text-blue-600">
+
+    {greeting} 👋
+
+  </p>
+
+  <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
+
+    {title}
+
+  </h1>
+
+  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+  {title === "Dashboard"
+    ? `Overview • ${today}`
+    : `${title} • ${today}`}
+</p>
+
+</div>
 
       {/* Right */}
-      <div className="flex items-center gap-3">
-        {/* Search */}
-        <div className="relative hidden lg:block">
-          <Search
-            size={17}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-          />
+<div className="flex items-center gap-6">
 
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-64 rounded-xl border border-slate-200 bg-slate-50 py-2 pl-10 pr-4 text-sm outline-none transition focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-          />
-        </div>
+  {/* Search */}
+  <div className="relative hidden xl:block">
+    <Search
+      size={17}
+      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+    />
+
+    <input
+      type="text"
+      placeholder="Search transactions, budgets, goals..."
+      className="
+        w-96
+        rounded-2xl
+        border
+        border-slate-200
+        bg-slate-100/70
+        py-3
+        pl-11
+        pr-4
+        text-sm
+        outline-none
+
+        transition-all
+        duration-300
+
+        hover:shadow-md
+
+        focus:border-blue-500
+        focus:ring-4
+        focus:ring-blue-100
+
+        dark:border-slate-700
+        dark:bg-slate-800
+        dark:text-white
+      "
+    />
+  </div>
+
+
+  {/* Actions */}
+  <div className="flex items-center gap-3">
 
         {/* Notifications */}
-        <button className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 transition hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
+        <button className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700">
           <Bell
             size={18}
             className="text-slate-600 dark:text-slate-300"
           />
 
-          <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-red-500"></span>
+          <span
+  className="
+    absolute
+    -right-1
+    -top-1
+
+    flex
+    h-5
+    w-5
+    items-center
+    justify-center
+
+    rounded-full
+
+    bg-red-500
+
+    text-[10px]
+    font-bold
+    text-white
+  "
+>
+  3
+</span>
         </button>
 
         {/* Theme */}
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 transition hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+          className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
         >
           {darkMode ? (
             <Sun
@@ -146,9 +255,9 @@ const Navbar = () => {
         >
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-2 py-2 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900"
+            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-2 py-2 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:bg-slate-100/70 dark:border-slate-700 dark:bg-slate-900"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 font-semibold text-white">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 via-indigo-600 to-cyan-500 font-semibold text-white">
               {profile
                 ? getInitials(profile.name)
                 : "JD"}
@@ -177,7 +286,24 @@ const Navbar = () => {
           </button>
 
           {open && (
-            <div className="absolute right-0 mt-3 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-900">
+            <div
+  className="
+    absolute
+    right-0
+    mt-3
+    w-56
+    overflow-hidden
+    rounded-3xl
+    border
+    border-slate-200
+    bg-white
+    shadow-2xl
+    origin-top-right
+    duration-200
+    dark:border-slate-700
+    dark:bg-slate-900
+  "
+>
               <button
                 onClick={() => {
                   navigate("/profile");
@@ -201,6 +327,7 @@ const Navbar = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </header>
   );
