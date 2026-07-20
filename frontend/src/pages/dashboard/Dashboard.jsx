@@ -1,207 +1,108 @@
-import {
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 
-import Sidebar
-from "../../components/layout/Sidebar";
+import { motion } from "framer-motion";
+import Sidebar from "../../components/layout/Sidebar";
+import Navbar from "../../components/layout/Navbar";
 
-import Navbar
-from "../../components/layout/Navbar";
+import HeroBanner from "../../components/dashboard/HeroBanner";
+import StatsCards from "../../components/dashboard/StatsCards";
+import ExpenseChart from "../../components/dashboard/ExpenseChart";
+import AIInsights from "../../components/dashboard/AIInsights";
+import RecentTransactions from "../../components/dashboard/RecentTransactions";
+import SavingsGoals from "../../components/dashboard/SavingsGoals";
 
-import StatsCards
-from "../../components/dashboard/StatsCards";
-
-
-
-import RecentTransactions
-from "../../components/dashboard/RecentTransactions";
-
-import ExpenseChart
-from "../../components/dashboard/ExpenseChart";
-
-import BudgetManager
-from "../budgets/BudgetManager";
-
-import MonthlyTrendChart
-from "../../components/dashboard/MonthlyTrendChart";
-
-import AIInsights
-from "../../components/dashboard/AIInsights";
-
-import ExportTransactions
-from "../../components/dashboard/ExportTransactions";
-
-import RecurringTransactions
-from "../../components/dashboard/RecurringTransactions";
-
-import BudgetAlerts
-from "../../components/budgets/BudgetAlerts";
-
-import SavingsGoals
-from "../../components/dashboard/SavingsGoals";
-
-import {
-  getTransactions,
-  getBudgets,
-} from "../../api/authApi";
-
-import AICoach
-from "../../components/dashboard/AICoach";
-
-import HeroBanner
-from "../../components/dashboard/HeroBanner";
+import { getTransactions } from "../../api/authApi";
 
 const Dashboard = () => {
+  const [transactions, setTransactions] = useState([]);
 
-  const [transactions,
-    setTransactions] =
-      useState([]);
-
-  const [budgets, setBudgets] =
-  useState([]);
-
-  const income =
-  transactions
-    .filter(
-      (transaction) =>
-        transaction.amount > 0
-    )
-    .reduce(
-      (acc, transaction) =>
-        acc + Number(transaction.amount),
-      0
-    );
-
-const expenses =
-  transactions
-    .filter(
-      (transaction) =>
-        transaction.amount < 0
-    )
-    .reduce(
-      (acc, transaction) =>
-        acc + Number(transaction.amount),
-      0
-    );
-
-const balance =
-  income + expenses;
-
-const savings =
-  balance;
-
-  const fetchTransactions =
-    async () => {
-
+  const fetchTransactions = async () => {
     try {
-
-      const data =
-        await getTransactions();
-
+      const data = await getTransactions();
       setTransactions(data);
-
     } catch (error) {
-
-      console.log(error);
-
+      console.error(error);
     }
   };
 
   useEffect(() => {
+    fetchTransactions();
+  }, []);
 
-  fetchTransactions();
+  const income = transactions
+    .filter((t) => Number(t.amount) > 0)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  fetchBudgets();
+  const expenses = transactions
+    .filter((t) => Number(t.amount) < 0)
+    .reduce((sum, t) => sum + Number(t.amount), 0);
 
-}, []);
-
-  const fetchBudgets =
-  async () => {
-
-    try {
-
-      const data =
-        await getBudgets();
-
-      setBudgets(data);
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-
-  };
+  const balance = income + expenses;
+  const savings = income - Math.abs(expenses);
 
   return (
-
-    <div
-  className="
-    flex
-    flex-col
-    md:flex-row
-  "
->
-
+    <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar />
 
-      <div
-        className="
-          flex-1
-          p-6
-          bg-gray-100
-          dark:bg-gray-800
-          min-h-screen
-          transition-colors
-        "
-      >
-
+      <main className="flex-1 overflow-x-hidden">
         <Navbar />
 
-        <HeroBanner
-          balance={balance}
-        />
+        <div className="mx-auto max-w-7xl space-y-8 px-6 py-8">
+          <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <HeroBanner balance={balance} />
+            </motion.div>
 
-        <StatsCards
-          balance={balance}
-          income={income}
-          expenses={expenses}
-          savings={savings}
-        />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <StatsCards
+                balance={balance}
+                income={income}
+                expenses={expenses}
+                savings={savings}
+              />
+            </motion.div>
 
-        <AICoach />
-        
-        
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="grid grid-cols-1 gap-8 xl:grid-cols-3">
+                <div className="xl:col-span-2">
+                  <ExpenseChart transactions={transactions} />
+                </div>
 
-        <RecurringTransactions />
-        
-        <RecentTransactions
-          transactions={transactions}
-          fetchTransactions={fetchTransactions}
-        />
+                <AIInsights />
+              </div>
+            </motion.div>
 
-        <ExpenseChart
-          transactions={transactions}
-        />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <RecentTransactions
+                transactions={transactions}
+                fetchTransactions={fetchTransactions}
+              />
+            </motion.div>
 
-        <MonthlyTrendChart
-          transactions={transactions}
-        />
-
-        <ExportTransactions
-          transactions={transactions}
-        />
-
-        <BudgetAlerts
-          budgets={budgets}
-          transactions={transactions}
-        />
-        <SavingsGoals />
-
-        <AIInsights />
-      </div>
-
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <SavingsGoals />
+            </motion.div>
+        </div>
+      </main>
     </div>
   );
 };
